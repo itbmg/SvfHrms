@@ -37,11 +37,11 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                 if (!Page.IsCallback)
                 {
                     //bindemployeetype();
-                        getexcelnames();
+                    getexcelnames();
 
 
-                    
-                    
+
+
                 }
             }
         }
@@ -76,7 +76,7 @@ public partial class EmpdetailsImport : System.Web.UI.Page
             if (ext.Trim() == ".xls")
             {
                 //connection string for that file which extantion is .xls  
-                ConStr ="Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Extended Properties=Excel 8.0;";
+                ConStr = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + path + ";Extended Properties=Excel 8.0;";
             }
             else if (ext.Trim() == ".xlsx")
             {
@@ -159,7 +159,7 @@ public partial class EmpdetailsImport : System.Web.UI.Page
 
     }
 
- 
+
 
 
     //protected void ddlemployee_SelectedIndexChanged(object sender, EventArgs e)
@@ -236,14 +236,48 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                     string employee_num = dr["employee_num"].ToString();
                     string designationiname = dr["designationiname"].ToString();
                     string employee_dept = dr["employee_dept"].ToString();
+                    // Department Check
+                    cmd = new SqlCommand("Update departments set  status=@status,editedby=@editedby,  editedon=@editedon where department=@department");
+                    cmd.Parameters.Add("@department", employee_dept);
+                    cmd.Parameters.Add("@status", '1');
+                    cmd.Parameters.Add("@editedby", User);
+                    cmd.Parameters.Add("@editedon", DateTime.Now);
+                    if (vdm.Update(cmd) == 0)
+                    {
+                        cmd = new SqlCommand("insert into departments (department,status,createdby, createdon,groupid) values (@department, @status,@createdby, @createdon,@groupid)");
+                        cmd.Parameters.Add("@department", employee_dept);
+                        cmd.Parameters.Add("@status", '1');
+                        cmd.Parameters.Add("@createdby", User);
+                        cmd.Parameters.Add("@createdon", DateTime.Now);
+                        vdm.insert(cmd);
+                    }
                     cmd = new SqlCommand("SELECT deptid FROM departments where(department=@department)");
                     cmd.Parameters.Add("@department", employee_dept);
-                    DataTable routes = vdm.SelectQuery(cmd).Tables[0];
-                    string deptid = routes.Rows[0]["deptid"].ToString();
+                    DataTable dtdepartment = vdm.SelectQuery(cmd).Tables[0];
+                    string deptid = dtdepartment.Rows[0]["deptid"].ToString();
+                    // Designation Check
+                   // string designationid = context.Request["designationid"];
+                    cmd = new SqlCommand("Update designation set  status=@status, editedby=@editedby, editedon=@editedon where designationiname=@designationiname");
+                    cmd.Parameters.Add("@designation", designationiname);
+                    cmd.Parameters.Add("@status", '1');
+                    cmd.Parameters.Add("@editedby", User);
+                    cmd.Parameters.Add("@editedon", DateTime.Now);
+                    //cmd.Parameters.Add("@reason", Reason);
+                  //  cmd.Parameters.Add("@designationid", designationid);
+                    if (vdm.Update(cmd) == 0)
+                    {
+                        cmd = new SqlCommand("insert into designation (designation,status,createdby, createdon) values (@designation,@status,@createdby,@createdon)");
+                        cmd.Parameters.Add("@designation", designationiname);
+                        cmd.Parameters.Add("@status", '1');
+                        cmd.Parameters.Add("@createdby", User);
+                        cmd.Parameters.Add("@createdon", DateTime.Now);
+                        //cmd.Parameters.Add("@reason", Reason);
+                        vdm.insert(cmd);
+                    }
                     cmd = new SqlCommand("SELECT designationid FROM designation WHERE (designation= @designation)");
                     cmd.Parameters.Add("@designation", designationiname);
-                    DataTable routes1 = vdm.SelectQuery(cmd).Tables[0];
-                    string designationid = routes1.Rows[0]["designationid"].ToString();
+                    DataTable dtdesignation = vdm.SelectQuery(cmd).Tables[0];
+                    string designationid = dtdesignation.Rows[0]["designationid"].ToString();
                     if (employee_num == "0" || employee_num == "")
                     {
                     }
@@ -293,7 +327,59 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                         cmd.Parameters.Add("@startingdate", ServerDateCurrentdate);
                         cmd.Parameters.Add("@entryby", entryby);
                         //vdm.insert(cmd);
-                       
+
+                        //// Emplouyee Bank Details
+                        //  string empcode = dr["employee_num"].ToString();
+                        string bankname = dr["bankname"].ToString();
+                        cmd = new SqlCommand("SELECT empid, employee_dept FROM employedetails where (employee_num=@empcode)");
+                        cmd.Parameters.Add("@empcode", employee_num);
+                        DataTable dtEmp = vdm.SelectQuery(cmd).Tables[0];
+                        string empid = dtEmp.Rows[0]["empid"].ToString();
+                        cmd = new SqlCommand("SELECT   bankname, sno FROM   bankmaster where (bankname=@bankname)");
+                        cmd.Parameters.Add("@bankname", bankname);
+                        DataTable DtBank = vdm.SelectQuery(cmd).Tables[0];
+                        string bankid = DtBank.Rows[0]["sno"].ToString();
+                        if (employee_num == "0" || employee_num == "")
+                        {
+                        }
+                        else
+                        {
+                            string accountno = dr["bankaccountnumber"].ToString();
+                            string Ifsccode = dr["Ifsccode"].ToString();
+                            //cmd = new SqlCommand("SELECT monthly_attendance.sno, monthly_attendance.empid,monthly_attendance.clorwo, monthly_attendance.doe, monthly_attendance.month, monthly_attendance.year, monthly_attendance.otdays, employedetails.employee_num, branchmaster.fromdate, branchmaster.todate, monthly_attendance.lop, branchmaster.branchid, monthly_attendance.numberofworkingdays FROM  monthly_attendance INNER JOIN  employedetails ON monthly_attendance.empid = employedetails.empid INNER JOIN branchmaster ON employedetails.branchid = branchmaster.branchid WHERE  (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.branchid = @branchid)");
+                            cmd = new SqlCommand("insert into employebankdetails (employeid,accountno,bankid,ifsccode, empcode) values (@employe,@accountno,@bankid, @ifsc,  @empcode)");
+                            cmd.Parameters.Add("@employe", empid);
+                            cmd.Parameters.Add("@accountno", accountno);
+                            cmd.Parameters.Add("@bankid", bankid);
+                            cmd.Parameters.Add("@ifsc", Ifsccode);
+                            cmd.Parameters.Add("@empcode", empcode);
+                            //vdm.insert(cmd);
+                        }
+
+
+                        //// Emplouyee PF 
+                        //string pfjoindate = dr["pfjoindate"].ToString();
+                        //string uannumber = dr["uannumber"].ToString();
+                        //string pfnumber = dr["pfnumber"].ToString();
+                        //string epfcontribution = dr["epfcontribution"].ToString();
+
+                        //cmd = new SqlCommand("insert into employepfdetails (employeid,pfjoindate,pfscheme,uannumber,pfnumber,checkpfnumber,epfexcesscontribution,epsexcesscontribution,kycidentity,estnumber,identityno,entry_by,entry_date) values (@employee,@pfjoindate,@pfscheme, @uannumber,@pfnumber,@checkpfnumber,@epfcontribution,@identity,@epscontribution,@estnumber,@identityno,@entry_by,@entry_date)");
+                        ////cmd.Parameters.Add("@department", department);
+                        //cmd.Parameters.Add("@employee", employeid);
+                        //cmd.Parameters.Add("@pfjoindate", pfjoindate);
+                        //cmd.Parameters.Add("@pfscheme", pfscheme);
+                        //cmd.Parameters.Add("@uannumber", uannumber);
+                        //cmd.Parameters.Add("@pfnumber", pfnumber);
+                        //cmd.Parameters.Add("@checkpfnumber", checkpfnumber);
+                        //cmd.Parameters.Add("@epfcontribution", epfcontribution);
+                        //cmd.Parameters.Add("@identity", identity);
+                        //cmd.Parameters.Add("@epscontribution", epscontribution);
+                        //cmd.Parameters.Add("@estnumber", estnumber);
+                        //cmd.Parameters.Add("@identityno", kycidentitynumber);
+                        //cmd.Parameters.Add("@entry_by", User);
+                        //cmd.Parameters.Add("@entry_date", ServerDateCurrentdate);
+                        //vdm.insert(cmd);
+
                     }
                 }
 
