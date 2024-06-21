@@ -290,13 +290,14 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                         string birthdate = dr["birthdate"].ToString();
                         string branchname = dr["branchname"].ToString();
                         string status = dr["status"].ToString();
-                        //string designationid = dr["designationid"].ToString();
-                        //string deptid = dr["deptid"].ToString();
+                        string pfeligible = dr["pfeligible"].ToString();
+                        string esieligible = dr["esieligible"].ToString();
+                        string email = dr["email"].ToString();
+                        string pfdate = dr["pfjoindate"].ToString();
                         string salarymode = dr["salarymode"].ToString();
                         string employeetype = dr["employee_type"].ToString();
-                        string entryby = Session["empid"].ToString();
-                        //cmd = new SqlCommand("SELECT monthly_attendance.sno, monthly_attendance.empid,monthly_attendance.clorwo, monthly_attendance.doe, monthly_attendance.month, monthly_attendance.year, monthly_attendance.otdays, employedetails.employee_num, branchmaster.fromdate, branchmaster.todate, monthly_attendance.lop, branchmaster.branchid, monthly_attendance.numberofworkingdays FROM  monthly_attendance INNER JOIN  employedetails ON monthly_attendance.empid = employedetails.empid INNER JOIN branchmaster ON employedetails.branchid = branchmaster.branchid WHERE  (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.branchid = @branchid)");
-                        cmd = new SqlCommand("insert into employedetails (employee_num, joinDate, fullname, gender, dob, degree, status, employee_dept, designationid ,branchid, salarymode, doe,employee_type) values (@employee_num, @joinDate, @fullname, @gender, @dob, @status, @employee_dept, @designationid, @branchid, @salarymode,@employee_type)");
+                        string entryby = Session["empid"].ToString(); 
+                        cmd = new SqlCommand("insert into employedetails (employee_num, joinDate, fullname, gender, dob, degree, status, employee_dept, designationid ,branchid, salarymode, doe,employee_type,pfeligible,esieligible,email,pfdate) values (@employee_num, @joinDate, @fullname, @gender, @dob, @status, @employee_dept, @designationid, @branchid, @salarymode,@employee_type,@pfeligible,@esieligible,@email,@pfdate)");
                         cmd.Parameters.Add("@employee_num", employee_num);
                         cmd.Parameters.Add("@joinDate", joindate);
                         cmd.Parameters.Add("@fullname", fullname);
@@ -309,7 +310,13 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                         cmd.Parameters.Add("@doe", ServerDateCurrentdate);
                         cmd.Parameters.Add("@salarymode", salarymode);
                         cmd.Parameters.Add("@employee_type", employeetype);
-                        //vdm.insert(cmd);
+
+                        cmd.Parameters.Add("@pfeligible", pfeligible);
+                        cmd.Parameters.Add("@esieligible", esieligible);
+                        cmd.Parameters.Add("@email", email);
+                        cmd.Parameters.Add("@pfdate", pfdate);
+
+                        vdm.insert(cmd);
                         cmd = new SqlCommand("Select  MAX(empid) as Employeid from employedetails");
                         DataTable dtemployes = vdm.SelectQuery(cmd).Tables[0];
                         int employeid = Convert.ToInt32(dtemployes.Rows[0]["Employeid"].ToString());
@@ -319,14 +326,14 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                         cmd.Parameters.Add("@doe", ServerDateCurrentdate);
                         cmd.Parameters.Add("@startingdate", ServerDateCurrentdate);
                         cmd.Parameters.Add("@entryby", entryby);
-                        //vdm.insert(cmd);
+                        vdm.insert(cmd);
                         cmd = new SqlCommand("insert into emp_dept_logs (empid, departmentid, doe,startingdate,entryby) values (@employee_sno,@departmentid, @doe,@startingdate,@entryby)");
                         cmd.Parameters.Add("@employee_sno", employeid);
                         cmd.Parameters.Add("@departmentid", deptid);
                         cmd.Parameters.Add("@doe", ServerDateCurrentdate);
                         cmd.Parameters.Add("@startingdate", ServerDateCurrentdate);
                         cmd.Parameters.Add("@entryby", entryby);
-                        //vdm.insert(cmd);
+                        vdm.insert(cmd);
 
                         //// Emplouyee Bank Details
                         //  string empcode = dr["employee_num"].ToString();
@@ -344,8 +351,8 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                         }
                         else
                         {
-                            string accountno = dr["bankaccountnumber"].ToString();
-                            string Ifsccode = dr["Ifsccode"].ToString();
+                            string accountno = dr["accountno"].ToString();
+                            string Ifsccode = dr["ifsccode"].ToString();
                             //cmd = new SqlCommand("SELECT monthly_attendance.sno, monthly_attendance.empid,monthly_attendance.clorwo, monthly_attendance.doe, monthly_attendance.month, monthly_attendance.year, monthly_attendance.otdays, employedetails.employee_num, branchmaster.fromdate, branchmaster.todate, monthly_attendance.lop, branchmaster.branchid, monthly_attendance.numberofworkingdays FROM  monthly_attendance INNER JOIN  employedetails ON monthly_attendance.empid = employedetails.empid INNER JOIN branchmaster ON employedetails.branchid = branchmaster.branchid WHERE  (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.branchid = @branchid)");
                             cmd = new SqlCommand("insert into employebankdetails (employeid,accountno,bankid,ifsccode, empcode) values (@employe,@accountno,@bankid, @ifsc,  @empcode)");
                             cmd.Parameters.Add("@employe", empid);
@@ -353,32 +360,38 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                             cmd.Parameters.Add("@bankid", bankid);
                             cmd.Parameters.Add("@ifsc", Ifsccode);
                             cmd.Parameters.Add("@empcode", empcode);
-                            //vdm.insert(cmd);
+                            vdm.insert(cmd);
                         }
 
 
-                        //// Emplouyee PF 
-                        //string pfjoindate = dr["pfjoindate"].ToString();
-                        //string uannumber = dr["uannumber"].ToString();
-                        //string pfnumber = dr["pfnumber"].ToString();
-                        //string epfcontribution = dr["epfcontribution"].ToString();
+                        // Emplouyee PF 
+                        string pfjoindate = dr["pfjoindate"].ToString();
+                        string uannumber = dr["uannumber"].ToString();
+                        string pfnumber = dr["pfnumber"].ToString();
+                        string epfcontribution = dr["epfcontribution"].ToString();
+                        string pfscheme = "";// dr["epfcontribution"].ToString();
+                        string checkpfnumber = "";// dr["epfcontribution"].ToString();
+                        string identity = "";// dr["epfcontribution"].ToString();
+                        string epscontribution = "";// dr["epfcontribution"].ToString();
+                        string estnumber = "";// dr["epfcontribution"].ToString();
+                        string kycidentitynumber = "";// dr["epfcontribution"].ToString();
 
-                        //cmd = new SqlCommand("insert into employepfdetails (employeid,pfjoindate,pfscheme,uannumber,pfnumber,checkpfnumber,epfexcesscontribution,epsexcesscontribution,kycidentity,estnumber,identityno,entry_by,entry_date) values (@employee,@pfjoindate,@pfscheme, @uannumber,@pfnumber,@checkpfnumber,@epfcontribution,@identity,@epscontribution,@estnumber,@identityno,@entry_by,@entry_date)");
-                        ////cmd.Parameters.Add("@department", department);
-                        //cmd.Parameters.Add("@employee", employeid);
-                        //cmd.Parameters.Add("@pfjoindate", pfjoindate);
-                        //cmd.Parameters.Add("@pfscheme", pfscheme);
-                        //cmd.Parameters.Add("@uannumber", uannumber);
-                        //cmd.Parameters.Add("@pfnumber", pfnumber);
-                        //cmd.Parameters.Add("@checkpfnumber", checkpfnumber);
-                        //cmd.Parameters.Add("@epfcontribution", epfcontribution);
-                        //cmd.Parameters.Add("@identity", identity);
-                        //cmd.Parameters.Add("@epscontribution", epscontribution);
-                        //cmd.Parameters.Add("@estnumber", estnumber);
-                        //cmd.Parameters.Add("@identityno", kycidentitynumber);
-                        //cmd.Parameters.Add("@entry_by", User);
-                        //cmd.Parameters.Add("@entry_date", ServerDateCurrentdate);
-                        //vdm.insert(cmd);
+                        cmd = new SqlCommand("insert into employepfdetails (employeid,pfjoindate,pfscheme,uannumber,pfnumber,checkpfnumber,epfexcesscontribution,epsexcesscontribution,kycidentity,estnumber,identityno,entry_by,entry_date) values (@employee,@pfjoindate,@pfscheme, @uannumber,@pfnumber,@checkpfnumber,@epfcontribution,@identity,@epscontribution,@estnumber,@identityno,@entry_by,@entry_date)");
+                        //cmd.Parameters.Add("@department", department);
+                        cmd.Parameters.Add("@employee", employeid);
+                        cmd.Parameters.Add("@pfjoindate", pfjoindate);
+                        cmd.Parameters.Add("@pfscheme", pfscheme);
+                        cmd.Parameters.Add("@uannumber", uannumber);
+                        cmd.Parameters.Add("@pfnumber", pfnumber);
+                        cmd.Parameters.Add("@checkpfnumber", checkpfnumber);
+                        cmd.Parameters.Add("@epfcontribution", epfcontribution);
+                        cmd.Parameters.Add("@identity", identity);
+                        cmd.Parameters.Add("@epscontribution", epscontribution);
+                        cmd.Parameters.Add("@estnumber", estnumber);
+                        cmd.Parameters.Add("@identityno", kycidentitynumber);
+                        cmd.Parameters.Add("@entry_by", User);
+                        cmd.Parameters.Add("@entry_date", ServerDateCurrentdate);
+                        vdm.insert(cmd);
 
                     }
                 }
