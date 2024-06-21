@@ -1,0 +1,1171 @@
+<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Admin.master.cs" Inherits="Admin" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="asp" %>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head id="Head1" runat="server">
+    <meta charset="utf-8">
+    <link rel="icon" href="images/hr.png" type="image/x-icon" title="Vyshnavi HRMS" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <title>Vyshnavi HRMS</title>
+    <meta http-equiv="content-type" content="text/html; charset=iso-8859-1" />
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+        name="viewport">
+    <!-- Bootstrap 3.3.5 -->
+    <link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <script src="plugins/morris/morris.js" type="text/javascript"></script>
+    <script src="js/main/jquery.min.js"></script>
+    <script src="js/main/chosen.jquery.js"></script>
+    <!-- Theme style -->
+    
+    <link rel="stylesheet" href="dist/css/AdminLTE.min.css?v=16002">
+    <!-- AdminLTE Skins. Choose a skin from the css/skins
+         folder instead of downloading all of them to reduce the load. -->
+    <link rel="stylesheet" href="dist/css/skins/_all-skins.min.css">
+    <!-- iCheck -->
+    <link rel="stylesheet" href="plugins/iCheck/flat/blue.css">
+    <!-- Morris chart -->
+    <link rel="stylesheet" href="plugins/morris/morris.css">
+    <!-- jvectormap -->
+    <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
+    <!-- Date Picker -->
+    <link rel="stylesheet" href="plugins/datepicker/datepicker3.css">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
+    <!-- bootstrap wysihtml5 - text editor -->
+    <link rel="stylesheet" href="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+    <link rel="stylesheet" href="Styles/chosen.css">
+    <script src="js/jquery.js"></script>
+    <script src="JSF/jquery.min.js"></script>
+    <script src="JSF/jquery-ui.js" type="text/javascript"></script>
+    <script src="JSF/jquery.blockUI.js" type="text/javascript"></script>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <link href="css/font-awesome.min.css" rel="stylesheet">
+    <script src="JSF/jquery.blockUI.js" type="text/javascript"></script>
+    <link href="css/custom.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="head" runat="server">
+    </asp:ContentPlaceHolder>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var pageURL = window.location.href;
+            var currentPage = pageURL.substr(pageURL.lastIndexOf("/") + 1, pageURL.length - pageURL.lastIndexOf("/") - 1);
+            $('.sidebar > ul > li > a[href$="' + currentPage + '"]').each(function () {
+                $(this).parent().addClass('active');
+            });
+            $('.sidebar > ul > li > ul.treeview-menu > li > a[href$="' + currentPage + '"]').each(function () {
+                $(this).parent().attr('class', 'active');
+                $(this).parent().parent().parent().attr('class', 'active');
+            });
+            $('[name="parent_li"]').each(function () {
+                if ($(this).find('ul').children().length == 0) {
+                    $(this).css('display', 'none');
+                }
+
+            });
+        });
+
+    </script>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+<script type="text/javascript">
+    $(document).ready(function () {
+        var pageURL = window.location.href;
+        var currentPage = pageURL.substr(pageURL.lastIndexOf("/") + 1, pageURL.length - pageURL.lastIndexOf("/") - 1);
+        $('.sidebar > ul > li > a[href$="' + currentPage + '"]').each(function () {
+            $(this).parent().addClass('active');
+        });
+        $('.sidebar > ul > li > ul.treeview-menu > li > a[href$="' + currentPage + '"]').each(function () {
+            $(this).parent().attr('class', 'active');
+            $(this).parent().parent().parent().attr('class', 'active');
+        });
+        $('[name="parent_li"]').each(function () {
+            if ($(this).find('ul').children().length == 0) {
+                $(this).css('display', 'none');
+            }
+        });
+    });
+    $(function () {
+        var BranchType = '<%=Session["branchid"] %>';
+        var leveltype = '<%=Session["leveltype"] %>';
+        var department = '<%=Session["department"] %>';
+        var usrphoto = '<%=Session["photo"] %>';
+        var rndmnum = Math.floor((Math.random() * 10) + 1);
+        var ftplocation = "http://182.18.138.228:81/";
+        img = ftplocation + usrphoto + '?v=' + rndmnum;
+        document.getElementById("imguser1").src = img;
+        document.getElementById("imguser2").src = img;
+        document.getElementById("imguser3").src = img;
+        if (leveltype == "Admin") {
+            $('#lidashboardmain').css('display', 'block');
+            $('#limaster').css('display', 'block');
+            $('#liempinfo').css('display', 'block');
+            $('#lileave').css('display', 'block');
+            $('#litask').css('display', 'block');
+            $('#lipayrole').css('display', 'block');
+            $('#litemplets').css('display', 'block');
+            $('#lireports').css('display', 'block');
+            $('#limeetingreport').css('display', 'block');
+            $('#tallyreports').css('display', 'block');
+            $('#CHARTS').css('display', 'block');
+            $('#liemployeeattandce').css('display', 'block');
+            $('#liodReport').css('display', 'block');
+            $('#liledger').css('display', 'block');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipaystre').css('display', 'block');
+            $('#liebulkmailpayslip').css('display', 'block');
+            $('#lieapprisal').css('display', 'block');
+            $('#liepaysal').css('display', 'block');
+            $('#lirejoin').css('display', 'block');
+            $('#lirejnapprva').css('display', 'block');
+            $('#liloanrequest').css('display', 'block');
+            $('#liloanreqapr').css('display', 'block');
+            $('#liloanimform').css('display', 'block');
+            $('#lisalaryadvance').css('display', 'block');
+            $('#lideduction').css('display', 'block');
+            $('#limainpage').css('display', 'block');
+            $('#litimeline').css('display', 'block');
+            $('#lidashboardbrith').css('display', 'block');
+            $('#liattadance').css('display', 'block');
+            $('#libullten').css('display', 'block');
+            $('#libiometric').css('display', 'block');
+            $('#lidailyactivity').css('display', 'none');
+            $('#lifinance').css('display', 'block');
+        }
+        if (leveltype == "user") {
+
+            $('#ligroupldger').css('display', 'none');
+            $('#lidashboardmain').css('display', 'block');
+            $('#limaster').css('display', 'none');
+            $('#liempinfo').css('display', 'none');
+            $('#lileave').css('display', 'none');
+            $('#litask').css('display', 'none');
+            $('#lileave').css('display', 'block');
+            $('#liassigntask').css('display', 'none');
+            $('#litaskdetails').css('display', 'none');
+            $('#limeeting').css('display', 'block');
+            $('#licontacttype').css('display', 'block');
+            $('#licontactdetails').css('display', 'block');
+            $('#lipayrole').css('display', 'block');
+            $('#litemplets').css('display', 'none');
+            $('#lireports').css('display', 'none');
+            $('#limeetingreport').css('display', 'block');
+            $('#lirpttankerinward').css('display', 'none');
+            $('#MonthlyAttendance').css('display', 'none');
+            $('#limonth').css('display', 'none');
+            $('#liworkingdays').css('display', 'none');
+            $('#liresapproval').css('display', 'none');
+            $('#CHARTS').css('display', 'none');
+            $('#liemployeeattandce').css('display', 'none');
+            $('#liodReport').css('display', 'none');
+            $('#liledger').css('display', 'none');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipaystre').css('display', 'none');
+            $('#liebulkmailpayslip').css('display', 'none');
+            $('#lieapprisal').css('display', 'none');
+            $('#liepaysal').css('display', 'none');
+            $('#lirejoin').css('display', 'none');
+            $('#lirejnapprva').css('display', 'none');
+            $('#liloanrequest').css('display', 'block');
+            $('#liloanreqapr').css('display', 'none');
+            $('#liloanimform').css('display', 'block');
+            $('#lisalaryadvance').css('display', 'block');
+            $('#lideduction').css('display', 'none');
+            $('#limainpage').css('display', 'block');
+            $('#litimeline').css('display', 'none');
+            $('#lidashboardbrith').css('display', 'none');
+            $('#liattadance').css('display', 'none');
+            $('#libullten').css('display', 'none');
+            $('#libiometric').css('display', 'none');
+            $('#lidailyactivity').css('display', 'none');
+            $('#lifinance').css('display', 'none');
+            $('#tallyreports').css('display', 'none');
+            $('#SAP').css('display', 'none');
+        }
+        if (leveltype == "manager") {
+            $('#lidashboardmain').css('display', 'block');
+            $('#liattadance').css('display', 'block');
+            $('#lisalaryadvance').css('display', 'block');
+            $('#liempinfo').css('display', 'none');
+            $('#lileave').css('display', 'none');
+            $('#litask').css('display', 'none');
+            $('#lileave').css('display', 'block');
+            $('#liassigntask').css('display', 'none');
+            $('#litaskdetails').css('display', 'none');
+            $('#limeeting').css('display', 'block');
+            $('#licontacttype').css('display', 'block');
+            $('#licontactdetails').css('display', 'block');
+            $('#lipayrole').css('display', 'block');
+            $('#litemplets').css('display', 'none');
+            $('#lireports').css('display', 'none');
+            $('#limeetingreport').css('display', 'block');
+            $('#lirpttankerinward').css('display', 'none');
+            $('#MonthlyAttendance').css('display', 'none');
+            $('#limonth').css('display', 'none');
+            $('#liworkingdays').css('display', 'none');
+            $('#liresapproval').css('display', 'none');
+            $('#tallyreports').css('display', 'block');
+            $('#CHARTS').css('display', 'none');
+            $('#liemployeeattandce').css('display', 'block');
+            $('#liodReport').css('display', 'none');
+            $('#liledger').css('display', 'none');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipaystre').css('display', 'none');
+            $('#liebulkmailpayslip').css('display', 'none');
+            $('#lieapprisal').css('display', 'none');
+            $('#liepaysal').css('display', 'none');
+            $('#lirejoin').css('display', 'none');
+            $('#lirejnapprva').css('display', 'none');
+            $('#liloanrequest').css('display', 'block');
+            $('#liloanreqapr').css('display', 'none');
+            $('#liloanimform').css('display', 'block');
+            $('#lisalaryadvance').css('display', 'block');
+            $('#lideduction').css('display', 'none');
+            $('#limainpage').css('display', 'block');
+            $('#litimeline').css('display', 'none');
+            $('#lidashboardbrith').css('display', 'none');
+            $('#libullten').css('display', 'none');
+            $('#libiometric').css('display', 'none');
+            $('#lidailyactivity').css('display', 'none');
+            $('#limaster').css('display', 'none');
+            $('#lifinance').css('display', 'none');
+            $('#tallyreports').css('display', 'none');
+            $('#SAP').css('display', 'none');
+
+        }
+        if (leveltype == "accounts") {
+            $('#lidashboardmain').css('display', 'block');
+            $('#limaster').css('display', 'none');
+            $('#liempinfo').css('display', 'none');
+            $('#lileave').css('display', 'none');
+            $('#litask').css('display', 'none');
+            $('#lileave').css('display', 'block');
+            $('#liassigntask').css('display', 'none');
+            $('#litaskdetails').css('display', 'none');
+            $('#limeeting').css('display', 'block');
+            $('#licontacttype').css('display', 'block');
+            $('#licontactdetails').css('display', 'block');
+            $('#lipayrole').css('display', 'block');
+            $('#litemplets').css('display', 'none');
+            $('#lireports').css('display', 'none');
+            $('#limeetingreport').css('display', 'block');
+            $('#lirpttankerinward').css('display', 'none');
+            $('#MonthlyAttendance').css('display', 'none');
+            $('#limonth').css('display', 'none');
+            $('#liworkingdays').css('display', 'none');
+            $('#liresapproval').css('display', 'none');
+            $('#tallyreports').css('display', 'block');
+            $('#CHARTS').css('display', 'none');
+            $('#liemployeeattandce').css('display', 'block');
+            $('#liodReport').css('display', 'none');
+            $('#liledger').css('display', 'none');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipaystre').css('display', 'none');
+            $('#liebulkmailpayslip').css('display', 'none');
+            $('#lieapprisal').css('display', 'none');
+            $('#liepaysal').css('display', 'none');
+            $('#lirejoin').css('display', 'none');
+            $('#lirejnapprva').css('display', 'none');
+            $('#liloanrequest').css('display', 'block');
+            $('#liloanreqapr').css('display', 'none');
+            $('#liloanimform').css('display', 'block');
+            $('#lisalaryadvance').css('display', 'none');
+            $('#lideduction').css('display', 'none');
+            $('#limainpage').css('display', 'block');
+            $('#litimeline').css('display', 'none');
+            $('#lidashboardbrith').css('display', 'none');
+            $('#liattadance').css('display', 'none');
+            $('#libullten').css('display', 'none');
+            $('#libiometric').css('display', 'none');
+            $('#lidailyactivity').css('display', 'none');
+            $('#lifinance').css('display', 'none');
+            $('#tallyreports').css('display', 'block');
+            $('#SAP').css('display', 'block');
+            $('#ligroupldger').css('display', 'block');
+        }
+        if (leveltype == "dailyactivity") {
+            $('#lidailyactivity').css('display', 'block');
+            $('#limaster').css('display', 'none');
+            $('#liempinfo').css('display', 'none');
+            $('#lileave').css('display', 'none');
+            $('#litask').css('display', 'none');
+            $('#lileave').css('display', 'block');
+            $('#liassigntask').css('display', 'none');
+            $('#litaskdetails').css('display', 'none');
+            $('#limeeting').css('display', 'none');
+            $('#licontacttype').css('display', 'none');
+            $('#licontactdetails').css('display', 'none');
+            $('#lipayrole').css('display', 'none');
+            $('#litemplets').css('display', 'none');
+            $('#lireports').css('display', 'none');
+            $('#limeetingreport').css('display', 'none');
+            $('#lirpttankerinward').css('display', 'none');
+            $('#MonthlyAttendance').css('display', 'none');
+            $('#limonth').css('display', 'none');
+            $('#liworkingdays').css('display', 'none');
+            $('#liresapproval').css('display', 'none');
+            $('#tallyreports').css('display', 'none');
+            $('#CHARTS').css('display', 'none');
+            $('#liemployeeattandce').css('display', 'none');
+            $('#liodReport').css('display', 'none');
+            $('#liledger').css('display', 'none');
+            $('#lipayslpgen').css('display', 'none');
+            $('#lipaystre').css('display', 'none');
+            $('#liebulkmailpayslip').css('display', 'none');
+            $('#lieapprisal').css('display', 'none');
+            $('#liepaysal').css('display', 'none');
+            $('#lirejoin').css('display', 'none');
+            $('#lirejnapprva').css('display', 'none');
+            $('#liloanrequest').css('display', 'none');
+            $('#liloanreqapr').css('display', 'none');
+            $('#liloanimform').css('display', 'none');
+            $('#lisalaryadvance').css('display', 'none');
+            $('#lideduction').css('display', 'none');
+            $('#limainpage').css('display', 'none');
+            $('#litimeline').css('display', 'none');
+            $('#lidashboardbrith').css('display', 'none');
+            $('#liattadance').css('display', 'none');
+            $('#libullten').css('display', 'none');
+            $('#libiometric').css('display', 'none');
+            $('#lifinance').css('display', 'none');
+            $('#tallyreports').css('display', 'none');
+            $('#SAP').css('display', 'none');
+            $('#ligroupldger').css('display', 'none');
+        }
+        if (leveltype == "Operations") {
+            $('#limaster').css('display', 'none');
+            $('#liempinfo').css('display', 'none');
+            $('#lileave').css('display', 'block');
+            $('#litask').css('display', 'block');
+            $('#lipayrole').css('display', 'none');
+            $('#litemplets').css('display', 'none');
+            $('#lireports').css('display', 'block');
+            $('#lidashboardmain').css('display', 'none');
+            $('#tallyreports').css('display', 'block');
+            $('#CHARTS').css('display', 'block');
+            $('#liemployeeattandce').css('display', 'none');
+            $('#liodReport').css('display', 'none');
+            $('#liledger').css('display', 'block');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipaystre').css('display', 'block');
+            $('#liebulkmailpayslip').css('display', 'block');
+            $('#lieapprisal').css('display', 'block');
+            $('#liepaysal').css('display', 'block');
+            $('#lirejoin').css('display', 'block');
+            $('#lirejnapprva').css('display', 'block');
+            $('#liloanrequest').css('display', 'block');
+            $('#liloanreqapr').css('display', 'block');
+            $('#liloanimform').css('display', 'block');
+            $('#lisalaryadvance').css('display', 'block');
+            $('#lideduction').css('display', 'block');
+            $('#limainpage').css('display', 'block');
+            $('#litimeline').css('display', 'block');
+            $('#lidashboardbrith').css('display', 'block');
+            $('#liattadance').css('display', 'block');
+            $('#libullten').css('display', 'block');
+            $('#libiometric').css('display', 'block');
+            $('#lidailyactivity').css('display', 'none');
+            $('#lifinance').css('display', 'none');
+            $('#tallyreports').css('display', 'none');
+            $('#SAP').css('display', 'none');
+            $('#ligroupldger').css('display', 'none');
+        }
+        if (leveltype == "Super Admin") {
+            $('#limaster').css('display', 'block');
+            $('#liempinfo').css('display', 'block');
+            $('#lileave').css('display', 'block');
+            $('#litask').css('display', 'block');
+            $('#lipayrole').css('display', 'block');
+            $('#litemplets').css('display', 'block');
+            $('#lireports').css('display', 'block');
+            $('#lidashboardmain').css('display', 'block');
+            $('#CHARTS').css('display', 'block');
+            $('#liemployeeattandce').css('display', 'block');
+            $('#liodReport').css('display', 'block');
+            $('#liledger').css('display', 'block');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipayslpgen').css('display', 'block');
+            $('#lipaystre').css('display', 'block');
+            $('#liebulkmailpayslip').css('display', 'block');
+            $('#lieapprisal').css('display', 'block');
+            $('#liepaysal').css('display', 'block');
+            $('#lirejoin').css('display', 'block');
+            $('#lirejnapprva').css('display', 'block');
+            $('#liloanrequest').css('display', 'block');
+            $('#liloanreqapr').css('display', 'block');
+            $('#liloanimform').css('display', 'block');
+            $('#lisalaryadvance').css('display', 'block');
+            $('#lideduction').css('display', 'block');
+            $('#limainpage').css('display', 'block');
+            $('#litimeline').css('display', 'block');
+            $('#lidashboardbrith').css('display', 'block');
+            $('#liattadance').css('display', 'block');
+            $('#libullten').css('display', 'block');
+            $('#libiometric').css('display', 'block');
+            $('#lidailyactivity').css('display', 'none');
+            $('#lifinance').css('display', 'block');
+            $('#tallyreports').css('display', 'block');
+            $('#SAP').css('display', 'block');
+        }
+    });
+    $(function () {
+        //get_Branch_details();
+        totalleaves();
+    });
+
+    
+    function callHandler(d, s, e) {
+        $.ajax({
+            url: 'EmployeeManagementHandler.axd',
+            data: d,
+            type: 'GET',
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            async: true,
+            cache: true,
+            success: s,
+            error: e
+        });
+    }
+    function CallHandlerUsingJson(d, s, e) {
+        d = JSON.stringify(d);
+        d = d.replace(/&/g, '\uFF06');
+        d = d.replace(/#/g, '\uFF03');
+        d = d.replace(/\+/g, '\uFF0B');
+        d = d.replace(/\=/g, '\uFF1D');
+        $.ajax({
+            type: "GET",
+            url: "EmployeeManagementHandler.axd?json=",
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            data: d,
+            async: true,
+            cache: true,
+            success: s,
+            error: e
+        });
+    }
+    function totalleaves() {
+        var data = { 'op': 'Total_leave_details'};
+        var s = function (msg) {
+            if (msg) {
+                if (msg.length > 0) {
+                    laeavedetales(msg);
+                }
+            }
+            else {
+            }
+        };
+        var e = function (x, h, e) {
+        }; $(document).ajaxStart($.blockUI).ajaxStop($.unblockUI);
+        callHandler(data, s, e);
+    }
+    var branches = [];
+    function laeavedetales(msg) {
+        var tot_la = msg[0].totalleaveapprovaldetailes;
+        var tot_onduty = msg[0].totalODpendingdetailes;
+        var tot_BD = msg[0].totalbrithdaysldetailes;
+        document.getElementById('txt_leaveapproval').innerHTML = tot_la.length;
+        document.getElementById('txt_count').innerHTML = tot_la.length;
+        document.getElementById('txt_odapproval').innerHTML = tot_onduty.length;
+        document.getElementById('txt_odcount').innerHTML = tot_onduty.length;
+        document.getElementById('txt_brithdays').innerHTML = tot_BD.length;
+        document.getElementById('txt_brithdaycount').innerHTML = tot_BD.length;
+        $('#ul_showallleaves').html('');
+        for (var i = 0; i < tot_la.length; i++) {
+            $('#ul_showallleaves').append('<li ><a  href="#"><div class="pull-left">  <img src="images/Employeeimg.jpg" class="img-circle" alt="User Image"></div><h4>' + tot_la[i].fullname + '<small><i class="fa fa-clock-o"></i>' + tot_la[i].leavedays + '</small></h4><p>' + tot_la[i].remarks + '</p></a></li>');
+        }
+        $('#ui_Odpennding').html('');
+        for (var i = 0; i < tot_onduty.length; i++) {
+
+            $('#ui_Odpennding').append('<li ><a  href="#"><div class="pull-left"> <img src="images/Employeeimg.jpg" class="img-circle" alt="User Image"></div><h4>' + tot_onduty[i].fullname + '<small><i class="fa fa-clock-o"></i>' + tot_onduty[i].oddays + '</small></h4><p>' + tot_onduty[i].remarks + '</p></a></li>');
+        }
+        $('#ui_brithadays').html('');
+        for (var i = 0; i < tot_BD.length; i++) {
+            $('#ui_brithadays').append('<li ><a  href="#"><div class="pull-left">  <img src="images/Employeeimg.jpg" class="img-circle" alt="User Image"></div><h4>' + tot_BD[i].fullname + '</h4><p>' + tot_BD[i].Birth_Days + '</p></a></li>');
+        }
+    }
+
+    </script>
+    <style>
+        .img-circle
+        {
+            border-radius: 50%;
+        }
+        .img-thumbnail
+        {
+            display: inline-block;
+            max-width: 100%;
+            height: auto;
+            padding: 4px;
+            line-height: 1.42857143;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            -webkit-transition: all .2s ease-in-out;
+            -o-transition: all .2s ease-in-out;
+            transition: all .2s ease-in-out;
+        }
+        .photo-edit-icon-admin
+        {
+            background: none repeat scroll 0 0 #fff;
+            border-radius: 50%;
+            padding: 6px 10px;
+        }
+            </style>
+             <style type="text/css">
+        label
+        {
+            font-size: 14px !important;
+            font-weight: 600 !important;
+            text-transform: capitalize !important;
+            color: #404040 !important;
+            line-height: 1.8 !important;
+        }
+        th
+        {
+            font-weight: bold !important;
+            font-size: 15px !important;
+        }
+        btneditgrid
+        {
+            background: #f44336 !important;
+            border-radius: 100% !important;
+            padding: 0px !important;
+            height: 30px !important;
+            width: 30px !important;
+            color: #ffffff !important;
+            border-color: #f44336 !important;
+        }
+        .cal
+        {
+            cursor: pointer !important;
+            border-color: lightgrey !important;
+            background-color: white !important;
+            color: black !important;
+            border-radius: 0px !important;
+        }
+        .editcls
+        {
+            background: #00a65a !important;
+            border-radius: 100% !important;
+            padding: 0px !important;
+            height: 30px !important;
+            width: 30px !important;
+            color: #ffffff !important;
+            border-color: #00a65a !important;
+        }
+        .apprvcls
+        {
+            background: dodgerblue !important;
+            border-radius: 100% !important;
+            padding: 0px !important;
+            height: 30px !important;
+            width: 30px !important;
+            color: #ffffff !important;
+            border-color: dodgerblue !important;
+        }
+        .printcls
+        {
+            border-radius: 100% !important;
+            padding: 0px !important;
+            height: 30px !important;
+            width: 30px !important;
+        }
+        .aspbutton
+        {
+            cursor: pointer;
+            border-color: #3c8dbc;
+            background-color: #3c8dbc;
+            border-radius: 4px;
+            color: white;
+            position: relative;
+            display: table;
+            border-collapse: separate;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 1.8;
+        }
+        .thfixed
+        {
+            position: fixed;
+            top: 0px;
+            background-color:white;
+        }
+        .labelrpt
+        {
+            font-size: 13px;
+        }
+        .spanrpt
+        {
+            font-size: 12px;
+        }
+        .style11
+        {
+            font-size: 11px;
+        }
+    </style>
+    <form id="Form1" runat="server">
+    <asp:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+    </asp:ToolkitScriptManager>
+    <div class="wrapper">
+        <header class="main-header">
+            <!-- Logo -->
+            <a href="Dashboard.aspx" class="logo">
+                <!-- mini logo for sidebar mini 50x50 pixels -->
+                <span class="logo-mini"><b>V</b></span>
+                <!-- logo for regular state and mobile devices -->
+                <span class="logo-lg"><b>Vyshnavi</b></span> </a>
+            <!-- Header Navbar: style can be found in header.less -->
+            <nav class="navbar navbar-static-top" role="navigation">
+                <!-- Sidebar toggle button-->
+                <a href="#" id="id_navbar" class="sidebar-toggle" data-toggle="offcanvas" role="button"><span class="sr-only">
+                    Toggle navigation</span> </a>
+                <div class="navbar-custom-menu">
+                    <ul class="nav navbar-nav">
+                    <li><a href="http://vyshnavi.in/vyshome.aspx">Back to Home</a></li>
+                        <!-- Messages: style can be found in dropdown.less-->
+                        <li class="dropdown messages-menu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-envelope-o"></i><span class="label label-success" id="txt_leaveapproval" ></span> </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have <span  id="txt_count" ></span> messages</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <!-- start message -->
+                                            <a href="#">
+                                                <ul class="menu" id="ul_showallleaves"></ul>
+                                            </a></li>
+                                        <!-- end message -->
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">See All Messages</a></li>
+                            </ul>
+                        </li>
+                          <li class="dropdown messages-menu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-flag-o"></i><span class="label label-danger" id="txt_odapproval"></span> </a>
+                            <ul class="dropdown-menu">
+                                <li class="header">You have <span  id="txt_odcount" ></span> messages</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <!-- start message -->
+                                            <a href="#">
+                                                <ul class="menu" id="ui_Odpennding"></ul>
+                                            </a></li>
+                                        <!-- end message -->
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">View all tasks</a> </li>
+                            </ul>
+                        </li>
+                        <!-- Notifications: style can be found in dropdown.less -->
+                       <li class="dropdown messages-menu"><a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <i class="fa fa-bell-o"></i><span class="label label-warning"  id="txt_brithdays" ></span> </a>
+                                <ul class="dropdown-menu">
+                                <li class="header">You have <span  id="txt_brithdaycount" ></span> messages</li>
+                                <li>
+                                    <!-- inner menu: contains the actual data -->
+                                    <ul class="menu">
+                                        <li>
+                                            <!-- start message -->
+                                            <a href="#">
+                                                <ul class="menu" id="ui_brithadays"></ul>
+                                            </a></li>
+                                        <!-- end message -->
+                                    </ul>
+                                </li>
+                                <li class="footer"><a href="#">View all tasks</a> </li>
+                            </ul>
+                        </li>
+                        <!-- Tasks: style can be found in dropdown.less -->
+                      
+                        <!-- User Account: style can be found in dropdown.less -->
+                        <li class="dropdown user user-menu"><a href="#" class="dropdown-toggle" data-toggle="dropdown"
+                            aria-expanded="true">
+                            <img id="imguser1" class="user-image" alt="User Image">
+                            <span class="hidden-xs">
+                                <asp:Label ID="lblMessage" runat="server"></asp:Label></span> </a>
+                            <ul class="dropdown-menu">
+                                <!-- User image -->
+                                <li class="user-header">
+                                    <img id="imguser3" class="img-circle" alt="User Image">
+                                    <p>
+                                        <asp:Label ID="lblName" runat="server"></asp:Label>
+                                        -
+                                        <asp:Label ID="lbldesignation" runat="server"></asp:Label>
+                                        <small></small>
+                                    </p>
+                                </li>
+                                <!-- Menu Body -->
+                                <!-- Menu Footer-->
+                                <li class="user-footer">
+                                    <div class="pull-left">
+                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                    </div>
+                                    <div class="pull-right">
+                                        <a href="LogOut.aspx" class="btn btn-default btn-flat">Sign out</a>
+                                    </div>
+                                </li>
+                                <li><a href="ChangePassWord.aspx" class="btn btn-default btn-flat">Change Password</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <!-- Control Sidebar Toggle Button -->
+                        <li><a href="#" data-toggle="control-sidebar"><i class="fa fa-gears"></i></a></li>
+                    </ul>
+                </div>
+            </nav>
+        </header>
+        <!-- Left side column. contains the logo and sidebar -->
+        <aside class="main-sidebar">
+            <!-- sidebar: style can be found in sidebar.less -->
+            <section class="sidebar">
+                <!-- Sidebar user panel -->
+                <div class="user-panel">
+                    <div class="pull-left image">
+                        <img id="imguser2" class="img-circle" alt="User Image">
+                    </div>
+                    <div class="pull-left info">
+                        <p>
+                            <asp:Label ID="lblmyname" runat="server"></asp:Label></p>
+                        <a href="#"><i class="fa fa-circle text-success"></i>Online</a>
+                    </div>
+                </div>
+                <!-- search form -->
+                <%--  <form action="#" method="get" class="sidebar-form">
+            <div class="input-group">
+              <input type="text" name="q" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                <button type="submit" name="search" id="search-btn" class="btn btn-flat"><i class="fa fa-search"></i></button>
+              </span>
+            </div>
+          </form>--%>
+                <!-- /.search form -->
+                <!-- sidebar menu: : style can be found in sidebar.less -->
+                <ul class="sidebar-menu">
+                    <%--  <li class="header">MAIN NAVIGATION</li>--%>
+                    <li id="lidashboardmain" class="treeview"><a href="#"><i class="fa fa-dashboard"></i><span>Dashboard</span>
+                       <ul class="treeview-menu">
+                            <%--<li id="lidashboardbrith"><a href="Dashboard.aspx"><i class="fa fa-share"></i>Dashboard </a></li>--%>
+                            <li id="linewtimeline"><a href="NewTimeline.aspx"><i class="fa fa-share"></i>TimeLine </a></li>
+                            <%--<li id="limainpage"><a href="MainPage.aspx"><i class="fa fa-share"></i>TimeLine </a></li>--%>
+                            <li id="litimeline"><%--<a href="bdashboard.aspx"><i class="fa fa-share"></i>TimeLine 2 </a>--%></li>
+                             <li id="liattadance"><a href="attandancedashboard.aspx"><i class="fa fa-share"></i>Attandance DashBoard </a></li>      
+                            <li id="li2"><a href="NewChartBoard.aspx"><i class="fa fa-share"></i>Salary DashBoard</a></li>   
+                            <li id="libullten"><a href="ChartDashBoard.aspx"><i class="fa fa-share"></i>Chart Dash Board</a></li>  
+                             
+                        </ul>
+                    </li>
+                    <li id="limaster" class="treeview"><a href="#"><i class="fa fa-bars" aria-hidden="true"></i><span>Masters</span>
+                        <span class="label label-primary pull-right"></span></a>
+                        <ul class="treeview-menu">
+                            <li><a href="OveralSmsReport.aspx"><i class="fa fa-share"></i>Sms Master</a></li>
+                            <li><a href="Minmasters.aspx"><i class="fa fa-share"></i>Mini Masters</a></li>
+                            <li><a href="BranchMaster.aspx"><i class="fa fa-share"></i>BranchMaster </a></li>
+                            <li><a href="AddLeaveTypes.aspx"><i class="fa fa-share"></i>Leavetypes</a></li>
+                            <li><a href="FinesandDamages.aspx"><i class="fa fa-share"></i>Fines & Damages </a></li>
+                            <li><a href="BranchCertificates.aspx"><i class="fa fa-share"></i>Documents Details </a></li>
+                            <li><a href="SimCardMaster.aspx"><i class="fa fa-share"></i>Simcard Details </a></li>
+                            <li><a href="contacttype.aspx"><i class="fa fa-share"></i>Contact Type Details </a></li>
+                            <li><a href="ContactMaster.aspx"><i class="fa fa-share"></i>Contact Form Detailes </a></li>
+                            <li><a href="BulkWishes.aspx"><i class="fa fa-share"></i>Bulk Wishes Send </a></li>
+                           
+                        </ul>
+                    </li>
+                    <li id="liempinfo" class="treeview"><a href="#"><i class="fa fa-user" aria-hidden="true"></i>
+                        <span>Basic Information</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">
+                            <li><a href="Employee.aspx"><i class="fa fa-share"></i>Employee Details</a></li>
+                           
+                            <li><a href="AddBankDetails.aspx"><i class="fa fa-share"></i>Employee Bank Details</a></li>
+                            <li><a href="EmployeeFamilydetailes.aspx"><i class="fa fa-share"></i>Employee Family
+                                Details</a></li>
+                            <li><a href="EmployeePF.aspx"><i class="fa fa-share"></i>Employee PF Details</a></li>
+                            <li><a href="EmployeeAssets.aspx"><i class="fa fa-share"></i>Employee Asset Details</a></li>
+                            <li><a href="EmployeeTransfer.aspx"><i class="fa fa-share"></i>Employee Transfer Details </a>
+                            <li><a href="OrganisationTree.aspx"><i class="fa fa-share"></i>Organisation Flow </a>
+                           <%-- <li><a href=" MobileImport.aspx"><i class="fa fa-share"></i>Mobile Deduction Data Import
+                            </a></li>--%> 
+                        </ul>
+                    </li>
+                    <li id="lileave" class="treeview"><a href="#"><i class="fa fa-bed" aria-hidden="true"></i><span>Leave & Attendance
+                        Management</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">
+                            <li id="liBranchwiseReport"><a href="Leave_management.aspx"><i class="fa fa-edit"></i>
+                                Leave Management</a></li>
+                                 <li id="liBranchwiseReport"><a href="ODMaster.aspx"><i class="fa fa-edit"></i>
+                                OD Apply</a></li>
+                                <%-- <li id="liodReport"><a href="odapplyaareport.aspx"><i class="fa fa-edit"></i>
+                                OD Apply Report</a></li>--%>
+                                <li id="liresignation"><a href="Resignation.aspx"><i class="fa fa-share"></i>Resignation Application</a></li>
+                            <li id="liresapproval"><a href="ResignationApproval.aspx"><i class="fa fa-share"></i>Resignation Approval</a></li>
+                            <li id="liemployeeattandce"><a href="mnthempattendance.aspx"><i class="fa fa-share"></i>Employee Attendance</a></li>
+                                  <li id="libiometric"><a href="biometriclogdetails.aspx"><i class="fa fa-share"></i>Employee Bio-Metric Logs</a></li>
+                                <li id="li25"><a href="Rpt_EmployeeAttendance.aspx"><i class="fa fa-edit"></i>
+                               Employee DailyAttedance </a></li><%--Employeewiseattadance.aspx--%>
+                                <li id="liledger"><a href="ledgerMaster.aspx"><i class="fa fa-edit"></i>
+                              Ledger Master</a></li>
+                                <li id="li26"><a href="attlogs.aspx"><i class="fa fa-edit"></i>
+                               Attendance log Rpt</a></li>
+                               <%-- <li id="li5"><a href="Canteen_Attendence.aspx"><i class="fa fa-edit"></i>
+                               Canteen Attendence</a></li>--%>
+                        </ul>
+                    </li>
+                    <li id="litask" class="treeview"><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i><span>
+                        Task Management</span> <i class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu"> 
+                            <li id="liassigntask"><a href="AssignTask.aspx"><i class="fa fa-circle-o"></i>Assign Task</a></li>
+                            <%--<li id="licontacttype"><a href="contacttype.aspx"><i class="fa fa-circle-o"></i>Contact Type</a></li>--%>
+                           <%-- <li id="licontactdetails"><a href="ContactMaster.aspx"><i class="fa fa-circle-o"></i>Contact Form Detailes</a></li>--%>
+                            <li id="limeeting"><a href="Meeting_Conduct.aspx"><i class="fa fa-share"></i>Meeting Conducting</a></li>
+                            <li id="limeetingreport"><a href="MeetingConductReport.aspx"><i class="fa fa-share"></i>Meeting Conducting Report</a></li>
+                            <li id="Li2"><a href="dailyactivitiesMaster.aspx"><i class="fa fa-circle-o"></i>Daily Activities Master</a></li>
+                            <li id="Li1"><a href="JobApplications.aspx"><i class="fa fa-circle-o"></i>Job Application Details</a></li>
+                        </ul>
+                    </li>
+                    <li id="lipayrole" runat="server" class="treeview"><a href="#"><i class="fa fa-money"
+                        aria-hidden="true"></i><span>PayRole Management</span> <i class="fa fa-angle-left pull-right">
+                        </i></a>
+                        <ul class="treeview-menu">
+                           <%-- <li id="li3"><a href="EmpSalaryDetails.aspx"><i class="fa fa-circle-o"></i>Employee
+                                Salary Process</a></li>--%>
+                            <li id="lipaystre"><a href="Emppaystructure.aspx"><i class="fa fa-circle-o"></i>Employee Paystructure</a></li>
+                             <li id="lipayslpgen"><a href="PayslipGeneration.aspx"><i class="fa fa-circle-o"></i>pay Slip</a></li><%--////com by ravindra --%>
+                             <li id="liebulkmailpayslip"><a href="bulkmailsend.aspx"><i class="fa fa-circle-o"></i>pay Slips</a></li><%--////com by ravindra --%>
+                             <li id="lieapprisal"><a href="Appraisals.aspx"><i class="fa fa-circle-o"></i>Appraisals</a></li><%--////com by ravindra --%>
+                           <%-- <li id="liepaysal"><a href="paysal.aspx"><i class="fa fa-circle-o"></i>PayRole Process</a></li>--%>
+                            <li id="lirejoin"><a href="Rejoinings.aspx"><i class="fa fa-circle-o"></i>Rejoinings</a></li>
+                            <li id="lirejnapprva"><a href="EmployeeLoanApplication.aspx"><i class="fa fa-circle-o"></i>Employee Loan Request</a></li>
+                            <li id="liloanrequest"><a href="LoanRequest.aspx"><i class="fa fa-circle-o"></i>Loan Request</a></li>
+                            <%--<li id="liloanreqapr"><a href="LoanRequestApproval.aspx"><i class="fa fa-circle-o"></i>Loan Request
+                                Approval</a></li>--%>
+                            <li id="liloanimform"><a href="LoanInformation.aspx"><i class="fa fa-share"></i>Employee Loan Information
+                                Report</a></li>
+                            <li id="lisalaryadvance"><a href="Salaryadvance.aspx"><i class="fa fa-circle-o"></i>Salary Advance</a></li>
+                            <li id="lideduction"><a href="deductionsmaster.aspx"><i class="fa fa-circle-o"></i>TDS&Mediclaim Master</a></li>
+                            
+                            
+                            <%-- <li id="li1"><a href="Payroll/ResignationApproval.aspx"><i class="fa fa-circle-o"></i>Resignation Approval</a></li>--%>
+                        </ul>
+                    </li>
+                    <li id="litemplets" runat="server" class="treeview"><a href="#"><i class="fa fa-file-powerpoint-o"
+                        aria-hidden="true"></i><span>Templates</span> <i class="fa fa-angle-left pull-right">
+                        </i></a>
+                        <ul class="treeview-menu">
+                            <li id="li4"><a href="letters.aspx"><i class="fa fa-circle-o"></i>letters</a></li>
+                            <li id="li18"><a href="EditTotalDeduction.aspx"><i class="fa fa-circle-o"></i>Deductions Details</a></li>
+                             <li id="li3"><a href="policy.aspx"><i class="fa fa-circle-o"></i>Add Policy</a></li>
+                             <li id="li12"><a href="extradayswork.aspx"><i class="fa fa-circle-o"></i>Emp Extra Days Working Rpt</a></li>
+                             <li id="li10"><a href="supplyattendance.aspx"><i class="fa fa-circle-o"></i>Supplementary</a></li>
+                              <li><a href="EmployeeBasicInformation.aspx"><i class="fa fa-share"></i>Employee Basic Information</a></li>
+                             <li id="li11"><a href="orgflow.aspx"><i class="fa fa-circle-o"></i>Organization Flow</a></li>
+                             <li id="li8"><a href="cmporgrpt.aspx"><i class="fa fa-circle-o"></i>Organization Rpt</a></li>
+
+                             
+                             <%--<li id="li14"><a href="OrganaisetionFlowImport.aspx"><i class="fa fa-circle-o"></i>Organisation Flow Import</a></li>--%>
+                        </ul>
+                    </li>
+
+                     <li id="lifinance" runat="server" class="treeview"><a href="#"><i class="fa fa-university" aria-hidden="true"></i><span>Finance</span> <i class="fa fa-angle-left pull-right">
+                        </i></a>
+                        <ul class="treeview-menu">
+                            <li><a href="bankfileformat.aspx"><i class="fa fa-share"></i>Bank File 
+                            </a></li>
+                             <li><a href="bankfiledownload.aspx"><i class="fa fa-share"></i>Bank File Report
+                            </a></li>
+                        </ul>
+                    </li>
+
+                   
+                    <li id="liemployee" runat="server" class="treeview"><a href="#"><i class="fa fa-file-powerpoint-o"
+                        aria-hidden="true"></i><span>Employee Template</span> <i class="fa fa-angle-left pull-right">
+                        </i></a>
+                        <ul class="treeview-menu">
+                            <li id="li21"><a href="EmployeeDirectory.aspx"><i class="fa fa-circle-o"></i>Employee Directory</a></li>
+                             <li id="ligroupldger"><a href="Groupledgers.aspx"><i class="fa fa-share"></i>Group Ledgers</a></li>
+                              <li id="li7"><a href="EmployeeYearwiseDetails.aspx"><i class="fa fa-share"></i>Employee working Years</a></li>
+                        </ul>
+                    </li>
+
+                    <li id="lireports" runat="server" class="treeview"><a href="reportsgalary.aspx"><i class="fa fa-flag" aria-hidden="true"></i></i><span>Reports</span> <i class="fa fa-angle-left pull-right">
+                        </i></a>
+                    </li>
+                    <li id="tallyreports" runat="server" class="treeview"><a href="#"><i class="fa fa-text-height" aria-hidden="true"></i><span>Tally Reports</span> <i class="fa fa-angle-left pull-right">
+                        </i></a>
+                        <ul class="treeview-menu">
+                            <li id="li6"><a href="TallySalarys.aspx"><i class="fa fa-circle-o"></i>Tally Salary Report</a></li>
+                            <li id="li9"><a href="TallyCasual_report.aspx"><i class="fa fa-circle-o"></i>Tally Casual Report</a></li>
+                             <li id="li13"><a href="tallyotstatement.aspx"><i class="fa fa-circle-o"></i>Tally Ot Report</a></li>
+                             <li id="li15"><a href="tallyconveyance.aspx"><i class="fa fa-circle-o"></i>Tally Conveyance Report</a></li>
+                             <li><a href="TallyMarketingSalaryStatement.aspx"><i class="fa fa-book"></i>Tally Markating Report</a></li>
+                             <li><a href="newtallyimportformat.aspx"><i class="fa fa-book"></i>Tally Staff Report</a></li>
+                             <li><a href="newtallycasualimport.aspx"><i class="fa fa-book"></i>Tally Casual Report</a></li>
+                        </ul>
+                    </li>
+                      <li id="CHARTS" runat="server" class="treeview"><a href="#"><i class="fa fa-bar-chart" aria-hidden="true"></i><span>Chart Reports</span> <i class="fa fa-angle-left pull-right">
+                        </i></a>
+                        <ul class="treeview-menu">
+                            <li id="li16"><a href="piesalarychat.aspx"><i class="fa fa-circle-o"></i>Salary Chart</a></li>
+                            <li id="li14"><a href="employeetypepichart.aspx"><i class="fa fa-circle-o"></i>Gender & Employee type wise Chart</a></li>
+                            <li id="li22"><a href="PFLineChart.aspx"><i class="fa fa-circle-o"></i>Pf & NONPF wise Chart</a></li>
+                            <li id="li23"><a href="DashBoard_alerts.aspx"><i class="fa fa-circle-o"></i>Dash Board Salary Alerts</a></li>
+                        </ul>
+                    </li>
+                     <li id="SAP" class="treeview"><a href="#"><i class="fa fa-strikethrough"></i><span>SAP Reports</span> <i
+                        class="fa fa-angle-left pull-right"></i></a>
+                        <ul class="treeview-menu">
+                            <li><a href="SAPSalaryReport.aspx"><i class="fa fa-book"></i>SAP Salary Report</a></li>
+                            <li><a href="SAPConveyanceReport.aspx"><i class="fa fa-book"></i>SAP Conveyance Report</a></li>
+                            <li><a href="SAPOtSatement.aspx"><i class="fa fa-book"></i>SAP OT Statement</a></li>
+                            <li><a href="SAPCasualReport.aspx"><i class="fa fa-book"></i>SAP Casual Report</a></li>
+                            <li><a href="SAPMarketingSalaryReport.aspx"><i class="fa fa-book"></i>SAP Marketing Report</a></li>
+                        </ul>
+                    </li>
+                   
+                </ul>
+            </section>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- Content Wrapper. Contains page content -->
+       <%-- <div class="content-wrapper" style="background:url(Images/bgfit3.jpg) no-repeat center center fixed;">--%>
+        <div class="content-wrapper" style="background-color:#bfcbe5;">
+            <!-- Content Header (Page header) -->
+            <!-- Main content -->
+            <section class="content" style="overflow:inherit;">
+                <!-- Small boxes (Stat box) -->
+                <div class="row">
+                    <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
+                    
+                    </asp:ContentPlaceHolder>
+                </div>
+            </section>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <footer class="main-footer">
+       
+<div class="pull-right hidden-xs">
+</div>
+        <strong>Copyright &copy; 2014-2015 <a target="_blank" href="http://vyshnavifoods.com">
+            Sri Vyshnavi Dairy Spl Pvt Ltd</a>.</strong> All rights reserved.
+      </footer>
+        <!-- Control Sidebar -->
+        <aside class="control-sidebar control-sidebar-dark">
+            <!-- Create the tabs -->
+            <ul class="nav nav-tabs nav-justified control-sidebar-tabs">
+                <li><a href="#control-sidebar-home-tab" data-toggle="tab"><i class="fa fa-home"></i>
+                </a></li>
+                <li><a href="#control-sidebar-settings-tab" data-toggle="tab"><i class="fa fa-gears">
+                </i></a></li>
+            </ul>
+            <!-- Tab panes -->
+            <div class="tab-content">
+                <!-- Home tab content -->
+                <div class="tab-pane" id="control-sidebar-home-tab">
+                    <h3 class="control-sidebar-heading">
+                        Recent Activity</h3>
+                    <ul class="control-sidebar-menu">
+                        <li><a href="javascript::;"><i class="menu-icon fa fa-birthday-cake bg-red"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">
+                                    Langdon's Birthday</h4>
+                                <p>
+                                    Will be 23 on April 24th</p>
+                            </div>
+                        </a></li>
+                        <li><a href="javascript::;"><i class="menu-icon fa fa-user bg-yellow"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">
+                                    Frodo Updated His Profile</h4>
+                                <p>
+                                    New phone +1(800)555-1234</p>
+                            </div>
+                        </a></li>
+                        <li><a href="javascript::;"><i class="menu-icon fa fa-envelope-o bg-light-blue"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">
+                                    Nora Joined Mailing List</h4>
+                                <p>
+                                    nora@example.com</p>
+                            </div>
+                        </a></li>
+                        <li><a href="javascript::;"><i class="menu-icon fa fa-file-code-o bg-green"></i>
+                            <div class="menu-info">
+                                <h4 class="control-sidebar-subheading">
+                                    Cron Job 254 Executed</h4>
+                                <p>
+                                    Execution time 5 seconds</p>
+                            </div>
+                        </a></li>
+                    </ul>
+                    <!-- /.control-sidebar-menu -->
+                    <h3 class="control-sidebar-heading">
+                        Tasks Progress</h3>
+                    <ul class="control-sidebar-menu">
+                        <li><a href="javascript::;">
+                            <h4 class="control-sidebar-subheading">
+                                Custom Template Design <span class="label label-danger pull-right">70%</span>
+                            </h4>
+                            <div class="progress progress-xxs">
+                                <div class="progress-bar progress-bar-danger" style="width: 70%">
+                                </div>
+                            </div>
+                        </a></li>
+                        <li><a href="javascript::;">
+                            <h4 class="control-sidebar-subheading">
+                                Update Resume <span class="label label-success pull-right">95%</span>
+                            </h4>
+                            <div class="progress progress-xxs">
+                                <div class="progress-bar progress-bar-success" style="width: 95%">
+                                </div>
+                            </div>
+                        </a></li>
+                        <li><a href="javascript::;">
+                            <h4 class="control-sidebar-subheading">
+                                Laravel Integration <span class="label label-warning pull-right">50%</span>
+                            </h4>
+                            <div class="progress progress-xxs">
+                                <div class="progress-bar progress-bar-warning" style="width: 50%">
+                                </div>
+                            </div>
+                        </a></li>
+                        <li><a href="javascript::;">
+                            <h4 class="control-sidebar-subheading">
+                                Back End Framework <span class="label label-primary pull-right">68%</span>
+                            </h4>
+                            <div class="progress progress-xxs">
+                                <div class="progress-bar progress-bar-primary" style="width: 68%">
+                                </div>
+                            </div>
+                        </a></li>
+                    </ul>
+                    <!-- /.control-sidebar-menu -->
+                </div>
+                <!-- /.tab-pane -->
+                <!-- Stats tab content -->
+                <div class="tab-pane" id="control-sidebar-stats-tab">
+                    Stats Tab Content</div>
+                <!-- /.tab-pane -->
+                <!-- Settings tab content -->
+                <div class="tab-pane" id="control-sidebar-settings-tab">
+                    <form method="post">
+                    <h3 class="control-sidebar-heading">
+                        General Settings</h3>
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Report panel usage
+                            <input type="checkbox" class="pull-right" checked>
+                        </label>
+                        <p>
+                            Some information about this general settings option
+                        </p>
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Allow mail redirect
+                            <input type="checkbox" class="pull-right" checked>
+                        </label>
+                        <p>
+                            Other sets of options are available
+                        </p>
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Expose author name in posts
+                            <input type="checkbox" class="pull-right" checked>
+                        </label>
+                        <p>
+                            Allow the user to show his name in blog posts
+                        </p>
+                    </div>
+                    <!-- /.form-group -->
+                    <h3 class="control-sidebar-heading">
+                        Chat Settings</h3>
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Show me as online
+                            <input type="checkbox" class="pull-right" checked>
+                        </label>
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Turn off notifications
+                            <input type="checkbox" class="pull-right">
+                        </label>
+                    </div>
+                    <!-- /.form-group -->
+                    <div class="form-group">
+                        <label class="control-sidebar-subheading">
+                            Delete chat history <a href="javascript::;" class="text-red pull-right"><i class="fa fa-trash-o">
+                            </i></a>
+                        </label>
+                    </div>
+                    <!-- /.form-group -->
+                    </form>
+                </div>
+                <!-- /.tab-pane -->
+            </div>
+        </aside>
+        <!-- /.control-sidebar -->
+        <!-- Add the sidebar's background. This div must be placed
+           immediately after the control sidebar -->
+        <div class="control-sidebar-bg">
+        </div>
+    </div>
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button);
+    </script>
+    <!-- Bootstrap 3.3.4 -->
+    <script src="bootstrap/js/bootstrap.min.js"></script>
+    <!-- Morris.js charts -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+    <!-- Select2 -->
+    <script src="plugins/select2/select2.full.min.js"></script>
+    <!-- Sparkline -->
+    <script src="plugins/sparkline/jquery.sparkline.min.js"></script>
+    <!-- jvectormap -->
+    <script src="plugins/jvectormap/jquery-jvectormap-1.2.2.min.js"></script>
+    <script src="plugins/jvectormap/jquery-jvectormap-world-mill-en.js"></script>
+    <!-- jQuery Knob Chart -->
+    <script src="plugins/knob/jquery.knob.js"></script>
+    <!-- daterangepicker -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.2/moment.min.js"></script>
+    <script src="plugins/daterangepicker/daterangepicker.js"></script>
+    <!-- datepicker -->
+    <script src="plugins/datepicker/bootstrap-datepicker.js"></script>
+    <!-- Bootstrap WYSIHTML5 -->
+    <script src="plugins/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
+    <!-- Slimscroll -->
+    <script src="plugins/slimScroll/jquery.slimscroll.min.js"></script>
+    <!-- FastClick -->
+    <script src="plugins/fastclick/fastclick.min.js"></script>
+    <!-- AdminLTE App -->
+    <script src="dist/js/app.min.js"></script>
+    <script src="dist/js/demo.js"></script>
+    <script src="plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables/dataTables.bootstrap.js"></script>
+    <link href="plugins/datatables/dataTables.bootstrap.css" rel="stylesheet" />
+    </form>
+</body>
+</html>

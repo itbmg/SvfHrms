@@ -1,0 +1,28 @@
+﻿
+@media print 
+{
+  
+     
+   body { 
+    color : #000000; 
+    background : #ffffff; 
+    font-family :Verdana;
+    font-size : 16pt;  
+    font-weight:600;
+}
+h2 {
+    font-size : 20pt;
+}
+a { 
+    text-decoration : underline; 
+    color : #0000ff; 
+}
+
+#logo,#head,#menu,#tail,#printicon, {
+    display : none;
+}
+
+#appendedlinks {
+    page-break-before: always 
+}
+}

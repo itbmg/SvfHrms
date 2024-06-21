@@ -1,0 +1,50 @@
+﻿.fieldset_border {
+    border:1px solid #5e5d5e;
+    min-height:800px;
+}
+.fieldset_dashed {
+   border: 1px dashed #CCC; 
+}
+.legend {
+    font:11px Verdana;
+    font-weight:bold;
+    padding-top:7px;
+    padding-left:10px;
+    background-repeat:no-repeat;
+    background-image: url(../Images/Legend_bg.png);
+    margin-left:10px;
+    width:880px;
+    height:25px;
+    color:White;
+}
+.legend_right {
+    background-color:Blue;
+    border:1px solid #CFCFC1;
+    color:White;
+    font:12px Arial,serif;
+    letter-spacing:1px;
+    margin-left:16px;
+    padding:5px 15px;
+    text-transform:none;
+    font-weight:bold;
+}
+.button_Search
+{
+    background-image: url('../Images/btn_Search.png');
+    background-repeat: no-repeat;
+    background-color: transparent;
+    background-position: left top;
+    width: 25px;
+    height: 25px;
+    color: White;
+    font-weight: bold;
+    font-size: 13px;
+    font-family: Arial;
+    padding: 0px;
+    cursor: hand;
+    border-width: 0;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 5px;
+    
+}

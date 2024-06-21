@@ -1,0 +1,677 @@
+﻿/* FROM AdviseReloadComponent.css */
+.adviseReloadComponent {	
+	background-color: red;
+	color: white;
+}
+/* FROM CollapseContentComponent.css */
+.collapseContentComponent {	
+	border-bottom:dotted #ccc;
+	margin-bottom: 10px;
+}
+
+.collapseContentComponent .collapseHeader{	
+	width:100%;
+	height: 40px;
+}
+
+
+.collapseContentComponent .hideShowContent{	
+	width:200px;
+	text-align: right;
+	vertical-align: top;
+}
+.collapseContentComponent > .contentHolder{	
+	padding: 10px 5px;
+}
+/* FROM BasicScheduleComponent.css */
+.basicScheduleComponent 
+{
+    overflow:auto;
+    width:1050px;
+}
+
+.basicScheduleComponent .scheduleTableHolder{
+	overflow:auto;
+	border-collapse: collapse;
+border-spacing: 0;
+}
+
+.basicScheduleComponent div.relative {
+	position: relative;
+	height: inherit;
+}
+
+
+.basicScheduleComponent .grab {
+	cursor: pointer;
+	cursor: -webkit-grab;
+	cursor: -moz-grab;
+	cursor: grab;
+}
+
+.basicScheduleComponent .grabbing {
+	cursor: pointer;
+	cursor: -webkit-grabbing;
+	cursor: -moz-grabbing;
+	cursor: grabbing;
+}
+
+.basicScheduleComponent .topHeader, .basicScheduleComponent .bottomHeader{
+	text-align: center;
+	vertical-align: middle;
+	color: #ffffff;
+	letter-spacing: .85em;
+	background-color: #1ea5d2;
+}
+
+.basicScheduleComponent .topHeader{
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}
+
+.basicScheduleComponent .bottomHeader{
+	vertical-align: bottom;
+	height: 100%;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
+}
+
+.basicScheduleComponent .scheduleTable td.bottomHeader {
+	border: none;
+}
+
+.basicScheduleComponent .bottomHeader .rotateDivRelative{
+	position: relative;
+	width: 1.5em;
+	height: 100%;
+}
+
+.basicScheduleComponent .bottomHeader .rotateDiv{
+	position: absolute;
+	-webkit-transform-origin: 50% 50%;
+	-moz-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+	left: -32px;
+	top: 50%
+}
+
+.basicScheduleComponent .scheduleTable th.saveSchedule {
+	border: none;
+}
+
+.basicScheduleComponent .scheduleTable th, .basicScheduleComponent .scheduleTable td, .basicScheduleComponent .scheduleTableHeaderRow > .period, .basicScheduleComponent .scheduleTableFooterRow > .periodFooter {
+	border: 1px solid #afdeee;
+}
+
+
+.basicScheduleComponent .scheduleTable .dayName, .basicScheduleComponent .scheduleTableHeaderRow > .period {
+	background-color: #d6eef8;
+	text-align:center;
+}
+
+.basicScheduleComponent .scheduleTable .dayName {
+	min-height: 20px;
+}
+
+.basicScheduleComponent .scheduleTable .dayName > div.relative{
+	position: relative;
+	padding: 12px 10px;
+	min-height: 20px;
+	height: auto;
+}
+
+
+.basicScheduleComponent .scheduleTableHeaderRow > .period {
+	min-width: 85px;
+}
+
+.basicScheduleComponent .scheduleTableHeaderRow > .period > div.relative {
+	min-width: 85px;
+	padding: 10px;
+}
+
+.basicScheduleComponent .scheduleTableHeaderRow > .period .periodTime {
+	position: relative;
+	line-height: 30px;
+	z-index:2;
+}
+.basicScheduleComponent .scheduleTableHeaderRow > .period .periodNumber {
+	opacity:0.4;
+	filter:alpha(opacity=40); /* For IE8 and earlier */
+	color: #ffffff;
+	font-size:3em;
+	position: absolute;
+	right:0px;
+	top:0px;
+	line-height: 1em;
+	z-index:1;
+	
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow.odd td.dayName {
+	background-color: #ceecf6;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow.odd td.daySchedule {
+	background-color: #f2fafc;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule {
+	height: inherit;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule.dayBreak, .basicScheduleComponent .scheduleTable .scheduleTableDayRow.odd td.daySchedule.dayBreak {
+	background-color:#ccc;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule.dayPrep, .basicScheduleComponent .scheduleTable .scheduleTableDayRow.odd td.daySchedule.dayPrep {
+	background-color:#99D6FF;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule > div.relative{
+	position: relative;
+	padding: 5px;
+}
+
+.basicScheduleComponent .scheduleTable.is-dragging .scheduleTableDayRow .daySchedule:not(.subject-acceptable) {
+	background-color: #eee !important;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule.subject-acceptable.subject-hover {
+	background-color: #fafafa;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .subject{
+	margin-bottom: 10px;
+	width: inherit;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .subject .subjectTeacher {
+	color: #c81b48;
+	font-size: 0.8em;
+	line-height: 0.8em;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .subject.rightClickMenuClick{
+	border: 1px solid red;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .subject .subjectNote {
+	color: #333;
+	font-size: .8em;
+	font-style: italic;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .subject.ui-draggable-dragging, .basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .subjects.ui-draggable-dragging{
+	border: 1px solid black;
+	padding: 5px 10px;
+	z-index: 1000;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .conflictStar{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	color: red;
+	padding: 5px;
+	cursor: default;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .pin{
+	position: absolute;
+	bottom: 0px;
+	right: 0px;
+	color: green;
+	padding: 5px 3px;
+	cursor: default;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .draggableIcon{
+	position: absolute;
+	bottom: 0px;
+	left: 50%;
+	color: green;
+	padding: 2px;
+	width: 36px;
+	text-align: center;
+	line-height: .9em;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .draggableIconReal{
+	position: relative;
+	left: -50%;
+}
+
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .draggableIcon{
+	position: absolute;
+	bottom: 0px;
+	color: green;
+	padding: 5px;
+	width: 35px;
+	text-align: center;
+	line-height: .9em;
+	
+}
+
+.basicScheduleComponent .scheduleTableFooterRow td {
+	background-color: #004e65;
+	color: #ffffff;
+	font-size: .85em;
+	height:10px;
+}
+
+.basicScheduleComponent .scheduleTableFooterRow .periodName{
+	padding-left: 5px;
+}
+
+/** customize **/
+.basicScheduleComponent .scheduleTable .scheduleTableDayRow .daySchedule .addBreak {
+	display: none;
+}
+
+.basicScheduleComponent .scheduleTableHolder.customizeSchedule .scheduleTableDayRow{
+	min-height: 30px;
+}
+
+.basicScheduleComponent .scheduleTableHolder.customizeSchedule .scheduleTableDayRow .daySchedule .addBreak {
+	display: block;
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	z-index: 50;
+	top: 0px;
+	left: 0px;
+	text-align: center;
+}
+.basicScheduleComponent .scheduleTableHolder.customizeSchedule .scheduleTableDayRow .daySchedule .addBreak .addBreakCenter{
+	position:relative;
+	top:50%;
+	height: inherit;
+	min-height: 90px;
+}
+
+.basicScheduleComponent .scheduleTableHolder.customizeSchedule .scheduleTableDayRow .daySchedule .addBreak .addBreakCenter .breakButton{
+	position:relative;
+}
+
+.basicScheduleComponent .scheduleTableHolder.customizeSchedule .scheduleTableDayRow .daySchedule .addBreak .addBreakCenter .breakButton.addBreakButton{
+	position:relative;
+	top:-12px;
+}
+
+.basicScheduleComponent .scheduleTableHolder.customizeSchedule .scheduleTableDayRow .daySchedule .addBreak .addBreakCenter .removeBreakDiv{
+	position: relative;
+	top: -25%;
+}
+
+.basicScheduleComponent .scheduleTableHolder.customizeSchedule .scheduleTableDayRow .daySchedule .subject{
+	opacity: 0.5;
+}
+
+.basicScheduleComponent .scheduleTableHolder.customizeSchedule .circlePlusMinus {
+	display: inline-block;	
+}
+
+.basicScheduleComponent .circlePlusMinus{
+	display: none;
+	border-radius: 13px;
+	width: 14px;
+	height: 14px;
+	text-align: center;
+	margin: 1px;
+	z-index: 99;
+	cursor: pointer;
+}
+
+.basicScheduleComponent .scheduleTable .dayName .dayPlus{
+	position: absolute;
+	bottom:-9px;
+	right:-9px;
+	background-color: #bbcb20;
+	width: 14px;
+	height: 14px;
+}
+
+.basicScheduleComponent .scheduleTable .dayName .dayPlusFirst{
+	position: absolute;
+	left:50%;
+	top:-7px;
+	width: 14px;
+	height: 14px;
+}
+
+.basicScheduleComponent .scheduleTable .dayName .dayPlusFirst .dayPlusFirstReal {
+	background-color: #bbcb20;
+	position: relative;
+	left: -50%;
+	top: -2px;
+}
+
+
+.basicScheduleComponent .scheduleTable .dayName .dayMinus{
+	position: absolute;
+	top:50%;
+	right:-9px;
+	width: 14px;
+	height: 14px;
+}
+
+.basicScheduleComponent .scheduleTable .dayName .dayMinusReal{
+	position: relative;
+	background-color: #e62c5d;
+	top:-50%;
+	left:-2px;
+}
+
+.basicScheduleComponent .scheduleTableHeaderRow > .period .periodPlus {
+	position: absolute;
+	bottom:-9px;
+	right:-9px;
+	background-color: #bbcb20;
+}
+
+.basicScheduleComponent .scheduleTableHeaderRow > .period .periodPlusFirst{
+	position: absolute;
+	left:-7px;
+	top:50%;
+	width: 14px;
+	height: 14px;
+}
+
+.basicScheduleComponent .scheduleTableHeaderRow > .period .periodPlusFirst .periodPlusFirstReal {
+	background-color: #bbcb20;
+	position: relative;
+	left: -2px;
+	top: -50%;
+}
+
+
+.basicScheduleComponent .scheduleTableHeaderRow > .period .periodMinus {
+	position: absolute;
+	bottom:-9px;
+	left:50%;
+	width: 14px;
+	height: 14px;
+}
+
+.basicScheduleComponent .scheduleTableHeaderRow > .period .periodMinusReal {
+	background-color: #e62c5d;
+	position: relative;
+	left: -50%;
+	top: -2px;
+}
+
+
+.basicScheduleComponent .circlePlusMinus > .letter {
+	font-size: 1.0em;
+	color: #FFFFFF;
+	line-height:14px;
+	text-align: center;
+}
+
+.basicScheduleComponent .scheduleInput.inputBox {
+	background-color: #fff3ed;
+	box-shadow: 0px 0px 0px #fff;
+}
+.basicScheduleComponent .scheduleInput.inputBox input{
+	text-align: center;
+	color: #f46806;
+	vertical-align: middle;
+	padding: 0px;
+	line-height: 30px;
+	height: 30px;
+}
+
+.basicScheduleComponent .scheduleInput.inputBox.readOnly {
+	background: inherit;
+	box-shadow: inherit;
+	border: 0px;
+	cursor: auto;
+
+}
+
+.basicScheduleComponent .scheduleInput.inputBox.readOnly input{
+	color: #004e65;
+}
+/* FROM ScheduleControlPanelComponent.css */
+.scheduleControlPanelComponent {
+	width:100%;
+}
+
+.scheduleControlPanelComponent > table{
+	width:100%;
+}
+
+
+.scheduleControlPanelComponent .scheduleControlPanelHeader{	
+	text-align: left;
+	padding: 5px 20px;
+	background: #003747;
+	background-image: -moz-linear-gradient(top, #003747 0%, #003747 100%);
+	background-image: -ms-linear-gradient(top, #003747 0%, #003747 100%);
+	background-image: -o-linear-gradient(top, #003747 0%, #003747 100%);
+	background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#003747), to(#003747));
+	background-image: -webkit-linear-gradient(top, #003747 0%, #003747 100%);
+	background-image: linear-gradient(top, #003747 0%, #003747 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#003747', endColorstr='#003747', GradientType=0 );
+	position: relative;
+	-webkit-box-shadow: 0px 0px 2px 0px #333; 
+	-moz-box-shadow : 0px 0px 2px 0px #333; 
+	-ms-box-shadow : 0px 0px 2px 0px #333; 
+	box-shadow : 0px 0px 2px 0px #333;
+}
+
+.scheduleControlPanelComponent .scheduleControlPanelHeader .schoolName{	
+	color: #FFFFFF;
+}
+
+.scheduleControlPanelComponent .scheduleControlPanelHeader .scheduleTitle{	
+	color: #ffffff;
+}
+
+.scheduleControlPanelComponent .scheduleControlPanelHeader .scheduleTitle > .scheduleTitleLabel{	
+	color: #CCCCCC;
+}
+
+.scheduleControlPanelComponent .scheduleControlPanelHeader .editedBy{	
+	color: #CCCCCC;
+	font-style:italic;
+}
+
+.scheduleControlPanelComponent .scheduleControlPanelHeader .editedBy .semesterName{	
+	color: #FFFFFF;
+	font-style: normal;
+}
+
+.scheduleControlPanelComponent .scheduleControlPanelButtons{
+	padding: 15px 20px;
+	background: url(/sms/js/images/plain-paper.jpg);
+	border-bottom: 1px solid #CCC;
+}
+/* FROM SubjectSectionComponent.css */
+.subjectSectionComponent {
+
+}
+
+.subjectSectionComponent .topHeader .subjectsHeader {
+	background-color: #1ea5d2;
+	text-align: center;
+	vertical-align: middle;
+	color: #ffffff;
+	letter-spacing: .85em;
+	
+	border-top-right-radius: 10px;
+	border-top-left-radius: 10px;
+}
+.subjectSectionComponent .bottomHeader {
+	background-color: #004e65;
+	color: #ffffff;
+	font-size: .85em;
+	cursor: pointer; 
+}
+
+.subjectSectionComponent .subjectSectionTableHolder > tbody > tr > td, .subjectSectionComponent .subjectSectionTableHolder > tfoot > tr > td{
+	padding: 2px 5px;
+}
+
+.subjectSectionComponent .subjectSectionTableHolder > tbody > .subjectNameFilter, .subjectSectionComponent .subjectSectionTableHolder > tbody > .subjectTeacherFilter  {
+	background-color: #d6eef8;
+}
+
+.subjectSectionComponent .subjects > .subjectSectionRow  {
+	border: 1px solid #afdeee;
+}
+
+.subjectSectionComponent .subjects > .subjectSectionRow.odd  {
+	background-color: #f2fafc;
+}
+
+
+/* FROM SubjectSectionItemComponent.css */
+.subjectSectionItemComponent {
+
+}
+
+.subjectSectionItemComponent .grab, .subjectSectionComponent .subjectSD .characterHolder.grab  {
+	cursor: pointer;
+	cursor: -webkit-grab;
+	cursor: -moz-grab;
+	cursor: grab;
+}
+
+.subjectSectionItemComponent .grabbing, .subjectSectionComponent .subjectSD .characterHolder.grabbing {
+	cursor: pointer;
+	cursor: -webkit-grabbing;
+	cursor: -moz-grabbing;
+	cursor: grabbing;
+}
+
+
+.subjectSectionItemComponent .subjectSchedule {
+	color: green;
+	font-size: 1.5em;
+	font-weight: 900;
+	width: 10px;
+	cursor: pointer;
+	padding-right: 3px;
+	font-family: arial;
+}
+
+.subjectSectionItemComponent .subjectSchedule:hover {
+	color: #7FFF00;
+}
+
+.subjectSectionItemComponent .subjectUnschedule {
+	color: #AA0114;	
+	font-size: 1.5em;
+	font-weight: 900;
+	width: 10px;
+	cursor: pointer;
+	padding-right: 5px;
+	font-family: arial;
+}
+
+.subjectSectionItemComponent .subjectUnschedule:hover {
+	color: red;
+}
+
+.subjectSectionItemComponent .subjectSchedule.inactiveSchedule, .subjectSectionItemComponent .subjectUnschedule.inactiveSchedule {
+	color: #ddd;
+	cursor: default;
+}
+
+.subjectSectionItemComponent .subjectInfo {
+	cursor: pointer;
+	line-height: 1;
+}
+
+.subjectSectionItemComponent .subjectInfo:hover {
+	text-decoration:underline;
+}
+
+.subjectSectionItemComponent .subjectInfo > .subject > .subjectNameArea > .subjectName {
+	font-size: .75em;
+	font-weight: 900;
+}
+
+.subjectSectionItemComponent .subjectInfo > .subject > .subjectTeacher, .subjectSectionItemComponent .subjectInfo > .subject > .subjectNameArea > .subjectAbbrev {
+	font-size: .65em;
+	font-weight: 300;
+	color: #999999;
+}
+
+.subjectSectionItemComponent .subjectInfo > .subject > .subjectNameArea > .subjectAbbrev {
+	white-space: pre;
+}
+
+.subjectSectionComponent .subjectSD .characterHolder {
+	display: inline-block;
+	cursor: default;
+}
+
+.subjectSectionComponent .subjectSD .characterHolder > .circle {
+	display: inline-block;
+	position: relative;
+	background-color: #ff9900;
+	border-radius: 18px;
+	width: 19px;
+	height: 19px;
+	text-align: center;
+	margin: 1px;
+}
+
+.subjectSectionComponent .subjectSD .characterHolder > .circle > .letter {
+	font-size: .9em;
+	color: #FFFFFF;
+}
+
+.subjectSectionComponent .subjectSD .characterHolder > .circle > .check {
+	display: inline-block;
+	position: absolute;
+	width: 10px;
+	height: 10px;
+	font-size: .7em;
+	top: -3px;
+	right: -2px;
+	color: #cc3402;
+}
+
+.subjectSectionComponent .subjectSD .subject {
+	border: 1px solid black;
+	padding: 5px 10px;
+	z-index: 1000;
+}
+
+
+/**********for inputs*************/
+
+
+.inputFieldWidget {
+	/*padding: 3px 4px 3px 5px;*/
+	min-width: 0px;
+display: inline-block;
+}
+
+.inputBox {
+	border-radius: 3px;
+	border: 1px solid #c6c6c6;
+	box-shadow: 2px 2px 3px #eee inset;
+	cursor: text;
+}
+
+.inputBox.focused {
+	border: 1px solid orange !important;
+}
+
+.inputBox.focused input {
+	box-shadow: 0px 0px 0px #fff;
+}
+
+.inputFieldWidget input {
+	padding: 0px;
+	width: 100%;
+	/*background: transparent;*/
+}
+
+
+

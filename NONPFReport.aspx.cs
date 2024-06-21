@@ -1,0 +1,927 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using System.Web.UI;
+using System.Web.UI.WebControls;
+using System.Data;
+using System.Data.SqlClient;
+
+public partial class NONPFReport : System.Web.UI.Page
+{
+    SqlCommand cmd;
+    string userid = "";
+    DBManager vdm;
+    double profitionaltax = 0;
+    double salaryadvance = 0;
+    double loan = 0;
+    double canteendeduction = 0;
+    double mobilededuction = 0;
+    double totaldeduction;
+    double totalearnings;
+    //double providentfund = 0;
+    double netpay = 0;
+    double medicalerning = 0;
+    double washingallowance = 0;
+    double convenyance = 0;
+    double esi = 0;
+
+    protected void Page_Load(object sender, EventArgs e)
+    {
+        if (Session["userid"] == null)
+            Response.Redirect("Login.aspx");
+        else
+        {
+            userid = Session["userid"].ToString();
+            vdm = new DBManager();
+            if (!Page.IsPostBack)
+            {
+                if (!Page.IsCallback)
+                {
+
+                    DateTime dtfrom = DateTime.Now.AddMonths(0);
+                    DateTime dtyear = DateTime.Now.AddYears(0);
+                    lblAddress.Text = Session["Address"].ToString();
+                    lblTitle.Text = Session["TitleName"].ToString();
+                    bindbranchs();
+                    PopulateYear();
+                    string frmdate = dtfrom.ToString("dd/MM/yyyy");
+                    string[] str = frmdate.Split('/');
+                    ddlmonth.SelectedValue = str[1];
+                    string fryear = dtyear.ToString("dd/MM/yyyy");
+                    string[] str1 = fryear.Split('/');
+                    ddlyear.SelectedValue = str1[2];
+
+                }
+            }
+        }
+    }
+
+    private DateTime GetLowDate(DateTime dt)
+    {
+        double Hour, Min, Sec;
+        DateTime DT = DateTime.Now;
+        DT = dt;
+        Hour = -dt.Hour;
+        Min = -dt.Minute;
+        Sec = -dt.Second;
+        DT = DT.AddHours(Hour);
+        DT = DT.AddMinutes(Min);
+        DT = DT.AddSeconds(Sec);
+        return DT;
+    }
+
+    private DateTime GetHighDate(DateTime dt)
+    {
+        double Hour, Min, Sec;
+        DateTime DT = DateTime.Now;
+        Hour = 23 - dt.Hour;
+        Min = 59 - dt.Minute;
+        Sec = 59 - dt.Second;
+        DT = dt;
+        DT = DT.AddHours(Hour);
+        DT = DT.AddMinutes(Min);
+        DT = DT.AddSeconds(Sec);
+        return DT;
+    }
+    private void PopulateYear()
+    {
+
+        ddlyear.Items.Clear();
+        ListItem lt = new ListItem();
+        lt.Text = "YYYY";
+        lt.Value = "0";
+        ddlyear.Items.Add(lt);
+        for (int i = DateTime.Now.Year; i >= 1970; i--)
+        {
+            lt = new ListItem();
+            lt.Text = i.ToString();
+            lt.Value = i.ToString();
+            ddlyear.Items.Add(lt);
+        }
+        ddlyear.Items.FindByValue(DateTime.Now.Year.ToString()).Selected = true;
+    }
+    private void bindbranchs()
+    {
+        DBManager SalesDB = new DBManager();
+        //branchwise
+        //cmd = new SqlCommand("SELECT branchid, branchname,company_code FROM branchmaster where branchmaster.company_code='1'");
+        string mainbranch = Session["mainbranch"].ToString();
+        //branch mapping
+        cmd = new SqlCommand("SELECT branchmaster.branchid, branchmaster.branchname, branchmaster.company_code FROM branchmaster INNER JOIN branchmapping ON branchmaster.branchid = branchmapping.subbranch WHERE (branchmapping.mainbranch = @m) ");
+        cmd.Parameters.Add("@m", mainbranch); 
+        DataTable dttrips = vdm.SelectQuery(cmd).Tables[0];
+        ddlbranch.DataSource = dttrips;
+        ddlbranch.DataTextField = "branchname";
+        ddlbranch.DataValueField = "branchid";
+        ddlbranch.DataBind();
+        ddlbranch.ClearSelection();
+        ddlbranch.Items.Insert(0, new ListItem { Value = "0", Text = "--Select Branch--", Selected = true });
+        ddlbranch.SelectedValue = "0";
+    }
+
+    DataTable Report = new DataTable();
+    protected void btn_Generate_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            lblmsg.Text = "";
+            DBManager SalesDB = new DBManager();
+            DateTime fromdate = DateTime.Now;
+            DateTime mydate = DateTime.Now;
+            string year = ddlyear.SelectedItem.Value;
+            string currentyear = (mydate.Year).ToString();
+            string mymonth = ddlmonth.SelectedItem.Value;
+            string day = "";
+            int month = Convert.ToInt32(mymonth);
+            int years = Convert.ToInt32(year);
+            if (mymonth == "02")
+            {
+                day = "28";
+            }
+            else
+            {
+                day = (mydate.Day).ToString();
+                int days = DateTime.DaysInMonth(years, month);
+                int cmdays = Convert.ToInt32(day);
+                if (cmdays > days)
+                {
+                    day = days.ToString();
+                }
+            }
+            //string day = (mydate.Day).ToString();
+            string d = "00";
+            string date = mymonth + "/" + day + "/" + year;
+            DateTime dtfrom = fromdate;
+            string frmdate = dtfrom.ToString("dd/MM/yyyy");
+            string[] str = frmdate.Split('/');
+            lblFromDate.Text = mymonth;
+            fromdate = Convert.ToDateTime(date);
+            lblHeading.Text = ddlbranch.SelectedItem.Text + " NON PF Statement Report" + " " + ddlmonth.SelectedItem.Text + year;
+            Session["filename"] = ddlbranch.SelectedItem.Text + " " + " NON PF Statement Report " + " " + ddlmonth.SelectedItem.Text + year;
+            Session["title"] = ddlbranch.SelectedItem.Text + " " + " NON PF Statement Report" + " " + ddlmonth.SelectedItem.Text + year;
+            string mainbranch = Session["mainbranch"].ToString();
+            Report.Columns.Add("Department");
+            Report.Columns.Add("Sno");
+            //Report.Columns.Add("Employeeid");
+            Report.Columns.Add("Employee Code");
+            Report.Columns.Add("Name");
+            Report.Columns.Add("Designation");
+            Report.Columns.Add("Gross").DataType = typeof(double);
+            Report.Columns.Add("Days Month");
+            Report.Columns.Add("Attendance Days");
+            Report.Columns.Add("CL Holiday And Off");
+            Report.Columns.Add("Payable Days");
+            Report.Columns.Add("Basic").DataType = typeof(double);
+            Report.Columns.Add("HRA").DataType = typeof(double);
+            Report.Columns.Add("Conveyance Allowance").DataType = typeof(double);
+            Report.Columns.Add("Washing Allowance").DataType = typeof(double);
+            Report.Columns.Add("Medical Allowance").DataType = typeof(double);
+            Report.Columns.Add("Gross Earnings").DataType = typeof(double);
+            Report.Columns.Add("PT").DataType = typeof(double);
+            Report.Columns.Add("ESI").DataType = typeof(double);
+            if (mainbranch == "42")
+            {
+                Report.Columns.Add("EESI").DataType = typeof(double);
+            }
+            Report.Columns.Add("Salary Advance").DataType = typeof(double);
+            Report.Columns.Add("Loan").DataType = typeof(double);
+            Report.Columns.Add("Canteen Deductions").DataType = typeof(double);
+            Report.Columns.Add("Mobile Deductions").DataType = typeof(double);
+            Report.Columns.Add("MEDICLAIM DEDUCTION").DataType = typeof(double);
+            Report.Columns.Add("Tds Deductions").DataType = typeof(double);
+            Report.Columns.Add("Other Deductions").DataType = typeof(double);
+            Report.Columns.Add("Total Deductions").DataType = typeof(double);
+            Report.Columns.Add("Net Pay").DataType = typeof(double);
+            Report.Columns.Add("Bank Acc NO");
+            Report.Columns.Add("IFSC Code");
+            int branchid = Convert.ToInt32(ddlbranch.SelectedItem.Value);
+            //cmd = new SqlCommand("SELECT employedetails.pfeligible, employedetails.esieligible,employedetails.empid,employedetails.employee_num, pay_structure.erningbasic, pay_structure.esi, employedetails.fullname, designation.designation, pay_structure.salaryperyear, pay_structure.hra, pay_structure.conveyance,  pay_structure.washingallowance, pay_structure.medicalerning, pay_structure.profitionaltax, monthly_attendance.month, monthly_attendance.year, employebankdetails.accountno FROM employedetails INNER JOIN designation ON employedetails.designationid = designation.designationid INNER JOIN pay_structure ON employedetails.empid = pay_structure.empid  INNER JOIN  monthly_attendance ON employedetails.empid = monthly_attendance.empid LEFT OUTER JOIN employebankdetails ON employedetails.empid = employebankdetails.employeid WHERE employedetails.branchid=@branchid and (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) and (employedetails.pfeligible='No') and ((employedetails.employee_type='Staff') OR (employedetails.employee_type='Permanent'))  and (employedetails.status='No')");
+            cmd = new SqlCommand("SELECT employedetails.pfeligible, employedetails.employee_type, employebankdetails.ifsccode,employedetails.esieligible, departments.department,employedetails.empid, employedetails.employee_num, employedetails.fullname, monthly_attendance.month, monthly_attendance.year, designation.designation, employebankdetails.accountno, salaryappraisals.gross, salaryappraisals.erningbasic, salaryappraisals.hra,salaryappraisals.profitionaltax, salaryappraisals.esi, salaryappraisals.providentfund, salaryappraisals.conveyance, salaryappraisals.medicalerning, salaryappraisals.washingallowance, salaryappraisals.salaryperyear FROM employedetails INNER JOIN designation ON employedetails.designationid = designation.designationid INNER JOIN monthly_attendance ON employedetails.empid = monthly_attendance.empid INNER JOIN salaryappraisals ON employedetails.empid = salaryappraisals.empid LEFT OUTER JOIN employebankdetails ON employedetails.empid = employebankdetails.employeid INNER JOIN departments ON employedetails.employee_dept = departments.deptid WHERE (employedetails.branchid = @branchid) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.pfeligible = 'NO') AND (employedetails.employee_type = 'Staff' OR employedetails.employee_type = 'Permanent') AND (employedetails.status = 'No') AND (salaryappraisals.endingdate IS NULL) AND (salaryappraisals.startingdate <= @d1) OR (employedetails.branchid = @branchid) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.pfeligible = 'NO') AND (employedetails.employee_type = 'Staff' OR employedetails.employee_type = 'Permanent') AND (employedetails.status = 'No') AND (salaryappraisals.endingdate > @d1) AND (salaryappraisals.startingdate <= @d1) ORDER BY employedetails.employee_dept,salaryappraisals.erningbasic DESC");
+            cmd.Parameters.Add("@branchid", branchid);
+            cmd.Parameters.Add("@month", mymonth);
+            cmd.Parameters.Add("@year", year);
+            cmd.Parameters.Add("@d1", date);
+            DataTable dtsalary = vdm.SelectQuery(cmd).Tables[0];
+            cmd = new SqlCommand("SELECT monthly_attendance.sno, monthly_attendance.empid,monthly_attendance.clorwo, monthly_attendance.doe, monthly_attendance.month, monthly_attendance.year, monthly_attendance.otdays, employedetails.employee_num, branchmaster.fromdate, branchmaster.todate, monthly_attendance.lop, branchmaster.branchid, monthly_attendance.numberofworkingdays FROM  monthly_attendance INNER JOIN  employedetails ON monthly_attendance.empid = employedetails.empid INNER JOIN branchmaster ON employedetails.branchid = branchmaster.branchid WHERE  (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.branchid = @branchid)");
+            //cmd = new SqlCommand("SELECT monthly_attendance.sno, monthly_attendance.empid, monthly_attendance.doe, monthly_attendance.month, monthly_attendance.year, monthly_attendance.otdays, employedetails.employee_num, branchmaster.fromdate, branchmaster.todate, monthly_workingdays.numberofworkingdays, monthly_attendance.lop,  branchmaster.branchid FROM  monthly_attendance INNER JOIN employedetails ON monthly_attendance.empid = employedetails.empid INNER JOIN branchmaster ON employedetails.branchid = branchmaster.branchid INNER JOIN monthly_workingdays ON branchmaster.branchid = monthly_workingdays.branchid WHERE (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.branchid=@branchid)");
+            cmd.Parameters.Add("@month", mymonth);
+            cmd.Parameters.Add("@year", year);
+            cmd.Parameters.Add("@branchid", branchid);
+            DataTable dtattendence = vdm.SelectQuery(cmd).Tables[0];
+            cmd = new SqlCommand("SELECT  employedetails.employee_num, salaryadvance.amount, salaryadvance.monthofpaid, employedetails.fullname, salaryadvance.empid FROM   salaryadvance INNER JOIN  employedetails ON salaryadvance.empid = employedetails.empid where (employedetails.branchid=@branchid) AND (salaryadvance.month = @month) AND (salaryadvance.year = @year)");
+            cmd.Parameters.Add("@month", mymonth);
+            cmd.Parameters.Add("@year", year);
+            cmd.Parameters.Add("@branchid", branchid);
+            DataTable dtsa = vdm.SelectQuery(cmd).Tables[0];
+            cmd = new SqlCommand("SELECT employedetails.employee_num, loan_request.loanemimonth, loan_request.month FROM employedetails INNER JOIN  loan_request ON employedetails.empid = loan_request.empid where (employedetails.branchid=@branchid) AND (loan_request.month = @month) AND (loan_request.year = @year)");
+            cmd.Parameters.Add("@month", mymonth);
+            cmd.Parameters.Add("@year", year);
+            cmd.Parameters.Add("@branchid", branchid);
+            DataTable dtloan = vdm.SelectQuery(cmd).Tables[0];
+            cmd = new SqlCommand("SELECT  employedetails.employee_num, mobile_deduction.deductionamount, employedetails.fullname, employedetails.empid FROM  mobile_deduction INNER JOIN employedetails ON mobile_deduction.employee_num = employedetails.employee_num   where (employedetails.branchid=@branchid) AND (mobile_deduction.month = @month) AND (mobile_deduction.year = @year)");
+            cmd.Parameters.Add("@branchid", branchid);
+            cmd.Parameters.Add("@month", mymonth);
+            cmd.Parameters.Add("@year", year);
+            DataTable dtmobile = vdm.SelectQuery(cmd).Tables[0];
+            cmd = new SqlCommand("SELECT  employedetails.employee_num, canteendeductions.amount, employedetails.fullname, employedetails.empid FROM  canteendeductions INNER JOIN employedetails ON canteendeductions.employee_num = employedetails.employee_num where (employedetails.branchid=@branchid) AND (canteendeductions.month = @month) AND (canteendeductions.year = @year)");
+            cmd.Parameters.Add("@branchid", branchid);
+            cmd.Parameters.Add("@month", mymonth);
+            cmd.Parameters.Add("@year", year);
+            DataTable dtcanteen = vdm.SelectQuery(cmd).Tables[0];
+            cmd = new SqlCommand("SELECT employedetails.employee_num, employedetails.fullname, employedetails.empid, mediclaimdeduction.medicliamamount FROM employedetails INNER JOIN mediclaimdeduction ON employedetails.empid = mediclaimdeduction.empid WHERE (employedetails.branchid = @branchid) AND (mediclaimdeduction.flag='1')");
+            cmd.Parameters.Add("@branchid", branchid);
+            DataTable dtmedicliam = vdm.SelectQuery(cmd).Tables[0];
+            cmd = new SqlCommand("SELECT employedetails.employee_num, employedetails.fullname, employedetails.empid, otherdeduction.otherdeductionamount FROM employedetails INNER JOIN otherdeduction ON employedetails.empid = otherdeduction.empid WHERE (employedetails.branchid = @branchid) AND (otherdeduction.month = @month) AND (otherdeduction.year = @year)");
+            cmd.Parameters.Add("@branchid", branchid);
+            cmd.Parameters.Add("@month", mymonth);
+            cmd.Parameters.Add("@year", year);
+            DataTable dtotherdeduction = vdm.SelectQuery(cmd).Tables[0];
+            cmd = new SqlCommand("SELECT employedetails.employee_num, employedetails.fullname, employedetails.empid, tds_deduction.tdsamount FROM employedetails INNER JOIN tds_deduction ON employedetails.empid = tds_deduction.empid WHERE (employedetails.branchid = @branchid)");
+            cmd.Parameters.Add("@branchid", branchid);
+            DataTable dttdsdeduction = vdm.SelectQuery(cmd).Tables[0];
+            if (dtsalary.Rows.Count > 0)
+            {
+                var i = 1;
+                foreach (DataRow dr in dtsalary.Rows)
+                {
+                    
+                    double tdsdeduction = 0;
+                    double totalpresentdays = 0;
+                    double profitionaltax = 0;
+                    double salaryadvance = 0;
+                    double loan = 0;
+                    double canteendeduction = 0;
+                    double mobilededuction = 0;
+                    double totaldeduction;
+                    double otherdeduction = 0;
+                    double medicliamdeduction = 0;
+                    double totalearnings;
+                    double medicalerning = 0;
+                    double washingallowance = 0;
+                    double convenyance = 0;
+                    double daysinmonth = 0;
+                    double loseamount = 0;
+                    double loseofconviyance = 0;
+                    double loseofwashing = 0;
+                    double loseofmedical = 0;
+                    double esi = 0;
+                    DataRow newrow = Report.NewRow();
+                    newrow["Sno"] = i++.ToString();
+                    newrow["Employee Code"] = dr["employee_num"].ToString();
+                    string emptype = dr["employee_type"].ToString();
+                    newrow["Name"] = dr["fullname"].ToString();
+                    newrow["Designation"] = dr["designation"].ToString();
+                    newrow["Department"] = dr["department"].ToString();
+                    double peryanam = Convert.ToDouble(dr["salaryperyear"].ToString());
+                    newrow["Gross"] = peryanam / 12;
+                    double permonth = peryanam / 12;
+                    double HRA = Convert.ToDouble(dr["hra"].ToString());
+                    double Basic = Convert.ToDouble(dr["erningbasic"].ToString());
+                    convenyance = Convert.ToDouble(dr["conveyance"].ToString());
+                    newrow["PT"] = dr["profitionaltax"].ToString();
+                    profitionaltax = Convert.ToDouble(dr["profitionaltax"].ToString());
+                    medicalerning = Convert.ToDouble(dr["medicalerning"].ToString());
+                    washingallowance = Convert.ToDouble(dr["washingallowance"].ToString());
+                    newrow["Bank Acc NO"] = dr["accountno"].ToString();
+                    newrow["IFSC Code"] = dr["ifsccode"].ToString();
+                    Report.Rows.Add(newrow);
+                    if (dtattendence.Rows.Count > 0)
+                    {
+                        foreach (DataRow dra in dtattendence.Select("employee_num='" + dr["employee_num"].ToString() + "'"))
+                        {
+                            double numberofworkingdays = 0;
+                            double.TryParse(dra["numberofworkingdays"].ToString(), out numberofworkingdays);
+                            double clorwo = 0;
+                            double.TryParse(dra["clorwo"].ToString(), out clorwo);
+                            daysinmonth = numberofworkingdays + clorwo;
+
+                            if (mainbranch == "6")
+                            {
+                                newrow["Days Month"] = daysinmonth.ToString();
+                            }
+                            double paydays = 0;
+                            double lop = 0;
+                            double.TryParse(dra["lop"].ToString(), out lop);
+                            paydays = numberofworkingdays - lop;
+                            if (mainbranch == "6")
+                            {
+                                newrow["Attendance Days"] = paydays.ToString();
+                            }
+                            double holidays = 0;
+                            holidays = daysinmonth - numberofworkingdays;
+                            newrow["Payable Days"] = paydays + clorwo;
+                            if (clorwo == 0)
+                            {
+                            }
+                            else
+                            {
+                                newrow["CL Holiday And Off"] = clorwo;
+                            }
+                            totalpresentdays = holidays + paydays;
+                            double totalpdays = permonth / daysinmonth;
+                            loseamount = lop * totalpdays;
+                            double perdayconveyance = convenyance / daysinmonth;
+                            loseofconviyance = lop * perdayconveyance;
+                            double perdaywashing = washingallowance / daysinmonth;
+                            loseofwashing = lop * perdaywashing;
+                            double perdaymedical = medicalerning / daysinmonth;
+                            loseofmedical = lop * perdaymedical;
+                            double perdaybasic = Basic / daysinmonth;
+                        }
+                    }
+                    double perdaysal = permonth / daysinmonth;
+                    double basic = 50;
+                    double basicsalary = (permonth * 50) / 100;
+                    double basicpermonth = basicsalary / daysinmonth;
+                    double bs = basicpermonth * totalpresentdays;
+                    newrow["Basic"] = Math.Round(bs);
+                    newrow["Conveyance Allowance"] = Math.Round(convenyance - loseofconviyance);
+                    newrow["Medical Allowance"] = Math.Round(medicalerning - loseofmedical);
+                    newrow["Washing Allowance"] = Math.Round(washingallowance - loseofwashing);
+                    double basicsal = Math.Round(basicsalary - loseamount);
+                    double conve = Math.Round(convenyance - loseofconviyance);
+                    double medical = Math.Round(medicalerning - loseofmedical);
+                    double washing = Math.Round(washingallowance - loseofwashing);
+                    double tt = bs + conve + medical + washing;
+                    double thra = permonth - loseamount;
+                    double hra = Math.Round(thra - tt);
+                    totalearnings = Math.Round(hra + tt);
+                    if (branchid == 6)
+                    {
+                        if (totalearnings >= 15000)
+                        {
+                            newrow["PT"] = profitionaltax;
+                        }
+                        else
+                        {
+                           
+                            profitionaltax = 0;
+                            newrow["PT"] = profitionaltax;
+                        }
+                    }
+                    if (totalearnings >= 15000)
+                    {
+                        newrow["PT"] = profitionaltax;
+                    }
+                    if (hra > 0)
+                    {
+                        newrow["HRA"] = hra;
+                    }
+                    else
+                    {
+                        newrow["HRA"] = 0;
+                    }
+
+                    newrow["Gross Earnings"] = totalearnings;
+                    string esieligible = dr["esieligible"].ToString();
+                    //naseema 
+                    if (mainbranch == "42")
+                    {
+                        if (ddlbranch.SelectedItem.Value == "1043" || ddlbranch.SelectedItem.Value == "1055" || ddlbranch.SelectedItem.Value == "1049" || ddlbranch.SelectedItem.Value == "1048" || ddlbranch.SelectedItem.Value == "1047" || ddlbranch.SelectedItem.Value == "1070")
+                        {
+                            if (esieligible == "Yes")
+                            {
+                                if (ddlbranch.SelectedItem.Value == "1043" || ddlbranch.SelectedItem.Value == "1055" || ddlbranch.SelectedItem.Value == "1070")
+                                {
+                                    if (emptype == "Permanent" || emptype == "Staff")
+                                    {
+                                        if (totalearnings < 21001)
+                                        {
+                                            esi = (totalearnings * 0.75) / 100;
+                                            esi = Math.Round(esi, 0);
+                                            newrow["ESI"] = esi;
+                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        esi = (totalearnings * 0.75) / 100;
+                                        esi = Math.Round(esi, 0);
+                                        newrow["ESI"] = esi;
+                                        newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                    }
+                                }
+                                if (ddlbranch.SelectedItem.Value == "1049" || ddlbranch.SelectedItem.Value == "1047")
+                                {
+                                    if (emptype == "Permanent" || emptype == "Staff")
+                                    {
+                                        if (totalearnings < 21001)
+                                        {
+                                            esi = (totalearnings * 0.75) / 100;
+                                            esi = Math.Round(esi, 0);
+                                            newrow["ESI"] = esi;
+                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        esi = (totalearnings * 0.75) / 100;
+                                        esi = Math.Round(esi, 0);
+                                        newrow["ESI"] = esi;
+                                        newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                    }
+                                }
+                                if (ddlbranch.SelectedItem.Value == "1048")
+                                {
+                                    if (emptype == "Permanent" || emptype == "Staff")
+                                    {
+                                        if (totalearnings < 21001)
+                                        {
+                                            esi = (totalearnings * 0.75) / 100;
+                                            esi = Math.Round(esi, 0);
+                                            newrow["ESI"] = esi;
+                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        esi = (totalearnings * 0.75) / 100;
+                                        esi = Math.Round(esi, 0);
+                                        newrow["ESI"] = esi;
+                                        newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                    }
+                                }
+                                //this month only Calucate 10days(Nxtmonth asuseually monthly deduction)
+                                // esi = (totalearnings * 1) / 100;
+
+                                //double esiamount = totalearnings / 10;
+                                //esi = (esiamount * 1) / 100;
+                                //esi = Math.Round(esi, 0);
+                                //newrow["ESI"] = esi;
+                            }
+                            else
+                            {
+                                esi = 0;
+                                newrow["ESI"] = esi;
+                                newrow["EESI"] = esi;
+                            }
+                        }
+                        else
+                        {
+                            if (esieligible == "Yes")
+                            {
+                                if (ddlbranch.SelectedItem.Value == "1044")
+                                {
+                                    if (emptype == "Permanent" || emptype == "Staff")
+                                    {
+                                        if (totalearnings < 21001)
+                                        {
+                                            esi = (totalearnings * 0.75) / 100;
+                                            esi = Math.Round(esi, 0);
+                                            newrow["ESI"] = esi;
+                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                        }
+                                    }
+                                    else
+                                    {
+                                        esi = (totalearnings * 0.75) / 100;
+                                        esi = Math.Round(esi, 0);
+                                        newrow["ESI"] = esi;
+                                        newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                    }
+                                }
+                                if (ddlbranch.SelectedItem.Value == "43" || ddlbranch.SelectedItem.Value == "1046")
+                                {
+                                    if (emptype == "Permanent" || emptype == "Staff")
+                                    {
+                                        if (ddlbranch.SelectedItem.Value == "43")
+                                        {
+                                            if (totalearnings < 21001)
+                                            {
+                                                esi = (totalearnings * 0.75) / 100;
+                                                esi = Math.Round(esi, 0);
+                                                newrow["ESI"] = esi;
+                                                newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                            }
+                                        }
+                                        else
+                                        {
+                                            if (totalearnings < 21001)
+                                            {
+                                                esi = (totalearnings * 0.75) / 100;
+                                                esi = Math.Round(esi, 0);
+                                                newrow["ESI"] = esi;
+
+                                                newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (ddlbranch.SelectedItem.Value == "43")
+                                        {
+                                            esi = (totalearnings * 0.75) / 100;
+                                            esi = Math.Round(esi, 0);
+                                            newrow["ESI"] = esi;
+                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                        }
+                                        else
+                                        {
+                                            esi = (totalearnings * 0.75) / 100;
+                                            esi = Math.Round(esi, 0);
+                                            newrow["ESI"] = esi;
+                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
+                                        }
+                                    }
+                                }
+                                //this month only Calucate 10days(Nxtmonth asuseually monthly deduction)
+                                // esi = (totalearnings * 1) / 100;
+
+                                //double esiamount = totalearnings / 10;
+                                //esi = (esiamount * 1) / 100;
+                                //esi = Math.Round(esi, 0);
+                                //newrow["ESI"] = esi;
+                            }
+                            else
+                            {
+                                esi = 0;
+                                newrow["ESI"] = esi;
+                                newrow["EESI"] = esi;
+                                
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (ddlbranch.SelectedItem.Value == "41" || ddlbranch.SelectedItem.Value == "8" || ddlbranch.SelectedItem.Value == "11")
+                        {
+                            if (esieligible == "Yes")
+                            {
+                                esi = (totalearnings * 0.75) / 100;
+                                esi = Math.Round(esi, 0);
+                                newrow["ESI"] = esi;
+                            }
+                            else
+                            {
+                                esi = 0;
+                                newrow["ESI"] = esi;
+                            }
+                        }
+                        else
+                        {
+                            if (esieligible == "Yes")
+                            {
+                                esi = (totalearnings * 1.75) / 100;
+                                esi = Math.Round(esi, 0);
+                                newrow["ESI"] = esi;
+                            }
+                            else
+                            {
+                                esi = 0;
+                                newrow["ESI"] = esi;
+                            }
+                        }
+                    }
+                    if (dtsa.Rows.Count > 0)
+                    {
+                        DataRow[] drr = dtsa.Select("employee_num='" + dr["employee_num"].ToString() + "'");
+                        if (drr.Length > 0)
+                        {
+                            foreach (DataRow drsa in dtsa.Select("employee_num='" + dr["employee_num"].ToString() + "'"))
+                            {
+                                double amount = 0;
+                                double.TryParse(drsa["amount"].ToString(), out amount);
+                                newrow["Salary Advance"] = amount.ToString();
+                                salaryadvance = Convert.ToDouble(amount);
+                                salaryadvance = Math.Round(amount);
+                            }
+                        }
+                        else
+                        {
+                            salaryadvance = 0;
+                            newrow["Salary Advance"] = salaryadvance;
+                        }
+                    }
+                    else
+                    {
+                        salaryadvance = 0;
+                        newrow["Salary Advance"] = salaryadvance;
+                    }
+                    if (dtloan.Rows.Count > 0)
+                    {
+                        DataRow[] drr = dtloan.Select("employee_num='" + dr["employee_num"].ToString() + "'");
+                        if (drr.Length > 0)
+                        {
+                            foreach (DataRow drloan in dtloan.Select("employee_num='" + dr["employee_num"].ToString() + "'"))
+                            {
+                                double loanemimonth = 0;
+                                double.TryParse(drloan["loanemimonth"].ToString(), out loanemimonth);
+                                newrow["Loan"] = loanemimonth.ToString();
+                                loan = Convert.ToDouble(loanemimonth);
+                                loan = Math.Round(loanemimonth);
+                            }
+                        }
+                        else
+                        {
+                            loan = 0;
+                            newrow["Loan"] = loan;
+                        }
+                    }
+                    else
+                    {
+                        loan = 0;
+                        newrow["Loan"] = loan;
+                    }
+                    mobilededuction = 0;
+                    if (dtmobile.Rows.Count > 0)
+                    {
+                        DataRow[] drr = dtmobile.Select("employee_num='" + dr["employee_num"].ToString() + "'");
+                        if (drr.Length > 0)
+                        {
+                            foreach (DataRow drmobile in dtmobile.Select("employee_num='" + dr["employee_num"].ToString() + "'"))
+                            {
+                                double deductionamount = 0;
+                                double.TryParse(drmobile["deductionamount"].ToString(), out deductionamount);
+                                if (deductionamount == 0)
+                                {
+                                }
+                                else
+                                {
+                                    newrow["Mobile Deductions"] = deductionamount.ToString();
+                                    string st = deductionamount.ToString();
+                                    mobilededuction = Convert.ToDouble(deductionamount);
+                                    mobilededuction = Math.Round(deductionamount, 0);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            mobilededuction = 0;
+                            if (mobilededuction == 0)
+                            {
+                            }
+                            else
+                            {
+                                newrow["Mobile Deductions"] = mobilededuction;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        mobilededuction = 0;
+                        if (mobilededuction == 0)
+                        {
+                        }
+                        else
+                        {
+                            newrow["Mobile Deductions"] = mobilededuction;
+                        }
+                    }
+                    canteendeduction = 0;
+                    if (dtcanteen.Rows.Count > 0)
+                    {
+                        DataRow[] drr = dtcanteen.Select("employee_num='" + dr["employee_num"].ToString() + "'");
+                        if (drr.Length > 0)
+                        {
+                            foreach (DataRow drcanteen in dtcanteen.Select("employee_num='" + dr["employee_num"].ToString() + "'"))
+                            {
+                                double deductionamount = 0;
+                                double.TryParse(drcanteen["amount"].ToString(), out deductionamount);
+                                if (deductionamount == 0)
+                                {
+                                }
+                                else
+                                {
+                                    newrow["Canteen Deductions"] = deductionamount.ToString();
+                                    string st = deductionamount.ToString();
+                                    canteendeduction = Convert.ToDouble(deductionamount);
+                                    canteendeduction = Math.Round(deductionamount);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            canteendeduction = 0;
+                            if (canteendeduction == 0)
+                            {
+                            }
+                            else
+                            {
+                                newrow["Canteen Deductions"] = canteendeduction;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        canteendeduction = 0;
+                        if (canteendeduction == 0)
+                        {
+                        }
+                        else
+                        {
+                            newrow["Canteen Deductions"] = canteendeduction;
+                        }
+                    }
+                    medicliamdeduction = 0;
+                    if (dtmedicliam.Rows.Count > 0)
+                    {
+                        DataRow[] drr = dtmedicliam.Select("employee_num='" + dr["employee_num"].ToString() + "'");
+                        if (drr.Length > 0)
+                        {
+                            foreach (DataRow drmedicliam in dtmedicliam.Select("employee_num='" + dr["employee_num"].ToString() + "'"))
+                            {
+                                double amount = 0;
+                                double.TryParse(drmedicliam["medicliamamount"].ToString(), out amount);
+                                if (amount == 0)
+                                {
+                                }
+                                else
+                                {
+                                    newrow["MEDICLAIM DEDUCTION"] = amount.ToString();
+                                    string st = amount.ToString();
+                                    medicliamdeduction = Convert.ToDouble(amount);
+                                    medicliamdeduction = Math.Round(amount, 0);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            medicliamdeduction = 0;
+                            if (medicliamdeduction == 0)
+                            {
+                            }
+                            else
+                            {
+                                newrow["MEDICLAIM DEDUCTION"] = medicliamdeduction;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        medicliamdeduction = 0;
+                        if (medicliamdeduction == 0)
+                        {
+                        }
+                        else
+                        {
+                            newrow["MEDICLAIM DEDUCTION"] = medicliamdeduction;
+                        }
+                    }
+                    otherdeduction = 0;
+                    if (dtotherdeduction.Rows.Count > 0)
+                    {
+                        DataRow[] drr = dtotherdeduction.Select("employee_num='" + dr["employee_num"].ToString() + "'");
+                        if (drr.Length > 0)
+                        {
+                            foreach (DataRow drotherdeduction in dtotherdeduction.Select("employee_num='" + dr["employee_num"].ToString() + "'"))
+                            {
+                                double amount = 0;
+                                double.TryParse(drotherdeduction["otherdeductionamount"].ToString(), out amount);
+                                //if (amount == 0)
+                                //{
+                                //}
+                                //else
+                                //{
+                                    newrow["Other Deductions"] = amount.ToString();
+                                    string st = amount.ToString();
+                                    otherdeduction = Convert.ToDouble(amount);
+                                    otherdeduction = Math.Round(amount, 0);
+                                //}
+                            }
+                        }
+                        else
+                        {
+                            //otherdeduction = 0;
+                            //if (otherdeduction == 0)
+                            //{
+                            //}
+                            //else
+                            //{
+                                otherdeduction = 0;
+                                newrow["Other Deductions"] = otherdeduction;
+                            //}
+                        }
+                    }
+                    else
+                    {
+                        //otherdeduction = 0;
+                        //if (otherdeduction == 0)
+                        //{
+                        //}
+                        //else
+                        //{
+                            otherdeduction = 0;
+                            newrow["Other Deductions"] = otherdeduction;
+                        //}
+                    }
+                    tdsdeduction = 0;
+                    if (dttdsdeduction.Rows.Count > 0)
+                    {
+                        DataRow[] drr = dttdsdeduction.Select("employee_num='" + dr["employee_num"].ToString() + "'");
+                        if (drr.Length > 0)
+                        {
+                            foreach (DataRow drtdsdeduction in dttdsdeduction.Select("employee_num='" + dr["employee_num"].ToString() + "'"))
+                            {
+                                double amount = 0;
+                                double.TryParse(drtdsdeduction["tdsamount"].ToString(), out amount);
+                                if (amount == 0)
+                                {
+                                }
+                                else
+                                {
+                                    newrow["Tds Deductions"] = amount.ToString();
+                                    string st = amount.ToString();
+                                    tdsdeduction = Convert.ToDouble(amount);
+                                    tdsdeduction = Math.Round(amount, 0);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            tdsdeduction = 0;
+                            if (tdsdeduction == 0)
+                            {
+                            }
+                            else
+                            {
+                                newrow["Tds Deductions"] = tdsdeduction;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        tdsdeduction = 0;
+                        if (tdsdeduction == 0)
+                        {
+                        }
+                        else
+                        {
+                        newrow["Tds Deductions"] = tdsdeduction;
+                         }
+                    }
+                    newrow["Total Deductions"] = profitionaltax + canteendeduction + salaryadvance + loan + mobilededuction + medicliamdeduction + otherdeduction + tdsdeduction + esi;
+                    totaldeduction = profitionaltax + canteendeduction + salaryadvance + loan + mobilededuction + medicliamdeduction + otherdeduction + tdsdeduction + esi;
+                    double netpay = 0;
+                    netpay = totalearnings - totaldeduction;
+                    netpay = Math.Round(netpay);
+                    newrow["Net Pay"] = netpay;
+                }
+            }
+            DataRow newTotal = Report.NewRow();
+            newTotal["Designation"] = "Total";
+            double val = 0.0;
+            foreach (DataColumn dc in Report.Columns)
+            {
+                if (dc.DataType == typeof(Double))
+                {
+                    val = 0.0;
+                    double.TryParse(Report.Compute("sum([" + dc.ToString() + "])", "[" + dc.ToString() + "]<>'0'").ToString(), out val);
+                    if (val == 0.0)
+                    {
+                    }
+                    else
+                    {
+                        newTotal[dc.ToString()] = val;
+                    }
+                }
+            }
+            Report.Rows.Add(newTotal);
+            foreach (var column in Report.Columns.Cast<DataColumn>().ToArray())
+            {
+                if (Report.AsEnumerable().All(dr => dr.IsNull(column)))
+                    Report.Columns.Remove(column);
+            }
+            grdReports.DataSource = Report;
+            if (Report.Rows.Count > 1)
+            {
+                grdReports.DataBind();
+                Session["xportdata"] = Report;
+                hidepanel.Visible = true;
+            }
+            else
+            {
+                hidepanel.Visible = false;
+                lblmsg.Text = "No Data Found";
+            }
+        }
+        catch
+        {
+        }
+    }
+    protected void grdReports_RowDataBound(object sender, GridViewRowEventArgs e)
+    {
+        if (e.Row.RowType == DataControlRowType.DataRow)
+        {
+            if (e.Row.Cells[3].Text == "Total")
+            {
+                e.Row.BackColor = System.Drawing.Color.Aquamarine;
+                e.Row.Font.Size = FontUnit.Large;
+                e.Row.Font.Bold = true;
+            }
+        }
+    }
+
+    protected void grdReports_DataBinding(object sender, EventArgs e)
+    {
+        try
+        {
+            GridViewGroup First = new GridViewGroup(grdReports, null, "Department");
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
+}

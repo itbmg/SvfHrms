@@ -1,0 +1,30 @@
+﻿
+.maindiv {
+display: block;
+width: 960px;
+margin: 0 auto;
+padding: 0;
+padding-bottom: 0px;
+padding-left: 10px;
+padding-right: 50px;
+font-family: 'Source Sans Pro', sans-serif;
+font-size: 13.5px;
+color: #555;
+font-weight: normal;
+padding: 2px 15px 2px 0px;
+}
+.inputBox {
+border-radius: 1px;
+border: 1px solid #c6c6c6;
+box-shadow: 1px 1px 1px #eee inset;
+cursor: text;
+padding: 3px 4px 3px 3px;
+}
+.pictureArea
+{
+  border: 1px solid #CCC;
+border-radius: 5px;
+padding: 7px;
+box-shadow: 0 0 5px 1px #ccc;  
+}
+ 

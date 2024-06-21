@@ -1,0 +1,158 @@
+body{
+margin:0px; auto;
+padding:opx;
+}
+.logo
+{
+background-image:url(../Images/Vyshnavilogo.png) ;
+background-size: 80px 60px;
+background-repeat:no-repeat;
+width:970px;
+height:58px;
+margin-left:auto;
+margin-right:auto;
+}
+.bg{
+background-image:url(../Images/bg.png);
+background-repeat:no-repeat;
+width:970px;
+height:492px;
+margin-right:auto;
+margin-left:auto;
+margin-top:15px;	
+}
+.managmentcricle{
+background-image:url(../Images/managmentcricle.png);
+background-repeat:no-repeat;	
+width:349px;
+height:445px;
+margin-left:85px;
+position:absolute;
+margin-top:16px;	
+}
+.signinbg{
+background-image:url(../Images/signin.png);
+background-repeat:no-repeat;
+width:163px;
+height:38px;
+float:right;
+margin-top:145px;
+margin-right:127px;	
+}
+.textbox1{
+background-image:url(../Images/textbox.png);
+background-repeat:no-repeat;
+width:227px;
+height:35px;
+float:right;
+margin-top:212px;
+margin-right:-227px;	
+}
+.textbox2{
+background-image:url(../Images/textbox.png);
+background-repeat:no-repeat;
+width:227px;
+height:35px;
+float:right;
+margin-top:275px;
+margin-right:-227px;	
+}
+.username{
+font-family:Verdana, Geneva, sans-serif;
+font-weight:bold;
+font-size:16px;
+color:#FFF;
+float:right;
+margin-top:220px;
+margin-right:12px;
+}
+.password{
+font-family:Verdana, Geneva, sans-serif;
+font-weight:bold;
+font-size:16px;
+color:#FFF;
+float:right;
+margin-top:284px;
+margin-right:-102px;
+}
+.Rememberme{
+color: #FFFFFF;
+float: right;
+font-family: verdana;
+font-weight: bold;
+margin-right: -256px;
+margin-top: 347px;
+font-size:15px;
+}
+.input1{
+width:214px;
+height:25px;
+float:right;
+margin-top:216px;
+margin-right:-335px;	
+border:0px;
+}
+.input2{
+width:214px;
+height:25px;
+float:right;
+margin-top:280px;
+margin-right:-335px;	
+border:0px;
+}
+.checkbox{
+float:right;
+margin-top:350px;
+margin-right:-128px;	
+}
+.loginbtn{
+background:url(../Images/loginbtn.png);
+background-repeat:no-repeat;
+width:68px;
+height:35px;
+float:right;
+margin-top:338px;
+margin-right:-340px;
+cursor:pointer;
+border-width:0px;
+}
+.loginbtn:hover{
+background:url(../Images/loginbtnhover.png);
+background-repeat:no-repeat;
+width:68px;
+height:35px;
+float:right;
+margin-top:338px;
+margin-right:-340px;
+}
+.labels{
+color: #ffe222;
+float: right;
+font-family: verdana;
+font-weight: bold;
+margin-right: -342px;
+margin-top: 390px;
+font-size:15px;
+}
+#footerlinks a{
+float: left;
+margin-left: 8px;
+text-decoration: none;
+font-size: 13px;
+margin-top:40px;
+color: #4c4b4b;
+font-family: Verdana, Geneva, sans-serif;
+}
+#footerlinks a:hover{
+color: black;
+text-decoration: underline;
+}
+.copyright{
+float:right;
+color: #4c4b4b;
+font-family: Verdana, Geneva, sans-serif;
+font-size: 13px;
+font-weight: bold;
+margin-top: 18px;
+padding-right:7px;
+}

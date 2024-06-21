@@ -1,0 +1,695 @@
+﻿/*
+ * PorterPopup
+ */
+.shadowedBox,.shadowedBoxIE {
+        display:none;
+        position : absolute;
+        margin-left: -16px;
+        margin-top: -2px;
+        z-index: 1000;
+}
+/*.shadowedBox .drop.a {
+        background-image: url(/images/shadow/drop-a.png); width: 22px; height: 22px; 
+}
+.shadowedBox .drop.b { 
+        background-image: url(/images/shadow/drop-b.png); width: 37px; height: 22px; 
+}
+.shadowedBox .drop.c { 
+        background-image: url(/images/shadow/drop-c.png); height: 22px; 
+}
+.shadowedBox .drop.d {
+        background-image: url(/images/shadow/drop-d.png); width: 27px; height: 22px; 
+}
+.shadowedBox .drop.e { 
+        background-image: url(/images/shadow/drop-e.png); width: 32px; height: 22px; 
+}
+.shadowedBox .drop.f { 
+        background-image: url(/images/shadow/drop-f.png); width: 32px; height: 37px; 
+}
+.shadowedBox .drop.g { 
+        background-image: url(/images/shadow/drop-g.png); width: 32px; height: auto; 
+}
+.shadowedBox .drop.h { 
+        background-image: url(/images/shadow/drop-h.png); width: 32px; height: 27px; 
+}
+.shadowedBox .drop.i { 
+        background-image: url(/images/shadow/drop-i.png); width: 32px; height: 32px; 
+}
+.shadowedBox .drop.j { 
+        background-image: url(/images/shadow/drop-j.png); width: 27px; height: 32px; 
+}
+.shadowedBox .drop.k { 
+        background-image: url(/images/shadow/drop-k.png); height: 32px 
+}
+.shadowedBox .drop.l { 
+        background-image: url(/images/shadow/drop-l.png); width: 37px; height: 32px; 
+}
+.shadowedBox .drop.m { 
+        background-image: url(/images/shadow/drop-m.png); width: 22px; height: 32px; 
+}
+.shadowedBox .drop.n { 
+        background-image: url(/images/shadow/drop-n.png); width: 22px; height: 27px; 
+}
+.shadowedBox .drop.o { 
+        background-image: url(/images/shadow/drop-o.png); width: 22px; height: auto; 
+}
+.shadowedBox .drop.p { 
+        background-image: url(/images/shadow/drop-p.png); width: 22px; height: 37px; 
+}*/
+
+.shadowedBoxBody {
+        border: solid 1px #333333;
+        background-color: white;
+	padding:10px;
+
+}
+.shadowedBoxBody {
+  -webkit-box-shadow: 12px 12px 0px 0px rgba(0,0,0,0.2) !important;
+  -moz-box-shadow: 12px 12px 0px 0px rgba(0,0,0,0.2) !important;
+  box-shadow: 12px 12px 0px 0px rgba(0,0,0,0.2) !important;
+  border: 1px solid #b0b0b0 !important;
+  border-radius: 5px 5px 5px 5px;
+}
+.shadowedBoxBodyTitleBar {
+    background:-moz-linear-gradient(center top , #737172, #717171) repeat scroll 0 0 #717171;
+    background:-webkit-gradient(linear,center top, center bottom, from(#737172), to(#717171));
+    background: #717171;
+    margin: -10px -10px 8px -10px;
+    height: 30px;
+    cursor: move;
+    -webkit-border-radius: 3px 3px 0px 0px;
+    -moz-border-radius: 3px 3px 0px 0px;
+    border-radius: 3px 3px 0px 0px;
+}
+
+.shadowedBoxBodyTitleBar
+{
+    background: #cccccc !important;
+  height: 34px !important;
+  padding-top: 2px !important;
+}
+
+.shadowedBoxBodyTitleBar .leftDiv {
+    padding:4px 0px 0px 10px;
+    float: none !important;
+}
+
+.shadowedBoxBodyTitleBar .closeButton {
+   padding-top: 5px;
+  padding-right: 8px;
+  float: none !important;
+}
+
+.shadowedBox .shadowedBoxBody {
+       box-shadow: 0 0 8px #000000;
+}
+
+/* IE Related Styles*/
+
+.shadowedBoxIE .drop.a {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-a.png', sizingMethod='image');
+        background-image: none;
+        width: 22px; height: 22px;         
+}
+
+.shadowedBoxIE .drop.b {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-b.png', sizingMethod='image');
+        background-image: none;
+        width: 37px; height: 22px;         
+}
+
+.shadowedBoxIE .drop.c {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-c.png', sizingMethod='scale');
+        background-image: none;
+        height: 22px;         
+}
+
+.shadowedBoxIE .drop.d {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-d.png', sizingMethod='image');
+        background-image: none;
+        width: 27px; height: 22px;         
+}
+
+.shadowedBoxIE .drop.e {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-e.png', sizingMethod='image');
+        background-image: none;
+        width: 32px; height: 22px;         
+}
+
+.shadowedBoxIE .drop.f {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-f.png', sizingMethod='scale');
+        background-image: none;
+        width: 32px; height: 37px;         
+}
+
+.shadowedBoxIE .drop.g {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-g.png', sizingMethod='scale');
+        background-image: none;
+        width: 32px; height: auto;         
+}
+
+.shadowedBoxIE .drop.h {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-h.png', sizingMethod='scale');
+        background-image: none;
+        width: 32px; height: 27px;         
+}
+
+.shadowedBoxIE .drop.i {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-i.png', sizingMethod='image');
+        background-image: none;
+        width: 32px; height: 32px;         
+}
+
+.shadowedBoxIE .drop.j {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-j.png', sizingMethod='image');
+        background-image: none;
+        width: 27px; height: 32px;         
+}
+
+.shadowedBoxIE .drop.k {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-k.png', sizingMethod='scale');
+        background-image: none;
+        height: 32px         
+}
+
+.shadowedBoxIE .drop.l {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-l.png', sizingMethod='image');
+        background-image: none;
+        width: 37px; height: 32px;         
+}
+
+.shadowedBoxIE .drop.m {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-m.png', sizingMethod='image');
+        background-image: none;
+        width: 22px; height: 32px;         
+}
+
+.shadowedBoxIE .drop.n {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-n.png', sizingMethod='scale');
+        background-image: none;
+        width: 22px; height: 27px; 
+}
+
+.shadowedBoxIE .drop.o {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-o.png', sizingMethod='scale');
+        background-image: none;
+        width: 22px; height: auto; 
+}
+
+.shadowedBoxIE .drop.p {
+        filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='/images/shadow/drop-p.png', sizingMethod='scale');
+        background-image: none;
+        width: 22px; height: 37px; 
+}
+
+.transparent {
+    filter:alpha(opacity=50);
+    -moz-opacity: 0.50;
+    background-color:#cccccc;
+    color: white;
+    border: 1 #cccccc solid;
+}
+
+.dashedSingleLine {
+    border-top:1px dashed #cccccc;
+    padding-top:6px;
+    padding-bottom:3px;
+    margin-top:3px;
+    text-align:right;
+    padding-right:10px;
+}
+
+.dashedSingleLineTop {
+    border-bottom:1px dashed #cccccc;
+    padding-bottom:6px;
+    padding-top:3px;
+    margin-bottom:3px;
+    text-align:right;
+}
+
+
+.indent {
+    padding-left:8px;
+}
+
+.dashedSingleLineWhite {
+    border-top:1px dashed #ffffff;
+}
+
+
+
+.img-box .line {
+    background-attachment: scroll;
+    background-clip: border-box;
+    background-color: transparent;
+    background-image: url("/images/big-shadow.png");
+    background-origin: padding-box;
+    background-position: 0 0;
+    background-repeat: no-repeat;
+    background-size: auto auto;
+    width:690px;
+    height:26px;
+}
+
+
+
+h1.title {
+    border-bottom: 1px solid #989898;
+    color: black;
+    font: bold 24px/1.4em "Lucida Grande", Tahoma;
+    margin-bottom: 0;
+}
+
+h1.fancyHeader {
+  background: url('/images/heading_background.gif') no-repeat 0 0;
+  margin-top: 0;
+  margin-bottom: 0.8em;
+  font-weight: bold;
+  height:26px;
+  padding: 18px 0 5px 30px;
+  font-size: 1.5em;
+  color: #273e83;
+  text-align: left;
+}
+
+.imageFrame {
+        padding:5px;
+        background: #ffffff;
+        border:1px solid #cccccc;
+        min-height:65px;
+}
+
+.raterContent img {
+  margin-right:3px;
+  margin-left:3px;
+  border:1px solid #fff;
+}
+.raterContent span {
+  font-size:80%;
+  color:#3f7c5f;
+  font-weight:bold;
+}
+.raterContent .faceOver {
+  border:1px solid blue;
+  background:#fff;
+}
+
+.cornerBookmark {
+  background: #c7defc;
+  font-size: 8pt;
+  background-image:url(/images/corner_br.gif);
+  background-repeat:no-repeat;
+  background-position: right bottom;
+  padding:1px 4px 1px 4px;
+}
+
+.rightAngle {
+        border: 1px solid #cccccc;
+        border-top: 0px;
+        border-right: 0px;
+        border-bottom: 0px;
+
+}
+
+.spotlightHeader {
+        height: 40px;
+        width: 700px;
+        background: url(/images/spotlightHeader.gif) no-repeat;
+}
+
+.yellowFadeHeader {
+        height: 30px;
+        width: 550px;
+        background: url(/images/yellowFade550.gif) no-repeat;
+}
+
+.yellowFadeHeader705 {
+        height: 30px;
+        width: 705px;
+        background: url(/images/yellowFade705.gif) no-repeat;
+}
+
+.orangeBorder {
+        height: 125px;
+        width: 350px;
+        background: url(/images/orangeBorderBackground.gif) no-repeat;
+}
+
+.createQLeftNav {
+  background-color: #d0d0d0 !important;
+  background-image: none !important;
+  padding: 25px 0 0 2px;
+}
+
+
+pre { 
+  border:1px dashed #2f6fab; 
+  padding:5px;
+  margin:5px;
+}
+/*side div with list*/
+
+.createQNavigationCategory {
+  color: #413F3F;
+  font-family: Tahoma;
+  font-size: 8pt;
+  font-weight: bold;
+  padding: 3px 3px 3px 14px;
+  width: 165px;
+}
+
+.createQNavigationCategory a:link, .navigationCategory a:visited {
+  color:#125 !important;
+  font-family: Tahoma;
+  font-size: 8pt;
+  text-decoration: none;
+
+}
+.createQNavigationLink {
+  padding-left: 15px !important
+}
+.createQNavigationSelect {
+  background:url(../images/addquestion/pointer.png) no-repeat top right;
+  color:#FFF;
+  position:relative;
+  border-top:none;
+  left: 6px;
+}
+.createQNavigationLink, .createQNavigationSelect {
+  font-family: Tahoma;
+  font-size: 8pt;
+  margin: 0;
+  padding: 1px 0px 3px 10px;
+  white-space: normal !important;
+  word-wrap: break-word;
+  cursor:pointer;
+}
+
+.createQNavigationLinkDisabled {
+    color: #A3A1A1;
+}
+
+.createQAddAnother {
+    display: inline-block;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    background-color: #b0b0b0;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,.54), inset 0 1px rgba(255,255,255,.3);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,.54), inset 0 1px rgba(255,255,255,.3);
+    box-shadow: 0 1px 3px rgba(0,0,0,.54), inset 0 1px rgba(255,255,255,.3);
+    border: solid 1px #7b7b7b;
+    background-image: -webkit-linear-gradient(bottom, #939393, #b0b0b0);
+    background-image: -moz-linear-gradient(bottom, #939393, #b0b0b0);
+    background-image: -o-linear-gradient(bottom, #939393, #b0b0b0);
+    background-image: -ms-linear-gradient(bottom, #939393, #b0b0b0);
+    background-image: linear-gradient(to top, #939393, #b0b0b0);
+    font-family: "Lucida Grande","Lucida Sans Unicode",Helvetica,Arial,Verdana,sans-serif;
+    color: #fff !important;
+    text-shadow: 0 1px rgba(0, 0, 0, 0.22);
+    font-weight: bold;
+    padding: 0 12px 0 6px !important;
+    height: 28px !important;
+    line-height: 28px;
+    text-decoration: none !important;
+    font-size: 14px;
+}
+
+.createQAddAnother:hover {
+    background-image: none;
+    background-color: #939393;
+}
+
+.createQAddAnother span {
+    display: inline-block;
+    float: left;
+    margin: 1px 6px 0 0;
+    width: 25px;
+    height: 100%;
+    background: transparent url('../images/addquestion/createNewAdd.png') 0 50% no-repeat;
+}
+
+/*main div*/
+
+.createQMain {
+  margin-left: 25px;
+}
+.createQContainer {
+  min-width: 533px;
+}
+.createQContainer-KB {
+  min-width: 572px;
+}
+.createQEdit {
+  padding-top: 10px;
+}
+
+.createQEditText {
+  font-weight: bold;
+  color: #112255;
+  font-family: tahoma;
+  float: left;
+}
+
+.createQSubmit {
+  padding-top: 10px;
+  float:right;
+}
+
+.createQchannelHeader {
+  padding-top: 15px;
+}
+
+.createQheadingMedium {
+  color: #18376A;
+  font-family: tahoma;
+  font-size: 9pt;
+  font-weight: bold;
+  padding-top: 4px;
+}
+.createQHeading {
+  color: #112255;
+  font-family: tahoma;
+  font-size: 9pt;
+  font-weight: bold;
+  padding-top: 25px;
+  padding-bottom: 5px;
+}
+.createQGray {
+  background: none repeat scroll 0 0 #F5F5F5;
+  border: none;
+  border-radius: 10px 10px 0 0;
+}
+
+.createQSubHeading {
+  width: 100%;
+  float: left;
+  padding-top: 1px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+}
+
+.createQSubHeading tr{
+  width: 100%;
+}
+
+.createQSubHeading td{
+  background-color: #efefef;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#f2f2f2));
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #f2f2f2);
+  background-image:    -moz-linear-gradient(top, #f4f4f4, #f2f2f2);
+  background-image:     -ms-linear-gradient(top, #f4f4f4, #f2f2f2);
+  background-image:      -o-linear-gradient(top, #f4f4f4, #f2f2f2);
+  background-image:   linear-gradient(to bottom, #f4f4f4, #f2f2f2);
+  border-bottom: 1px solid #a0a0a0;
+  text-align: center;
+  height: 22px;
+}
+
+.createQSubHeadingFirst {
+  border-radius: 8px 0 0 8px;
+  border-right: 1px solid #B0B0B0;
+  border-left: 1px solid #B0B0B0;
+}
+
+.createQSubHeadingThird {
+  border-left: 1px solid #B0B0B0;
+}
+
+.createQSubHeadingLast {
+  border-radius: 0 8px 8px 0;
+  border-left: 1px solid #B0B0B0;
+  border-right: 1px solid #B0B0B0;
+}
+
+.createQSubHeading a, createQSubHeading a:link, createQSubHeading a:visited {
+  text-decoration: none;
+  font-size: 11px;
+  color: #248dc6;
+  font-weight: bold;
+  display: block;
+  font-family: 'lucida grande',arial,verdana,sans-serif !important;
+}
+
+.createQExample {
+  background: #c7c6c5;
+  padding-top: 10px;
+  border-radius: 10px;
+  clear: both;
+}
+
+.createQExampleText {
+  color: #fffeff;
+  font-size: 9pt;
+  font-weight: bold;
+  padding-left: 10px;
+  width: 60px;
+  font-family: 'lucida grande',arial,verdana,sans-serif !important;
+}
+
+.createQExampleContainer {
+  border-radius: 5px 5px 5px 5px;
+  box-shadow: 0 0 5px #CCCCCC;
+  -webkit-box-shadow: 0 0 5px #CCCCCC;
+  left: 105px;
+  position: relative;
+  top: -15px;
+}
+.createQAddAnotherAlign {
+  margin-bottom: -30px;
+  padding-bottom: 0 !important;
+  padding-right: 0 !important;
+  width: 102%;
+}
+.dashedSingleLine {
+    border-top:1px dashed #cccccc;
+    padding-top:6px;
+    padding-bottom:3px;
+    margin-top:3px;
+    text-align:right;
+    padding-right:10px;
+}
+
+.dashedSingleLineTop {
+    border-bottom:1px dashed #cccccc;
+    padding-bottom:6px;
+    padding-top:3px;
+    margin-bottom:3px;
+    text-align:right;
+}
+.createQHelp {
+  height:0px;
+  position: relative;
+  top: -20px;
+  left: -3px;
+}
+
+
+.createQSelectedtype {
+  background-color: #1e9adc !important;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#33a9e8), to(#3aa0d9)) !important;
+  background-image: -webkit-linear-gradient(top, #60B9E8, #3aa0d9) !important;
+  background-image:    -moz-linear-gradient(top, #60B9E8, #3aa0d9) !important;
+  background-image:     -ms-linear-gradient(top, #60B9E8, #3aa0d9) !important;
+  background-image:      -o-linear-gradient(top, #60B9E8, #3aa0d9) !important;
+  background-image:   linear-gradient(to bottom, #60B9E8, #3aa0d9) !important;
+  border-top: 1px solid #308DBD;
+  height: 16px !important;
+  color:White;
+}
+
+.createQSelectedtype a:link, .createQSelectedtype a:visited {
+  color: #fff !important;
+}
+
+.createQSelectedArrow{
+  position: relative;
+  height:0;
+  top: 2px;
+}
+
+.createQKbHeading {
+  float:left;
+  width: 362px;
+  padding-bottom: 15px;
+}
+
+.createQKbClear {
+  color:#000;
+  clear:both;
+}
+
+.createQKbGray {
+  background: none repeat scroll 0 0 #F5F5F5;
+  clear: both;
+}
+
+.createQKbSubHeading {
+  border-bottom: 1px solid #B0B0B0;
+  border-right: 1px solid #B0B0B0;
+  border-left: 1px solid #B0B0B0;
+  border-radius: 8px;
+  float: left;
+  width: 100%;
+  height: 22px;
+  background-color: #efefef;
+  background-image: -webkit-gradient(linear, left top, left bottom, from(#f4f4f4), to(#f2f2f2));
+  background-image: -webkit-linear-gradient(top, #f4f4f4, #f2f2f2);
+  background-image:    -moz-linear-gradient(top, #f4f4f4, #f2f2f2);
+  background-image:     -ms-linear-gradient(top, #f4f4f4, #f2f2f2);
+  background-image:      -o-linear-gradient(top, #f4f4f4, #f2f2f2);
+  background-image:   linear-gradient(to bottom, #f4f4f4, #f2f2f2);
+  margin-bottom :7px;
+}
+
+.createQKbSubHeading > div {
+  border-right: 1px solid #B0B0B0;
+  display: inline;
+  float: left;
+  padding: 3px 11px;
+  text-align: center;
+}
+
+.createQKbSubHeading > div a:link, .createQKbSubHeading > div a:visited {
+  color: #248DC6;
+  font-size: 11px;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.createQKbContainer {
+  clear:both;
+  padding-top:15px;
+  background: #f5f5f5;
+  border-radius: 5px; 
+}
+.blueBottonSmall {
+    border-left: 1px solid #44b7de;
+    border-right: 1px solid #44b7de;
+    border-top: 1px solid #44b7de;
+    min-width: 63px;
+    font-family: 'lucida grande',arial,verdana,sans-serif !important;
+    font-size: 12px!important;
+    font-weight: bold !important;
+    color: #ffffff !important;
+    text-shadow: 0 1px rgba(0,0,0,.22);
+    -webkit-border-radius: 3px !important;
+    -moz-border-radius: 3px !important;
+    border-radius: 3px !important;
+    background-color: #1f7fc0 !important;
+    -webkit-box-shadow: 0 1px 1px #cccccc, inset 0 1px #80E1FC !important;
+    -moz-box-shadow: 0 1px 1px #cccccc, inset 0 1px #80E1FC !important;
+    box-shadow: 0 1px 1px #cccccc, inset 0 1px #80E1FC !important;
+    border-bottom: 1px solid #005e93;
+    padding: 2px 3px !important;
+    margin-top: 0px;
+    text-decoration: none;
+    text-shadow: 1px 1px 0px #333333;
+    cursor: pointer;
+    letter-spacing: 1px;
+    margin-right: 5px;
+    outline: none;
+    display: inline-block;
+    text-align: center;
+    background-image: linear-gradient(to top, #0084C6, #1FCDF4) !important;
+}
