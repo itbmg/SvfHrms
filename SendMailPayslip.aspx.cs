@@ -713,7 +713,7 @@ public partial class SendMailPayslip : System.Web.UI.Page
         cell.Rowspan = 3;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase("SRI VYSHNAVI DAIRY SPECIALITIES (P) LTD", BoldFont));
+        cell = new PdfPCell(new Phrase("Sri Vyshnavi Foods Pvt Ltd", BoldFont));
         cell.FixedHeight = 20.0f;
         cell.Colspan = 4;
         cell.Border = Rectangle.NO_BORDER;

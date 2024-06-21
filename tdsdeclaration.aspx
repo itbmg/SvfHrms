@@ -262,11 +262,11 @@
                             <tr>
                                 <td style="width: 49%;  padding-left:2%; border:1px solid gray; line-height: 1.628571 !important;">
                                     <label><b>
-                                        SRI VYSHNAVI DAIRY SPECIALITIES PVT LTD<br />NO 25, 2ND STREET, PERIYAR NAGAR, KORATTUR, Chennai 600080.</label>
+                                        Sri Vyshnavi Foods Pvt Ltd<br />NO 25, 2ND STREET, PERIYAR NAGAR, KORATTUR, Chennai 600080.</label>
                                 </td>
                                 <td style="width: 50%;  padding-left:2%;border:1px solid gray; line-height: 1.628571 !important;" >
                                     <label id="Label3"><b>Company :</b></label>
-                                    <span id="Span7">SRI VYSHNAVI DAIRY SPECIALITIES PVT LTD</span>
+                                    <span id="Span7">Sri Vyshnavi Foods Pvt Ltd</span>
                                 </td>
                             </tr>
 

@@ -49,7 +49,7 @@ public class exporttoxl_utility : IHttpHandler, System.Web.SessionState.IRequire
                 Date = context.Session["date"].ToString();
             }
 
-            string title = "SRI VYSHNAVI DAIRY SPECIALITIES (P) LTD";
+            string title = "Sri Vyshnavi Foods Pvt Ltd";
             if (context.Session["title"] != null)
             {
                 title = context.Session["title"].ToString();
@@ -79,7 +79,7 @@ public class exporttoxl_utility : IHttpHandler, System.Web.SessionState.IRequire
                 SalesMan = context.Session["UserName"].ToString();
             }
 
-            string title = "SRI VYSHNAVI DAIRY SPECIALITIES (P) LTD";
+            string title = "Sri Vyshnavi Foods Pvt Ltd";
             if (context.Session["title"] != null)
             {
                 title = context.Session["title"].ToString();

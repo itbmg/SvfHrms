@@ -1193,7 +1193,7 @@
                             </td>
                             <td align="left" style="padding-top: 5px; font-size: 10px !important;">
                                 <label id="lblvys" title="" style="font-size: large;">
-                                    SRI VYSHNAVI DAIRY SPECIALITIES (P) LTD</label>
+                                    Sri Vyshnavi Foods Pvt Ltd</label>
                                 </br>
                                 <label id="Label8" title="">
                                     SURVEY NO.381-2, PUNABAKA (V), PELLAKUR (M), SPSR NELLORE DT - 524129.</label>

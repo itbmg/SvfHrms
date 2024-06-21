@@ -11648,7 +11648,7 @@ public class EmployeeManagementHandler : IHttpHandler, IRequiresSessionState
             DataTable dt = vdm.SelectQuery(cmd).Tables[0];
             if (dt.Rows.Count > 0)
             {
-                context.Session["TitleName"] = "SRI VYSHNAVI DAIRY SPECIALITIES (P) LTD";
+                context.Session["TitleName"] = "Sri Vyshnavi Foods Pvt Ltd";
                 context.Session["TinNo"] = "37921042267";
                 context.Session["empid"] = dt.Rows[0]["empid"].ToString();
                 context.Session["fullname"] = dt.Rows[0]["fullname"].ToString();

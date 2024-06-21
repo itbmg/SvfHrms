@@ -18,35 +18,12 @@ public class DBManager
     object obj_lock = new object();
     public DBManager()
     {
-        //conn.ConnectionString = @" SERVER=49.50.65.160;DATABASE=HRMS;UID=sa;PASSWORD=WHHWYE%23@^#%;";
-        // conn.ConnectionString = @" SERVER=49.50.65.160;DATABASE=HRMS;UID=sa;PASSWORD=Vyshnavi@123";
        conn.ConnectionString = @" SERVER=182.18.162.51;DATABASE=Svf_Hrms;UID=sa;PASSWORD=Vyshnavi@123";
-        //conn.ConnectionString = @" SERVER=182.18.138.228;DATABASE=HRMS;UID=sa;PASSWORD=Vyshnavi@123";
     }
     public DBManager(int proid)
     {
-        if (proid == 1)
-        {
-            //conn.ConnectionString = @" SERVER=MOUNIKASRINIVAS;DATABASE=HRMS;UID=sa;PASSWORD=Vyshnavi123;";
-            //conn.ConnectionString = @" SERVER=49.50.65.160;DATABASE=HRMS;UID=sa;PASSWORD=WHHWYE%23@^#%;";
            conn.ConnectionString = @" SERVER=182.18.162.51;DATABASE=Svf_Hrms;UID=sa;PASSWORD=Vyshnavi@123";
-            //conn.ConnectionString = @" SERVER=182.18.138.228;DATABASE=HRMS;UID=sa;PASSWORD=Vyshnavi@123";
-        }
-        //else if (proid == 2)
-        //{
-        //    conn.ConnectionString = @" SERVER=49.50.65.160;DATABASE=Dairy_ERP;UID=sa;PASSWORD=WHHWYE%23@^#%;";
-        //}
-        //else if (proid == 3)
-        //{
-        //    conn.ConnectionString = @" SERVER=192.168.0.55;DATABASE=AMPS;UID=sa;PASSWORD=sap@123;";
-        //}
-        //else if(proid == 4)
-        //{
-        //    conn.ConnectionString = @"SERVER=49.50.65.160;DATABASE=vehiclletracking;UID=root;PASSWORD=Vyshnavi@123;";
-        //}
     }
-
-
 
     public bool insert(SqlCommand _cmd)
     {

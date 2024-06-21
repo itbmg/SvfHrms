@@ -138,7 +138,7 @@ public partial class login : System.Web.UI.Page
                 string company_code = dt.Rows[0]["company_code"].ToString();
                 if (company_code == "1")
                 {
-                    Session["TitleName"] = "SRI VYSHNAVI DAIRY SPECIALITIES (P) LTD";
+                    Session["TitleName"] = "Sri Vyshnavi Foods Pvt Ltd";
                 }
                 else if (company_code == "2")
                 {
@@ -330,7 +330,7 @@ public partial class login : System.Web.UI.Page
                 string company_code = dt.Rows[0]["company_code"].ToString();
                 if (company_code == "1")
                 {
-                    Session["TitleName"] = "SRI VYSHNAVI DAIRY SPECIALITIES (P) LTD";
+                    Session["TitleName"] = "Sri Vyshnavi Foods Pvt Ltd";
                 }
                 else if (company_code == "2")
                 {

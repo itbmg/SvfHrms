@@ -269,7 +269,7 @@
                     </div>
                     <div align="center">
                         <div align="center" style="font-family: Arial; font-size: 12pt; font-weight: bold; color: Black;">
-                            <span>Sri Vyshnavi Dairy Specialities (P) Ltd </span>
+                            <span>Sri Vyshnavi Foods Pvt Ltd </span>
                             <br />
                         </div>
                         R.S.No:381/2,Punabaka village Post<br />
@@ -928,7 +928,7 @@
 
                                 </td>
                                 <td>
-                               <label> For Sri Vyshnavi Dairy Specialities (P) Ltd
+                               <label> For Sri Vyshnavi Foods Pvt Ltd
                                <hr />
 
                              

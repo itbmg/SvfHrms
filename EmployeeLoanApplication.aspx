@@ -409,7 +409,7 @@
                     <br />
                     <div>
                         <div align="center"  style="font-family: Arial; font-size: 18pt; font-weight: bold; color: Black;">
-                            <span>Sri Vyshnavi Dairy Specialities (P) Ltd </span>
+                            <span>Sri Vyshnavi Foods Pvt Ltd </span>
                             <br />
                         </div>
                         <span style="text-align:center; padding-left:5%;">

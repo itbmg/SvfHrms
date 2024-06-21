@@ -185,7 +185,7 @@
             var totemp = msg[0].totemp;
             var companyid = msg[0].companyid;
 
-            if (msg[0].companyname == " Sri Vyshnavi Dairy Specialities Pvt Ltd") {
+            if (msg[0].companyname == " Sri Vyshnavi Foods Pvt Ltd") {
                 document.getElementById('spn_bname').innerHTML = "SVDS";
             }
             document.getElementById('lbl_svdssno').innerHTML = companyid;

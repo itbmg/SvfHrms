@@ -45,7 +45,7 @@ body{background:url(images/bgfit.png) no-repeat center center fixed;-webkit-back
                                                     <i class="fa fa-bars" aria-hidden="true"></i>&nbsp&nbsp<span class="ng-binding">Salary Statement</span>
                                                 </h4>
                                                 <ul id="dairy" class="nav nav-stacked">
-                                                    <li id="li9"><a href="SalaryStatement.aspx"><i class="fa fa-share"></i>Specialities
+                                                    <li id="li9"><a href="SalaryStatement.aspx"><i class="fa fa-share"></i>
                                                         Salary Statement</a></li>
                                                     <%--<li id="li5"><a href="DariySalaryStatement.aspx"><i class="fa fa-share"></i>Dairy Salary
                                                         Statement</a></li>--%>

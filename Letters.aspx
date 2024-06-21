@@ -743,7 +743,7 @@
                     <p>
                         This is to certify that Mr. <strong><span id="spnaddress_empname"></span></strong>
                         bearing <strong><span id="spnadd_empcode"></span></strong>has been employed as Manager
-                        at SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd with effect from <span id="spnaddress_doj">
+                        at Sri Vyshnavi Foods Pvt Ltd with effect from <span id="spnaddress_doj">
                         </span>
                     </p>
                     <p>
@@ -759,7 +759,7 @@
                         under any circumstances.
                     </p>
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                 </div>
                 <div id="divappointment" style="display: none; font-family: serif;padding-left: 70px;">
                     <table style="float: right;">
@@ -862,13 +862,13 @@
                         of this appointment offer.</p>
                     <br />
                     <p>
-                        SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd welcomes you and offers a pleasant atmosphere
+                        Sri Vyshnavi Foods Pvt Ltd welcomes you and offers a pleasant atmosphere
                         to work and hope that the association will be mutually beneficial and meaningful.</p>
                     <br />
                     <p>
                         With best wishes,</p>
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd,</strong><br />
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd,</strong><br />
                     <br />
                     <br />
                     <br />
@@ -916,7 +916,7 @@
                     <p>
                         This is to certify that Mr<strong> <span id="spnexperience_empname"></span></strong>
                          bearing employee ID <strong><span id="spnexperience_empcode"></span></strong> has
-                         worked with <strong>SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd.</strong> from <strong><span id="spnexperience_doj">
+                         worked with <strong>Sri Vyshnavi Foods Pvt Ltd.</strong> from <strong><span id="spnexperience_doj">
                         </span></strong> to till date.
                     </p>
                     <p>
@@ -931,7 +931,7 @@
                         to our organization. We wish them all the best in their future career.
                     </p>
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                 </div>
                 <div id="divOffer" style="display: none; font-family: serif;padding-left: 70px;">
                     <table style="float: right;">
@@ -985,7 +985,7 @@
                         We look forward to your joining our organization.</p>
                     <br />
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                     <br />
                     <br />
                     <br />
@@ -1047,7 +1047,7 @@
                     <br />
                     <br />
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                 </div>
                 <div id="divwelcomecircular" style="display: none; font-family: serif;padding-left: 70px;">
                     <table style="float: right;">
@@ -1085,8 +1085,7 @@
                     </p>
                     <p>
                         Mr <strong><span id="Spnclr_empname2"></span></strong>holds an --- Degree from University/Board
-                        of --------- and has an experience of around ---- year with SRI VYSHNAVI DAIRY SPECIALITIES
-                        (P) Ltd., Chennai
+                        of --------- and has an experience of around ---- year with Sri Vyshnavi Foods Pvt Ltd., Chennai
                     </p>
                     <p>
                         You may please get in touch with HR/Service Desk for all your future correspondence
@@ -1098,7 +1097,7 @@
                     <br />
                     <br />
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                 </div>
                 <div id="divSeriviceCerticate" style="display: none; font-family: serif;padding-left: 70px;">
                     <table style="float: right;">
@@ -1131,7 +1130,7 @@
                     <p>
                         This is to certify that Mr. <strong><span id="spnService_empname"></span></strong>
                         bearing <strong><span id="spnService_empcode"></span></strong>has been employed
-                        as Manager at SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd with effect from <span id="spnService_doj">
+                        as Manager at Sri Vyshnavi Foods Pvt Ltd with effect from <span id="spnService_doj">
                         </span>
                     </p>
                     <p>
@@ -1145,7 +1144,7 @@
                         During his working period his performance was found satisfactory.
                     </p>
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                     <br />
                     <br />
                     <br />
@@ -1197,7 +1196,7 @@
                     <br />
                     With warm wishes
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                 </div>
                 <div id="div_Welcomletter" style="display: none; font-family: serif;padding-left: 70px;">
                     <table style="float: right;">
@@ -1234,8 +1233,8 @@
                         to having the best relations with you.
                     </p>
                     <p>
-                        I welcome to u on the behalf of SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd I hope you
-                        will find (SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd) as a cool place to work with
+                        I welcome to u on the behalf of Sri Vyshnavi Foods Pvt Ltd I hope you
+                        will find (Sri Vyshnavi Foods Pvt Ltd) as a cool place to work with
                         !!!
                     </p>
                     <p>
@@ -1245,7 +1244,7 @@
                     <br />
                     Thanks and Regards,
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                 </div>
                 <div id="div_IncrementLetter" style="display: none; font-family: serif;padding-left: 70px;">
                 <div style="font-size: 23px; font-weight: bold; text-decoration:underline;" align="center">
@@ -1280,7 +1279,7 @@
                             </tr>
                             <tr>
                                 <td>
-                                   <b> Company:  Sri Vyshnavi Dairy Specialities (P).Ltd. </b>
+                                   <b> Company:  Sri Vyshnavi Foods Pvt Ltd </b>
                                 </td>
                             </tr>
                             <tr>
@@ -1317,7 +1316,7 @@
                     <br />
                     Best Regards
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                 </div>
                 <div id="div_Offerlettertraines" style="display: none; font-family: serif;padding-left: 70px;">
                     <table style="float: right;">
@@ -1414,7 +1413,7 @@
                         We wish All the Success in your Endeavour.</p>
                     <br />
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                     <br />
                     <br />
                     <br />
@@ -1475,7 +1474,7 @@
                     <br />
                     <br />
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                     <br />
                     <br />
                     <strong>HR Manger </strong>
@@ -1526,7 +1525,7 @@
                     <br />
                     <br />
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                     <br />
                     <br />
                     <strong>HR Manger </strong>
@@ -1576,7 +1575,7 @@
                     <br />
                     <br />
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                     <br />
                     <br />
                     <strong>HR Manger </strong>
@@ -1662,7 +1661,7 @@
                     <br />
                     <br />
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                     <br />
                     <br />
                     <strong>HR Manger </strong>
@@ -1709,8 +1708,7 @@
                         This is with reference to the mutually agreed upon terms and conditions of employment.
                     </p>
                     <p>
-                        The management has decided to terminate your employment with SRI VYSHNAVI DAIRY
-                        SPECIALITIES (P) Ltd with immediate effect from 31 Dec 2013.
+                        The management has decided to terminate your employment with Sri Vyshnavi Foods Pvt Ltd with immediate effect from 31 Dec 2013.
                     </p>
                     <p>
                         We hereby certify that you have no dues with the organization. HR/Service Desk shall
@@ -1722,7 +1720,7 @@
                         We thank you for your services.
                     </p>
                     <br />
-                    <strong>For SRI VYSHNAVI DAIRY SPECIALITIES (P) Ltd </strong>
+                    <strong>For Sri Vyshnavi Foods Pvt Ltd </strong>
                     <br />
                     <br />
                     <strong>HR Manger </strong>
