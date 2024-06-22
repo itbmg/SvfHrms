@@ -297,6 +297,7 @@ public partial class EmpdetailsImport : System.Web.UI.Page
                         string salarymode = dr["salarymode"].ToString();
                         string employeetype = dr["employee_type"].ToString();
                         string entryby = Session["empid"].ToString(); 
+                        string esiNo = Session["esino"].ToString();  
                         cmd = new SqlCommand("insert into employedetails (employee_num, joinDate, fullname, gender, dob, degree, status, employee_dept, designationid ,branchid, salarymode, doe,employee_type,pfeligible,esieligible,email,pfdate) values (@employee_num, @joinDate, @fullname, @gender, @dob, @status, @employee_dept, @designationid, @branchid, @salarymode,@employee_type,@pfeligible,@esieligible,@email,@pfdate)");
                         cmd.Parameters.Add("@employee_num", employee_num);
                         cmd.Parameters.Add("@joinDate", joindate);
