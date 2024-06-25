@@ -402,8 +402,8 @@
         }
         function filldetails(msg) {
             get_Dept_details();
-            var results = '<div class="divcontainer" style="overflow:auto;"><table class="responsive-table">';
-            results += '<thead><tr><th scope="col">Sno</th><th scope="col">Emp Code</th><th scope="col">Name</th><th scope="col">Department</th><th scope="col">Gross</th><th scope="col">EarningBasic</th></tr></thead></tbody>';
+            var results = '<div class="divcontainer" style="overflow:auto;"><table class="responsive-table" id="tbl_empPayStructure">';
+            results += '<thead><tr><th scope="col">Sno</th><th scope="col">Emp Code</th><th scope="col">Name</th><th scope="col">Department</th><th scope="col">Gross</th><th scope="col">EarningBasic</th><th scope="col">PT</th><th scope="col">ESI</th><th scope="col">IT</th><th scope="col">HRA</th><th scope="col">Conveyance</th><th scope="col">MedicalEarning</th><th scope="col">PF</th><th scope="col">Washing Allowance</th><th scope="col">Mediclaim</th><th scope="col">TDS</th><th scope="col">Salary CTC</th><th scope="col">Travel Conveyance</th></tr></thead></tbody>';
             var l = 0;
             var k = 1;
             var COLOR = ["AntiqueWhite", "#b3ffe6", "#daffff", "MistyRose", "Bisque"];
@@ -415,18 +415,18 @@
                 results += '<td data-title="status" class="3">' + msg[i].department + '</td>';
                 results += '<td data-title="status" class="4">' + msg[i].gross + '</td>';
                 results += '<td data-title="status" class="5">' + msg[i].erningbasic + '</td>';
-                results += '<td data-title="status" style="display:none" class="6">' + msg[i].profitionaltax + '</td>';
-                results += '<td data-title="status" style="display:none" class="7">' + msg[i].esi + '</td>';
-                results += '<td data-title="status" style="display:none" class="8">' + msg[i].incometax + '</td>';
-                results += '<td data-title="status" style="display:none" class="9">' + msg[i].hra + '</td>';
-                results += '<td data-title="status" style="display:none" class="10">' + msg[i].conveyance + '</td>';
-                results += '<td data-title="status" style="display:none" class="11">' + msg[i].medicalearning + '</td>';
-                results += '<td data-title="status" style="display:none" class="12">' + msg[i].pf + '</td>';
-                results += '<td data-title="status" style="display:none" class="13">' + msg[i].washingallowance + '</td>';
-                results += '<td data-title="status" style="display:none" class="14">' + msg[i].mediclaimdeduction + '</td>';
-                results += '<td data-title="status" style="display:none" class="15">' + msg[i].tdsdeduction + '</td>';
-                results += '<td data-title="status" style="display:none" class="16">' + msg[i].salaryperyear + '</td>';
-                results += '<td data-title="status" style="display:none" class="17">' + msg[i].travelconveyance + '</td>';
+                results += '<td data-title="status"   class="6">' + msg[i].profitionaltax + '</td>';
+                results += '<td data-title="status"   class="7">' + msg[i].esi + '</td>';
+                results += '<td data-title="status"   class="8">' + msg[i].incometax + '</td>';
+                results += '<td data-title="status"   class="9">' + msg[i].hra + '</td>';
+                results += '<td data-title="status"   class="10">' + msg[i].conveyance + '</td>';
+                results += '<td data-title="status"   class="11">' + msg[i].medicalearning + '</td>';
+                results += '<td data-title="status"   class="12">' + msg[i].pf + '</td>';
+                results += '<td data-title="status"   class="13">' + msg[i].washingallowance + '</td>';
+                results += '<td data-title="status"   class="14">' + msg[i].mediclaimdeduction + '</td>';
+                results += '<td data-title="status"   class="15">' + msg[i].tdsdeduction + '</td>';
+                results += '<td data-title="status"   class="16">' + msg[i].salaryperyear + '</td>';
+                results += '<td data-title="status"   class="17">' + msg[i].travelconveyance + '</td>';
                 results += '<td data-title="status" style="display:none" class="18">' + msg[i].departmentid + '</td>';
                 results += '<td data-title="status" style="display:none" class="19">' + msg[i].employeid + '</td>';
                 results += '<td style="display:none" class="20">' + msg[i].sno + '</td></tr>';
@@ -508,7 +508,7 @@
                 var l = 0;
                 var k = 1;
                 var COLOR = ["#b3ffe6", "AntiqueWhite", "#daffff", "MistyRose", "Bisque"];
-                var results = '<div class="divcontainer" style="overflow:auto;"><table class="responsive-table">';
+                var results = '<div class="divcontainer" style="overflow:auto;"><table class="responsive-table"  id="tbl_empPayStructure">';
                 results += '<thead><tr><th scope="col">Sno</th><th scope="col">Emp Code</th><th scope="col">Name</th><th scope="col">Department</th><th scope="col">Gross</th><th scope="col">EarningBasic</th></tr></thead></tbody>';
                 for (var i = 0; i < msg.length; i++) {
                     results += '<tr style="background-color:' + COLOR[l] + '">';
@@ -603,7 +603,7 @@
                 var k = 1;
                 var COLOR = ["#b3ffe6", "AntiqueWhite", "#daffff", "MistyRose", "Bisque"];
                 var results = '<div  style="overflow:auto;"><table class="table table-bordered table-hover dataTable no-footer">';
-                var results = '<div class="divcontainer" style="overflow:auto;"><table class="responsive-table">';
+                var results = '<div class="divcontainer" style="overflow:auto;"><table class="responsive-table"  id="tbl_empPayStructure">';
                 results += '<thead><tr><th scope="col">Sno</th><th scope="col">Emp Code</th><th scope="col">Name</th><th scope="col">Department</th><th scope="col">Gross</th><th scope="col">EarningBasic</th></tr></thead></tbody>';
                 for (var i = 0; i < msg.length; i++) {
                     results += '<tr style="background-color:' + COLOR[l] + '">';
@@ -613,18 +613,18 @@
                     results += '<td data-title="status" class="3">' + msg[i].department + '</td>';
                     results += '<td data-title="status" class="4">' + msg[i].gross + '</td>';
                     results += '<td data-title="status" class="5">' + msg[i].erningbasic + '</td>';
-                    results += '<td data-title="status" style="display:none" class="6">' + msg[i].profitionaltax + '</td>';
-                    results += '<td data-title="status" style="display:none" class="7">' + msg[i].esi + '</td>';
-                    results += '<td data-title="status" style="display:none" class="8">' + msg[i].incometax + '</td>';
-                    results += '<td data-title="status" style="display:none" class="9">' + msg[i].hra + '</td>';
-                    results += '<td data-title="status" style="display:none" class="10">' + msg[i].conveyance + '</td>';
-                    results += '<td data-title="status" style="display:none" class="11">' + msg[i].medicalearning + '</td>';
-                    results += '<td data-title="status" style="display:none" class="12">' + msg[i].pf + '</td>';
-                    results += '<td data-title="status" style="display:none" class="13">' + msg[i].washingallowance + '</td>';
-                    results += '<td data-title="status" style="display:none" class="14">' + msg[i].mediclaimdeduction + '</td>';
-                    results += '<td data-title="status" style="display:none" class="15">' + msg[i].tdsdeduction + '</td>';
-                    results += '<td data-title="status" style="display:none" class="16">' + msg[i].salaryperyear + '</td>';
-                    results += '<td data-title="status" style="display:none" class="17">' + msg[i].travelconveyance + '</td>';
+                    results += '<td data-title="status"   class="6">' + msg[i].profitionaltax + '</td>';
+                    results += '<td data-title="status"   class="7">' + msg[i].esi + '</td>';
+                    results += '<td data-title="status"   class="8">' + msg[i].incometax + '</td>';
+                    results += '<td data-title="status"   class="9">' + msg[i].hra + '</td>';
+                    results += '<td data-title="status"   class="10">' + msg[i].conveyance + '</td>';
+                    results += '<td data-title="status"   class="11">' + msg[i].medicalearning + '</td>';
+                    results += '<td data-title="status"   class="12">' + msg[i].pf + '</td>';
+                    results += '<td data-title="status"   class="13">' + msg[i].washingallowance + '</td>';
+                    results += '<td data-title="status"   class="14">' + msg[i].mediclaimdeduction + '</td>';
+                    results += '<td data-title="status"   class="15">' + msg[i].tdsdeduction + '</td>';
+                    results += '<td data-title="status"   class="16">' + msg[i].salaryperyear + '</td>';
+                    results += '<td data-title="status"   class="17">' + msg[i].travelconveyance + '</td>';
                     results += '<td data-title="status" style="display:none" class="18">' + msg[i].departmentid + '</td>';
                     results += '<td data-title="status" style="display:none" class="19">' + msg[i].employeid + '</td>';
                     results += '<td style="display:none" class="20">' + msg[i].sno + '</td></tr>';
@@ -702,6 +702,18 @@
             totalchange();
         }
 
+        var tableToExcel = (function () {
+            var uri = 'data:application/vnd.ms-excel;base64,'
+    , template = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40"><head><!--[if gte mso 9]><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet><x:Name>{worksheet}</x:Name><x:WorksheetOptions><x:DisplayGridlines/></x:WorksheetOptions></x:ExcelWorksheet></x:ExcelWorksheets></x:ExcelWorkbook></xml><![endif]--></head><body><table>{table}</table></body></html>'
+    , base64 = function (s) { return window.btoa(unescape(encodeURIComponent(s))) }
+    , format = function (s, c) { return s.replace(/{(\w+)}/g, function (m, p) { return c[p]; }) }
+            return function (table, name) {
+                if (!table.nodeType) table = document.getElementById(table)
+                var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }
+                window.location.href = uri + base64(format(template, ctx))
+            }
+        })()
+
     </script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="Server">
@@ -749,6 +761,14 @@
                         <td>
                             <input id="add_employee" type="button" class="btn btn-primary" name="submit" value="Add Employee Paystructure">
                         </td>
+
+                         <td style="width: 10px">
+                                </td>
+                                <td>
+                                    <input type="button" class="btntogglecls" style="height: 28px; opacity: 1.0; width: 100px;
+                                        background-color: #d5d5d5; color: Blue;" onclick="tableToExcel('tbl_empPayStructure', 'W3C Example Table')"
+                                        value="Export to Excel">
+                                </td>
                     </tr>
                 </table>
             </div>
