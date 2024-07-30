@@ -767,9 +767,9 @@
                             <%--<li id="limainpage"><a href="MainPage.aspx"><i class="fa fa-share"></i>TimeLine </a></li>--%>
                             <li id="litimeline"><%--<a href="bdashboard.aspx"><i class="fa fa-share"></i>TimeLine 2 </a>--%></li>
                              <li id="liattadance"><a href="attandancedashboard.aspx"><i class="fa fa-share"></i>Attandance DashBoard </a></li>      
-                            <li id="li2"><a href="NewChartBoard.aspx"><i class="fa fa-share"></i>Salary DashBoard</a></li>   
+                          <%--  <li id="li2"><a href="NewChartBoard.aspx"><i class="fa fa-share"></i>Salary DashBoard</a></li>   
                             <li id="libullten"><a href="ChartDashBoard.aspx"><i class="fa fa-share"></i>Chart Dash Board</a></li>  
-                             
+                             --%>
                         </ul>
                     </li>
                     <li id="limaster" class="treeview"><a href="#"><i class="fa fa-bars" aria-hidden="true"></i><span>Masters</span>
@@ -963,7 +963,7 @@
 <div class="pull-right hidden-xs">
 </div>
         <strong>Copyright &copy; 2014-2015 <a target="_blank" href="http://vyshnavifoods.com">
-            Sri Vyshnavi Dairy Spl Pvt Ltd</a>.</strong> All rights reserved.
+            Sri Vyshnavi Foods Pvt Ltd</a>.</strong> All rights reserved.
       </footer>
         <!-- Control Sidebar -->
         <aside class="control-sidebar control-sidebar-dark">

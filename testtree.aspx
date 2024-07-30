@@ -2566,7 +2566,7 @@ function Get3monthsNetpaychartvalues() {
 <div class="pull-right hidden-xs">
 </div>
         <strong>Copyright &copy; 2014-2015 <a target="_blank" href="http://vyshnavifoods.com">
-            Sri Vyshnavi Dairy Spl Pvt Ltd</a>.</strong> All rights reserved.
+            Sri Vyshnavi Foods Pvt Ltd</a>.</strong> All rights reserved.
       </footer>
     </section>
 </body>
