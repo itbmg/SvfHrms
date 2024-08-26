@@ -429,6 +429,7 @@ public partial class SalaryStatement : System.Web.UI.Page
                         //    basic = 35;
                         //}
                         double basicpermonth = basicsalary / daysinmonth;
+                        double PerMonthAfter = perdaysal * totalpresentdays;
                         double bs = basicpermonth * totalpresentdays;
                         newrow["Basic"] = Math.Round(bs);
                         newrow["Conveyance Allowance"] = Math.Round(convenyance - loseofconviyance);
@@ -444,7 +445,7 @@ public partial class SalaryStatement : System.Web.UI.Page
                         double thra = 40;
                         double hra = (basicsalary * thra) / 100;
                         double tt = bs + conve + medical + washing + hra;
-                        double otherallawance = Math.Round(permonth - tt);
+                        double otherallawance = Math.Round(PerMonthAfter - tt);
                         if (otherallawance > 0)
                         {
                             newrow["Variable Allowance"] = Math.Round(otherallawance);
@@ -486,7 +487,7 @@ public partial class SalaryStatement : System.Web.UI.Page
                         string pfeligible = dr["pfeligible"].ToString();
                         if (pfeligible == "Yes")
                         {
-                            providentfund = (totalearnings * 6) / 100;
+                            providentfund = (bs * 12) / 100;
                             if (providentfund > 1800)
                             {
                                 providentfund = 1800;

@@ -133,7 +133,7 @@ public partial class esireport : System.Web.UI.Page
             if (ddlbranch.SelectedItem.Text == "Select Branch")
             {
                 lblHeading.Text = " ESI Salary Statement" + ddlmonth.SelectedItem.Text + year;
-                Session["filename"] =" ESI Salary Statement " + ddlmonth.SelectedItem.Text + year;
+                Session["filename"] = " ESI Salary Statement " + ddlmonth.SelectedItem.Text + year;
                 Session["title"] = " ESI Salary Statement " + ddlmonth.SelectedItem.Text + year;
             }
             else
@@ -142,7 +142,7 @@ public partial class esireport : System.Web.UI.Page
                 Session["filename"] = ddlbranch.SelectedItem.Text + " " + " ESI Salary Statement " + ddlmonth.SelectedItem.Text + year;
                 Session["title"] = ddlbranch.SelectedItem.Text + " " + " ESI Salary Statement " + ddlmonth.SelectedItem.Text + year;
             }
-           
+
             Report.Columns.Add("Location");
             Report.Columns.Add("Sno");
             Report.Columns.Add("Employee Code");
@@ -255,220 +255,50 @@ public partial class esireport : System.Web.UI.Page
                                 }
                             }
                             double perdaysal = permonth / daysinmonth;
-                            double basicsalary = (permonth * 50) / 100;
+                            double basic = 40;
+                            double basicsalary = (permonth * basic) / 100;
                             double basicpermonth = basicsalary / daysinmonth;
                             double bs = basicpermonth * totalpresentdays;
                             double basicsal = basicsalary - loseamount;
                             double conve = convenyance - loseofconviyance;
                             double medical = medicalerning - loseofmedical;
                             double washing = washingallowance - loseofwashing;
-                            double tt = bs + conve + medical + washing;
-                            double thra = permonth - loseamount;
-                            double hra = thra - tt;
-
-                            string esieligible = dr["esieligible"].ToString();
-                            if (ddlemptype.SelectedItem.Text == "Casual worker")
+                            double thra = 40;
+                            double hra = (basicsalary * thra) / 100;
+                            double tt = bs + conve + medical + washing + hra;
+                            double otherallawance = Math.Round(permonth - tt);
+                            if (otherallawance > 0)
                             {
+                               // newrow["Variable Allowance"] = Math.Round(otherallawance);
 
-                                double gr = Convert.ToDouble(dr["gross"].ToString());
-                                rate = gr;
-                                double bonus;
-                                string gender = dr["gender"].ToString();
-                                if (gender == "Male")
-                                {
-                                    if (branchid == 1044)
-                                    {
-                                        bonus = 10;
-                                    }
-                                    else
-                                    {
-                                        bonus = 30;
-                                    }
-                                }
-                                else
-                                {
-                                    if (branchid == 1044)
-                                    {
-                                        bonus = 15;
-                                    }
-                                    else
-                                    {
-                                        bonus = 35;
-                                    }
-                                }
-                                double rateperday = 0;
-                                double amount = 0;
-                                if (paydays >= 24)
-                                {
-                                    rateperday = rate + bonus;
-                                    amount = bonus * paydays;
-                                }
-                                else
-                                {
-                                    rate = gr;
-                                }
-                                bonusamount = rate * paydays + amount;
-                                if (ddlemptype.SelectedItem.Text == "Casual worker")
-                                {
-
-                                    totalearnings = Math.Round(bonusamount);
-                                }
-                                else
-                                {
-                                    totalearnings = Math.Round(hra + tt);
-                                }
-                                if (esieligible == "Yes")
-                                {
-                                    if (mainbranch == "6")
-                                    {
-                                        esi = (totalearnings * 3) / 100;
-                                        esi = Math.Round(esi);
-                                        esitotal += esi;
-                                        newrow["Employee's Contribution"] = esi;
-                                        employers = (totalearnings * 1) / 100;
-                                        employers = Math.Round(employers);
-                                        totalemployers += Math.Round(employers);
-                                        newrow["Employer's Contribution"] = Math.Round(employers);
-                                    }
-                                    else
-                                    {
-                                        if (ddlbranch.SelectedItem.Value == "1043" || ddlbranch.SelectedItem.Value == "1049" || ddlbranch.SelectedItem.Value == "1048")
-                                        {
-                                            if (ddlbranch.SelectedItem.Value == "1043")
-                                            {
-                                                double esiamount = rate * 5;
-                                                esi = (totalearnings * 4.75) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (totalearnings * 1.75) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-                                            }
-                                            if (ddlbranch.SelectedItem.Value == "1049")
-                                            {
-                                                double esiamount = rate * 5;
-                                                esi = (totalearnings * 4.75) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (totalearnings * 1.75) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-                                            }
-                                            if (ddlbranch.SelectedItem.Value == "1048")
-                                            {
-                                                double esiamount = rate * 5;
-                                                esi = (totalearnings * 4.75) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (totalearnings * 1.75) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-                                            }
-
-                                        }
-                                        else
-                                        {
-                                            if (ddlbranch.SelectedItem.Value == "1044")
-                                            {
-                                                double esiamount = rate * 4;
-                                                esi = (totalearnings * 3) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (totalearnings * 1) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-
-                                            }
-                                            if (ddlbranch.SelectedItem.Value == "43")
-                                            {
-                                                double esiamount = rate * 12;
-                                                esi = (totalearnings * 3) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (totalearnings * 1) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-
-                                            }
-                                        }
-
-                                    }
-                                }
-                                else
-                                {
-                                    esitotal += esi;
-                                    totalemployers += employers;
-                                    newrow["Employee's Contribution"] = esi;
-                                    newrow["Employer's Contribution"] = employers;
-                                }
                             }
-
-
                             else
                             {
-                                if (ddlemptype.SelectedItem.Text == "Casual worker")
-                                {
-
-                                    totalearnings = Math.Round(bonusamount);
-                                }
-                                else
-                                {
-                                    totalearnings = Math.Round(hra + tt);
-                                }
-
-                                if (mainbranch == "6")
-                                {
-                                    if (esieligible == "Yes")
-                                    {
-                                        esi = (totalearnings * 1.75) / 100;
-                                        esi = Math.Round(esi);
-                                        esitotal += esi;
-                                        newrow["Employee's Contribution"] = esi;
-                                        employers = (totalearnings * 4.75) / 100;
-                                        employers = Math.Round(employers);
-                                        totalemployers += Math.Round(employers);
-                                        newrow["Employer's Contribution"] = Math.Round(employers);
-                                    }
-                                    else
-                                    {
-                                        esitotal += esi;
-                                        totalemployers += employers;
-                                        newrow["Employee's Contribution"] = esi;
-                                        newrow["Employer's Contribution"] = employers;
-                                    }
-                                }
-                                else
-                                {
-                                    if (esieligible == "Yes")
-                                    {
-                                        esi = (totalearnings * 3) / 100;
-                                        esi = Math.Round(esi);
-                                        esitotal += esi;
-                                        newrow["Employer's Contribution"] = esi;
-                                        employers = (totalearnings * 1) / 100;
-                                        employers = Math.Round(employers);
-                                        totalemployers += Math.Round(employers);
-                                        newrow["Employee's Contribution"] = Math.Round(employers);
-                                    }
-                                    else
-                                    {
-                                        esitotal += esi;
-                                        totalemployers += employers;
-                                        newrow["Employee's Contribution"] = esi;
-                                        newrow["Employer's Contribution"] = employers;
-                                    }
-                                }
+                               // newrow["Variable Allowance"] = 0;
                             }
+
+                            string esieligible = dr["esieligible"].ToString();
+                            totalearnings = Math.Round(tt + otherallawance);
+
+                            if (permonth <= 21000)
+                            {
+                                esi = (totalearnings * 0.75) / 100;
+                                esi = Math.Round(esi);
+                                esitotal += esi;
+                                newrow["Employee's Contribution"] = esi;
+                                employers = (totalearnings * 3.25) / 100;
+                                employers = Math.Round(employers);
+                                totalemployers += Math.Round(employers);
+                                newrow["Employer's Contribution"] = Math.Round(employers);
+                            }
+                            else
+                            {
+                                esitotal += esi;
+                                totalemployers += employers;
+                                newrow["Employee's Contribution"] = esi;
+                                newrow["Employer's Contribution"] = employers;
+                            }
+
                             newrow["Employee Code"] = dr["employee_num"].ToString();
                             newrow["Insurance No"] = dr["estnumber"].ToString();
                             newrow["Name Of Insured Person"] = dr["fullname"].ToString();
@@ -544,215 +374,50 @@ public partial class esireport : System.Web.UI.Page
                                 }
                             }
                             double perdaysal = permonth / daysinmonth;
-                            double basicsalary = (permonth * 50) / 100;
+                            double basic = 40;
+                            double basicsalary = (permonth * basic) / 100;
                             double basicpermonth = basicsalary / daysinmonth;
                             double bs = basicpermonth * totalpresentdays;
                             double basicsal = (basicsalary - loseamount);
                             double conve = convenyance - loseofconviyance;
                             double medical = medicalerning - loseofmedical;
                             double washing = washingallowance - loseofwashing;
-                            double tt = bs + conve + medical + washing;
-                            double thra = permonth - loseamount;
-                            double hra = thra - tt;
-
-                            string esieligible = dr["esieligible"].ToString();
-
-                            if (ddlemptype.SelectedItem.Text == "Casual worker")
+                            double thra = 40;
+                            double hra = (basicsalary * thra) / 100;
+                            double tt = bs + conve + medical + washing + hra;
+                            double otherallawance = Math.Round(permonth - tt);
+                            if (otherallawance > 0)
                             {
+                                // newrow["Variable Allowance"] = Math.Round(otherallawance);
 
-                                double gr = Convert.ToDouble(dr["gross"].ToString());
-                                rate = gr;
-                                double bonus;
-                                string gender = dr["gender"].ToString();
-                                if (gender == "Male")
-                                {
-                                    if (branchid == 1044)
-                                    {
-                                        bonus = 10;
-                                    }
-                                    else
-                                    {
-                                        bonus = 30;
-                                    }
-                                }
-                                else
-                                {
-                                    if (branchid == 1044)
-                                    {
-                                        bonus = 15;
-                                    }
-                                    else
-                                    {
-                                        bonus = 35;
-                                    }
-                                }
-                                double rateperday = 0;
-                                double amount = 0;
-                                if (paydays >= 24)
-                                {
-                                    rateperday = rate + bonus;
-                                    amount = bonus * paydays;
-                                }
-                                else
-                                {
-                                    rate = gr;
-                                }
-                                bonusamount = rate * paydays + amount;
-                                if (ddlemptype.SelectedItem.Text == "Casual worker")
-                                {
-
-                                    totalearnings = Math.Round(bonusamount);
-                                }
-                                else
-                                {
-                                    totalearnings = Math.Round(hra + tt);
-                                }
-                                if (esieligible == "Yes")
-                                {
-                                    if (mainbranch == "6")
-                                    {
-                                        esi = (totalearnings * 3) / 100;
-                                        esi = Math.Round(esi);
-                                        esitotal += esi;
-                                        newrow["Employee's Contribution"] = esi;
-                                        employers = (totalearnings * 1) / 100;
-                                        employers = Math.Round(employers);
-                                        totalemployers += Math.Round(employers);
-                                        newrow["Employer's Contribution"] = Math.Round(employers);
-                                    }
-                                    else
-                                    {
-                                        if (ddlbranch.SelectedItem.Value == "1043" || ddlbranch.SelectedItem.Value == "1049" || ddlbranch.SelectedItem.Value == "1048")
-                                        {
-                                            if (ddlbranch.SelectedItem.Value == "1043")
-                                            {
-                                                double esiamount = rate * 5;
-                                                esi = (esiamount * 4.75) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (esiamount * 1.75) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-                                            }
-                                            if (ddlbranch.SelectedItem.Value == "1049")
-                                            {
-                                                double esiamount = rate * 5;
-                                                esi = (esiamount * 4.75) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (esiamount * 1.75) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-                                            }
-                                            if (ddlbranch.SelectedItem.Value == "1048")
-                                            {
-                                                double esiamount = rate * 5;
-                                                esi = (esiamount * 4.75) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (esiamount * 1.75) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-                                            }
-
-                                        }
-                                        else
-                                        {
-                                            if (ddlbranch.SelectedItem.Value == "1044")
-                                            {
-                                                double esiamount = rate * 4;
-                                                esi = (esiamount * 3) / 100;
-                                                esi = Math.Round(esi);
-                                                esitotal += esi;
-                                                newrow["Employee's Contribution"] = esi;
-                                                employers = (esiamount * 1) / 100;
-                                                employers = Math.Round(employers);
-                                                totalemployers += Math.Round(employers);
-                                                newrow["Employer's Contribution"] = Math.Round(employers);
-
-                                            }
-                                            if (ddlbranch.SelectedItem.Value == "43")
-                                            {
-
-                                                newrow["Employee's Contribution"] = "0";
-
-                                                newrow["Employer's Contribution"] = "0";
-
-                                            }
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    // esi = 0;
-                                    esitotal += esi;
-                                    totalemployers += employers;
-                                    newrow["Employee's Contribution"] = esi;
-                                    newrow["Employer's Contribution"] = employers;
-                                }
                             }
                             else
                             {
-                                if (ddlemptype.SelectedItem.Text == "Casual worker")
-                                {
-
-                                    totalearnings = Math.Round(bonusamount);
-                                }
-                                else
-                                {
-                                    totalearnings = Math.Round(hra + tt);
-                                }
-                                if (mainbranch == "6")
-                                {
-                                    if (esieligible == "Yes")
-                                    {
-                                        esi = (totalearnings * 1.75) / 100;
-                                        esi = Math.Round(esi);
-                                        esitotal += esi;
-                                        newrow["Employee's Contribution"] = esi;
-                                        employers = (totalearnings * 4.75) / 100;
-                                        employers = Math.Round(employers);
-                                        totalemployers += Math.Round(employers);
-                                        newrow["Employer's Contribution"] = Math.Round(employers);
-                                    }
-                                    else
-                                    {
-                                        // esi = 0;
-                                        esitotal += esi;
-                                        totalemployers += employers;
-                                        newrow["Employee's Contribution"] = esi;
-                                        newrow["Employer's Contribution"] = employers;
-                                    }
-                                }
-                                else
-                                {
-                                    if (esieligible == "Yes")
-                                    {
-                                        esi = (totalearnings * 3) / 100;
-                                        esi = Math.Round(esi);
-                                        esitotal += esi;
-                                        newrow["Employer's Contribution"] = esi;
-                                        employers = (totalearnings * 1) / 100;
-                                        employers = Math.Round(employers);
-                                        totalemployers += Math.Round(employers);
-                                        newrow["Employee's Contribution"] = Math.Round(employers);
-                                    }
-                                    else
-                                    {
-                                        // esi = 0;
-                                        esitotal += esi;
-                                        totalemployers += employers;
-                                        newrow["Employee's Contribution"] = esi;
-                                        newrow["Employer's Contribution"] = employers;
-                                    }
-                                }
+                                // newrow["Variable Allowance"] = 0;
                             }
+
+                            string esieligible = dr["esieligible"].ToString();
+                            totalearnings = Math.Round(tt + otherallawance);
+
+                            if (permonth <= 21000)
+                            {
+                                esi = (totalearnings * 0.75) / 100;
+                                esi = Math.Round(esi);
+                                esitotal += esi;
+                                newrow["Employee's Contribution"] = esi;
+                                employers = (totalearnings * 3.25) / 100;
+                                employers = Math.Round(employers);
+                                totalemployers += Math.Round(employers);
+                                newrow["Employer's Contribution"] = Math.Round(employers);
+                            }
+                            else
+                            {
+                                esitotal += esi;
+                                totalemployers += employers;
+                                newrow["Employee's Contribution"] = esi;
+                                newrow["Employer's Contribution"] = employers;
+                            }
+
                             newrow["Employee Code"] = dr["employee_num"].ToString();
                             newrow["Insurance No"] = dr["estnumber"].ToString();
                             newrow["Name Of Insured Person"] = dr["fullname"].ToString();
@@ -832,6 +497,7 @@ public partial class esireport : System.Web.UI.Page
             hidepanel.Visible = false;
         }
     }
+
     protected void gvMenu_DataBinding(object sender, EventArgs e)
     {
         try

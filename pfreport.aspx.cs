@@ -163,18 +163,13 @@ public partial class pfreport : System.Web.UI.Page
             Report.Columns.Add("Conveyance Allowance").DataType = typeof(double);
             Report.Columns.Add("Washing Allowance").DataType = typeof(double);
             Report.Columns.Add("Medical Allowance").DataType = typeof(double);
+            Report.Columns.Add("Variable Allowance").DataType = typeof(double);
             Report.Columns.Add("Gross Earnings").DataType = typeof(double);
             Report.Columns.Add("PT").DataType = typeof(double);
             Report.Columns.Add("PF").DataType = typeof(double);
-            if (mainbranch == "42")
-            {
                 Report.Columns.Add("EPF").DataType = typeof(double);
-            }
             Report.Columns.Add("ESI").DataType = typeof(double);
-            if (mainbranch == "42")
-            {
                 Report.Columns.Add("EESI").DataType = typeof(double);
-            }
             Report.Columns.Add("Salary Advance").DataType = typeof(double);
             Report.Columns.Add("Loan").DataType = typeof(double);
             Report.Columns.Add("Canteen Deductions").DataType = typeof(double);
@@ -329,9 +324,10 @@ public partial class pfreport : System.Web.UI.Page
                         }
                     }
                     double perdaysal = permonth / daysinmonth;
-                    double basic = 50;
-                    double basicsalary = (permonth * 50) / 100;
+                    double basic = 40;
+                    double basicsalary = (permonth * basic) / 100;
                     double basicpermonth = basicsalary / daysinmonth;
+                    double PerMonthAfter = perdaysal * totalpresentdays;
                     double bs = basicpermonth * totalpresentdays;
                     newrow["Basic"] = Math.Round(bs);
                     newrow["Conveyance Allowance"] = Math.Round(convenyance - loseofconviyance);
@@ -343,10 +339,20 @@ public partial class pfreport : System.Web.UI.Page
                     double medical = Math.Round(medicalerning - loseofmedical);
                     double washing = Math.Round(washingallowance - loseofwashing);
                     double ptax = Math.Round(profitionaltax - losofprofitionaltax);
-                    double tt = bs + conve + medical + washing + ptax;
-                    double thra = permonth - loseamount;
-                    double hra = Math.Round(thra - tt);
-                    totalearnings = Math.Round(hra + tt);
+                    double thra = 40;
+                    double hra = (basicsalary * thra) / 100;
+                    double tt = bs + conve + medical + washing + hra;
+                    double otherallawance = Math.Round(PerMonthAfter - tt);
+                    if (otherallawance > 0)
+                    {
+                        newrow["Variable Allowance"] = Math.Round(otherallawance);
+
+                    }
+                    else
+                    {
+                        newrow["Variable Allowance"] = 0;
+                    }
+                    totalearnings = Math.Round(tt + otherallawance);
                     if (branchid == 6)
                     {
                         if (totalearnings >= 15000)
@@ -391,7 +397,7 @@ public partial class pfreport : System.Web.UI.Page
                     string pfeligible = dr["pfeligible"].ToString();
                     if (pfeligible == "Yes")
                     {
-                        providentfund = (totalearnings * 6) / 100;
+                        providentfund = (bs * 12) / 100;
                         if (providentfund > 1800)
                         {
                             providentfund = 1800;
@@ -400,7 +406,7 @@ public partial class pfreport : System.Web.UI.Page
                         newrow["PF"] = providentfund;
                         if (mainbranch == "42")
                         {
-                            double employercontri = (totalearnings * 6) / 100;
+                            double employercontri = (bs * 12) / 100;
                             if (employercontri > 1800)
                             {
                                 employercontri = 1800;
@@ -416,202 +422,19 @@ public partial class pfreport : System.Web.UI.Page
                         
                     }
                     string esieligible = dr["esieligible"].ToString();
-                    if (mainbranch == "42")
+
+                    if (permonth <= 21000)
                     {
-                        if (ddlbranch.SelectedItem.Value == "1043" || ddlbranch.SelectedItem.Value == "1055" || ddlbranch.SelectedItem.Value == "1049" || ddlbranch.SelectedItem.Value == "1048" || ddlbranch.SelectedItem.Value == "1047" || ddlbranch.SelectedItem.Value=="1070")
-                        {
-                            if (esieligible == "Yes")
-                            {
-                                if (ddlbranch.SelectedItem.Value == "1043" || ddlbranch.SelectedItem.Value == "1055" || ddlbranch.SelectedItem.Value == "1070")
-                                {
-                                    if (emptype == "Permanent" || emptype == "Staff")
-                                    {
-                                        if (totalearnings < 21001)
-                                        {
-                                            esi = (totalearnings * 0.75) / 100;
-                                            esi = Math.Round(esi, 0);
-                                            newrow["ESI"] = esi;
-                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        esi = (totalearnings * 0.75) / 100;
-                                        esi = Math.Round(esi, 0);
-                                        newrow["ESI"] = esi;
-                                        newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                    }
-                                }
-                                if (ddlbranch.SelectedItem.Value == "1049" || ddlbranch.SelectedItem.Value == "1047")
-                                {
-                                    if (emptype == "Permanent" || emptype == "Staff")
-                                    {
-                                        if (totalearnings < 21001)
-                                        {
-                                            esi = (totalearnings * 0.75) / 100;
-                                            esi = Math.Round(esi, 0);
-                                            newrow["ESI"] = esi;
-                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        esi = (totalearnings * 0.75) / 100;
-                                        esi = Math.Round(esi, 0);
-                                        newrow["ESI"] = esi;
-                                        newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                    }
-                                }
-                                if (ddlbranch.SelectedItem.Value == "1048")
-                                {
-                                    if (emptype == "Permanent" || emptype == "Staff")
-                                    {
-                                        if (totalearnings < 21001)
-                                        {
-                                            esi = (totalearnings * 0.75) / 100;
-                                            esi = Math.Round(esi, 0);
-                                            newrow["ESI"] = esi;
-                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        esi = (totalearnings * 0.75) / 100;
-                                        esi = Math.Round(esi, 0);
-                                        newrow["ESI"] = esi;
-                                        newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                    }
-                                }
-                                //this month only Calucate 10days(Nxtmonth asuseually monthly deduction)
-                                // esi = (totalearnings * 1) / 100;
-                                //double esiamount = totalearnings / 10;
-                                //esi = (esiamount * 1.75) / 100;
-                                //esi = Math.Round(esi, 0);
-                                //newrow["ESI"] = esi;
-                            }
-                            else
-                            {
-                                esi = 0;
-                                newrow["ESI"] = esi;
-                                newrow["EESI"] = esi;
-                            }
-                        }
-                        else
-                        {
-                            if (esieligible == "Yes")
-                            {
-                                if (ddlbranch.SelectedItem.Value == "1044")
-                                {
-                                    if (emptype == "Permanent" || emptype == "Staff")
-                                    {
-                                        if (totalearnings < 21001)
-                                        {
-                                            esi = (totalearnings * 1) / 100;
-                                            esi = Math.Round(esi, 0);
-                                            newrow["ESI"] = esi;
-                                            newrow["EESI"] = Math.Round((totalearnings * 3) / 100, 0);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        esi = (totalearnings * 1) / 100;
-                                        esi = Math.Round(esi, 0);
-                                        newrow["ESI"] = esi;
-                                        newrow["EESI"] = Math.Round((totalearnings * 3) / 100, 0);
-                                    }
-                                }
-                                if (ddlbranch.SelectedItem.Value == "43" || ddlbranch.SelectedItem.Value == "1046")
-                                {
-                                    if (emptype == "Permanent" || emptype == "Staff")
-                                    {
-                                        if (ddlbranch.SelectedItem.Value == "43")
-                                        {
-                                            if (totalearnings < 21001)
-                                            {
-                                                esi = (totalearnings * 0.75) / 100;
-                                                esi = Math.Round(esi, 0);
-                                                newrow["ESI"] = esi;
-                                                newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                            }
-                                        }
-                                        else
-                                        {
-                                            if (totalearnings < 21001)
-                                            {
-                                                esi = (totalearnings * 0.75) / 100;
-                                                esi = Math.Round(esi, 0);
-                                                newrow["ESI"] = esi;
-
-                                                newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-
-                                            }
-                                        }
-                                    }
-                                    else
-                                    {
-                                        if (ddlbranch.SelectedItem.Value == "43")
-                                        {
-                                            esi = (totalearnings * 0.75) / 100;
-                                            esi = Math.Round(esi, 0);
-                                            newrow["ESI"] = esi;
-                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                        }
-                                        else
-                                        {
-                                            esi = (totalearnings * 0.75) / 100;
-                                            esi = Math.Round(esi, 0);
-                                            newrow["ESI"] = esi;
-                                            newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
-                                        }
-                                    }
-                                }
-                                //this month only Calucate 10days(Nxtmonth asuseually monthly deduction)
-                                // esi = (totalearnings * 1) / 100;
-
-                                //double esiamount = totalearnings / 10;
-                                //esi = (esiamount * 1) / 100;
-                                //esi = Math.Round(esi, 0);
-                                //newrow["ESI"] = esi;
-                            }
-                            else
-                            {
-                                esi = 0;
-                                newrow["ESI"] = esi;
-                                newrow["EESI"] = esi;
-                            }
-                        }
+                        esi = (totalearnings * 0.75) / 100;
+                        esi = Math.Round(esi, 0);
+                        newrow["ESI"] = esi;
+                        newrow["EESI"] = Math.Round((totalearnings * 3.25) / 100, 0);
                     }
                     else
                     {
-
-                        if (ddlbranch.SelectedItem.Value == "41" || ddlbranch.SelectedItem.Value == "8" || ddlbranch.SelectedItem.Value == "11")
-                        {
-                            if (esieligible == "Yes")
-                            {
-                                esi = (totalearnings * 0.75) / 100;
-                                esi = Math.Round(esi, 0);
-                                newrow["ESI"] = esi;
-                            }
-                            else
-                            {
-                                esi = 0;
-                                newrow["ESI"] = esi;
-                            }
-                        }
-                        else
-                        {
-                            if (esieligible == "Yes")
-                            {
-                                esi = (totalearnings * 1.75) / 100;
-                                esi = Math.Round(esi, 0);
-                                newrow["ESI"] = esi;
-                            }
-                            else
-                            {
-                                esi = 0;
-                                newrow["ESI"] = esi;
-                            }
-                        }
+                        esi = 0;
+                        newrow["ESI"] = esi;
+                        newrow["EESI"] = esi;
                     }
 
                     if (dtsa.Rows.Count > 0)
@@ -899,8 +722,9 @@ public partial class pfreport : System.Web.UI.Page
                 lblmsg.Text = "No Data Found";
             }
         }
-        catch
+        catch(Exception ex)
         {
+            lblmsg.Text = ex.Message;
         }
 
     }
