@@ -204,10 +204,10 @@ public partial class SalaryStatement : System.Web.UI.Page
             {
 
 
-                Report.Columns.Add("Department");
                 Report.Columns.Add("Sno");
                 Report.Columns.Add("Employee Code");
                 Report.Columns.Add("Name");
+                Report.Columns.Add("Department");
                 Report.Columns.Add("Designation");
                 //Report.Columns.Add("Department");
                 Report.Columns.Add("Gross").DataType = typeof(double);
@@ -240,7 +240,7 @@ public partial class SalaryStatement : System.Web.UI.Page
                 int branchid = Convert.ToInt32(ddlbranch.SelectedItem.Value);
                 string employee_type = ddlemptype.SelectedItem.Value;
 
-                cmd = new SqlCommand("SELECT employedetails.pfeligible, employedetails.pfdate, employedetails.esidate, employedetails.esieligible, employedetails.employee_type, employedetails.empid,employedetails.employee_num, employedetails.fullname, designation.designation, employebankdetails.accountno, employebankdetails.ifsccode, monthly_attendance.month, monthly_attendance.year, employedetails.employee_dept, departments.department, salaryappraisals.esi, salaryappraisals.providentfund, salaryappraisals.conveyance, salaryappraisals.washingallowance, salaryappraisals.salaryperyear, salaryappraisals.medicalerning, salaryappraisals.profitionaltax, salaryappraisals.hra, salaryappraisals.erningbasic FROM employedetails INNER JOIN designation ON employedetails.designationid = designation.designationid INNER JOIN monthly_attendance ON employedetails.empid = monthly_attendance.empid INNER JOIN departments ON employedetails.employee_dept = departments.deptid INNER JOIN  salaryappraisals ON employedetails.empid = salaryappraisals.empid LEFT OUTER JOIN employebankdetails ON employedetails.empid = employebankdetails.employeid WHERE (employedetails.branchid = @branchid) AND (employedetails.status = 'No') AND (employedetails.employee_type = @emptype) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (salaryappraisals.endingdate IS NULL) AND (salaryappraisals.startingdate <= @d1) OR (employedetails.branchid = @branchid) AND (employedetails.status = 'No') AND (employedetails.employee_type = @emptype) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (salaryappraisals.endingdate > @d1)AND (salaryappraisals.startingdate <= @d1) ORDER BY employedetails.employee_dept,salaryappraisals.erningbasic DESC");
+                cmd = new SqlCommand("SELECT employedetails.pfeligible, employedetails.pfdate, employedetails.esidate, employedetails.esieligible, employedetails.employee_type, employedetails.empid,employedetails.employee_num, employedetails.fullname, designation.designation, employebankdetails.accountno, employebankdetails.ifsccode, monthly_attendance.month, monthly_attendance.year, employedetails.employee_dept, departments.department, salaryappraisals.esi, salaryappraisals.providentfund, salaryappraisals.conveyance, salaryappraisals.washingallowance, salaryappraisals.salaryperyear, salaryappraisals.medicalerning, salaryappraisals.profitionaltax, salaryappraisals.hra, salaryappraisals.erningbasic FROM employedetails INNER JOIN designation ON employedetails.designationid = designation.designationid INNER JOIN monthly_attendance ON employedetails.empid = monthly_attendance.empid INNER JOIN departments ON employedetails.employee_dept = departments.deptid INNER JOIN  salaryappraisals ON employedetails.empid = salaryappraisals.empid LEFT OUTER JOIN employebankdetails ON employedetails.empid = employebankdetails.employeid WHERE (employedetails.branchid = @branchid) AND (employedetails.status = 'No') AND (employedetails.employee_type = @emptype) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (salaryappraisals.endingdate IS NULL) AND (salaryappraisals.startingdate <= @d1)  OR  (employedetails.branchid = @branchid) AND (employedetails.status = 'No') AND (employedetails.employee_type = @emptype) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (salaryappraisals.endingdate > @d1)AND (salaryappraisals.startingdate <= @d1) ORDER BY employedetails.employee_num ASC");
                 cmd.Parameters.Add("@branchid", branchid);
                 cmd.Parameters.Add("@emptype", employee_type);
                 cmd.Parameters.Add("@month", mymonth);
@@ -432,9 +432,7 @@ public partial class SalaryStatement : System.Web.UI.Page
                         double PerMonthAfter = perdaysal * totalpresentdays;
                         double bs = basicpermonth * totalpresentdays;
                         newrow["Basic"] = Math.Round(bs);
-                        newrow["Conveyance Allowance"] = Math.Round(convenyance - loseofconviyance);
-                        newrow["Medical Allowance"] = Math.Round(medicalerning - loseofmedical);
-                        newrow["Washing Allowance"] = Math.Round(washingallowance - loseofwashing);
+                        
                         double basicsal = Math.Round(basicsalary - loseamount);
                         double conve = Math.Round(convenyance - loseofconviyance);
                         double medical = Math.Round(medicalerning - loseofmedical);
@@ -448,32 +446,69 @@ public partial class SalaryStatement : System.Web.UI.Page
                         double otherallawance = Math.Round(PerMonthAfter - tt);
                         if (otherallawance > 0)
                         {
+                            newrow["Conveyance Allowance"] = conve;
+                            newrow["Medical Allowance"] = medical;
+                            newrow["Washing Allowance"] = washing;
                             newrow["Variable Allowance"] = Math.Round(otherallawance);
 
                         }
                         else
                         {
-                            newrow["Variable Allowance"] = 0;
+                            if (conve > 50)
+                            {
+                                newrow["Conveyance Allowance"] = conve - 30;
+                            }
+                            if (medical > 50)
+                            {
+                                newrow["Medical Allowance"] = medical - 30;
+                            }
+                            if (washing > 50)
+                            {
+                                newrow["Washing Allowance"] = washing - 30;
+                            }
+                            if (conve > 50 && medical > 50 && washing > 50)
+                            {
+                                newrow["Variable Allowance"] = 90;
+                            }
                         }
                         totalearnings = Math.Round(tt+ otherallawance);
                         double ptax = 0;
-                        if (branchid == 6)
+                        //if (branchid == 6)
+                        //{
+                        //    if (totalearnings >= 15000)
+                        //    {
+                        //        ptax = profitionaltax;
+                        //        newrow["PT"] = profitionaltax;
+                        //    }
+                        //    else
+                        //    {
+                        //        ptax = 0;
+                        //        profitionaltax = ptax;
+                        //        newrow["PT"] = ptax;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    newrow["PT"] = profitionaltax;
+                        //}
+
+                        if (totalearnings > 1000 && totalearnings <= 15000)
                         {
-                            if (totalearnings >= 15000)
-                            {
-                                ptax = profitionaltax;
-                                newrow["PT"] = profitionaltax;
-                            }
-                            else
-                            {
-                                ptax = 0;
-                                profitionaltax = ptax;
-                                newrow["PT"] = ptax;
-                            }
+                            profitionaltax = 0;
+                            ptax = profitionaltax;
+                            newrow["PT"] = ptax;
                         }
-                        else
+                        else if (totalearnings >= 15001 && totalearnings <= 20000)
                         {
-                            newrow["PT"] = profitionaltax;
+                            profitionaltax = 150;
+                            ptax = profitionaltax;
+                            newrow["PT"] = ptax;
+                        }
+                        else if (totalearnings >= 20001)
+                        {
+                            profitionaltax = 200;
+                            ptax = profitionaltax;
+                            newrow["PT"] = ptax;
                         }
                         if (hra > 0)
                         {

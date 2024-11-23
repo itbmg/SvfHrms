@@ -146,12 +146,11 @@ public partial class pfreport : System.Web.UI.Page
             string mainbranch = Session["mainbranch"].ToString();
             Session["filename"] = ddlbranch.SelectedItem.Text + " PF Statement Report" + " " + ddlmonth.SelectedItem.Text + year;
             Session["title"] = ddlbranch.SelectedItem.Text + " PF Statement Report " + " " + ddlmonth.SelectedItem.Text + year;
-            Report.Columns.Add("Department");
             Report.Columns.Add("Sno");
             //Report.Columns.Add("Employeeid");
             Report.Columns.Add("Employee Code");
             Report.Columns.Add("Name");
-            
+            Report.Columns.Add("Department");
             Report.Columns.Add("Designation");
             Report.Columns.Add("Gross").DataType = typeof(double);
             Report.Columns.Add("Days Month");
@@ -184,7 +183,7 @@ public partial class pfreport : System.Web.UI.Page
             int branchid = Convert.ToInt32(ddlbranch.SelectedItem.Value);
             //paystrure
             //cmd = new SqlCommand("SELECT employedetails.pfeligible, employedetails.esieligible, employedetails.empid,employedetails.employee_num, pay_structure.providentfund, pay_structure.erningbasic, pay_structure.esi, employedetails.fullname, monthly_attendance.month, monthly_attendance.year, designation.designation, pay_structure.salaryperyear, pay_structure.hra, pay_structure.conveyance,  pay_structure.washingallowance, pay_structure.medicalerning, pay_structure.profitionaltax, employebankdetails.accountno FROM employedetails INNER JOIN designation ON employedetails.designationid = designation.designationid INNER JOIN pay_structure ON employedetails.empid = pay_structure.empid INNER JOIN  monthly_attendance ON employedetails.empid = monthly_attendance.empid LEFT OUTER JOIN employebankdetails ON employedetails.empid = employebankdetails.employeid WHERE employedetails.branchid=@branchid  AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.pfeligible='Yes') AND ((employedetails.employee_type='Staff') OR (employedetails.employee_type='Permanent')) AND (employedetails.status='No')");
-            cmd = new SqlCommand("SELECT employedetails.pfeligible, employedetails.employee_type, employedetails.esieligible, employedetails.empid, employedetails.employee_num, departments.department,employedetails.fullname, monthly_attendance.month, monthly_attendance.year, designation.designation, employebankdetails.ifsccode,employebankdetails.accountno, salaryappraisals.gross, salaryappraisals.erningbasic, salaryappraisals.hra,salaryappraisals.profitionaltax, salaryappraisals.esi, salaryappraisals.providentfund, salaryappraisals.conveyance, salaryappraisals.medicalerning, salaryappraisals.washingallowance, salaryappraisals.salaryperyear FROM employedetails INNER JOIN designation ON employedetails.designationid = designation.designationid INNER JOIN monthly_attendance ON employedetails.empid = monthly_attendance.empid INNER JOIN salaryappraisals ON employedetails.empid = salaryappraisals.empid LEFT OUTER JOIN employebankdetails ON employedetails.empid = employebankdetails.employeid  INNER JOIN departments ON employedetails.employee_dept = departments.deptid WHERE (employedetails.branchid = @branchid) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.pfeligible = 'Yes') AND (employedetails.employee_type = 'Staff' OR employedetails.employee_type = 'Permanent') AND (employedetails.status = 'No') AND (salaryappraisals.endingdate IS NULL) AND (salaryappraisals.startingdate <= @d1) OR (employedetails.branchid = @branchid) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.pfeligible = 'Yes') AND (employedetails.employee_type = 'Staff' OR employedetails.employee_type = 'Permanent') AND (employedetails.status = 'No') AND (salaryappraisals.endingdate > @d1) AND (salaryappraisals.startingdate <= @d1) ORDER BY employedetails.employee_dept,salaryappraisals.erningbasic DESC");
+            cmd = new SqlCommand("SELECT employedetails.pfeligible, employedetails.employee_type, employedetails.esieligible, employedetails.empid, employedetails.employee_num, departments.department,employedetails.fullname, monthly_attendance.month, monthly_attendance.year, designation.designation, employebankdetails.ifsccode,employebankdetails.accountno, salaryappraisals.gross, salaryappraisals.erningbasic, salaryappraisals.hra,salaryappraisals.profitionaltax, salaryappraisals.esi, salaryappraisals.providentfund, salaryappraisals.conveyance, salaryappraisals.medicalerning, salaryappraisals.washingallowance, salaryappraisals.salaryperyear FROM employedetails INNER JOIN designation ON employedetails.designationid = designation.designationid INNER JOIN monthly_attendance ON employedetails.empid = monthly_attendance.empid INNER JOIN salaryappraisals ON employedetails.empid = salaryappraisals.empid LEFT OUTER JOIN employebankdetails ON employedetails.empid = employebankdetails.employeid  INNER JOIN departments ON employedetails.employee_dept = departments.deptid WHERE (employedetails.branchid = @branchid) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.pfeligible = 'Yes') AND (employedetails.employee_type = 'Staff' OR employedetails.employee_type = 'Permanent') AND (employedetails.status = 'No') AND (salaryappraisals.endingdate IS NULL) AND (salaryappraisals.startingdate <= @d1) OR (employedetails.branchid = @branchid) AND (monthly_attendance.month = @month) AND (monthly_attendance.year = @year) AND (employedetails.pfeligible = 'Yes') AND (employedetails.employee_type = 'Staff' OR employedetails.employee_type = 'Permanent') AND (employedetails.status = 'No') AND (salaryappraisals.endingdate > @d1) AND (salaryappraisals.startingdate <= @d1) ORDER BY employedetails.employee_num ASC");
             cmd.Parameters.Add("@branchid", branchid);
             cmd.Parameters.Add("@month", mymonth);
             cmd.Parameters.Add("@year", year);
@@ -330,10 +329,7 @@ public partial class pfreport : System.Web.UI.Page
                     double PerMonthAfter = perdaysal * totalpresentdays;
                     double bs = basicpermonth * totalpresentdays;
                     newrow["Basic"] = Math.Round(bs);
-                    newrow["Conveyance Allowance"] = Math.Round(convenyance - loseofconviyance);
-                    newrow["Medical Allowance"] = Math.Round(medicalerning - loseofmedical);
-                    newrow["Washing Allowance"] = Math.Round(washingallowance - loseofwashing);
-
+                    
                     double basicsal = Math.Round(basicsalary - loseamount);
                     double conve = Math.Round(convenyance - loseofconviyance);
                     double medical = Math.Round(medicalerning - loseofmedical);
@@ -345,27 +341,63 @@ public partial class pfreport : System.Web.UI.Page
                     double otherallawance = Math.Round(PerMonthAfter - tt);
                     if (otherallawance > 0)
                     {
+                        newrow["Conveyance Allowance"] = conve;
+                        newrow["Medical Allowance"] = medical;
+                        newrow["Washing Allowance"] = washing;
                         newrow["Variable Allowance"] = Math.Round(otherallawance);
 
                     }
                     else
                     {
-                        newrow["Variable Allowance"] = 0;
+                        if (conve > 50)
+                        {
+                            newrow["Conveyance Allowance"] = conve - 30;
+                        }
+                        if (medical > 50)
+                        {
+                            newrow["Medical Allowance"] = medical - 30;
+                        }
+                        if (washing > 50)
+                        {
+                            newrow["Washing Allowance"] = washing - 30;
+                        }
+                        if (conve > 50 && medical > 50 && washing > 50)
+                        {
+                            newrow["Variable Allowance"] = 90;
+                        }
                     }
                     totalearnings = Math.Round(tt + otherallawance);
-                    if (branchid == 6)
+                    //if (branchid == 6)
+                    //{
+                    //    if (totalearnings >= 15000)
+                    //    {
+                    //        ptax = profitionaltax;
+                    //        newrow["PT"] = profitionaltax;
+                    //    }
+                    //    else
+                    //    {
+                    //        ptax = 0;
+                    //        profitionaltax = ptax;
+                    //        newrow["PT"] = ptax;
+                    //    }
+                    //}
+                    if (totalearnings > 1000 && totalearnings <= 15000)
                     {
-                        if (totalearnings >= 15000)
-                        {
-                            ptax = profitionaltax;
-                            newrow["PT"] = profitionaltax;
-                        }
-                        else
-                        {
-                            ptax = 0;
-                            profitionaltax = ptax;
-                            newrow["PT"] = ptax;
-                        }
+                        profitionaltax = 0;
+                        ptax = profitionaltax;
+                        newrow["PT"] = ptax;
+                    }
+                    else if (totalearnings >= 15001 && totalearnings <= 20000)
+                    {
+                        profitionaltax = 150;
+                        ptax = profitionaltax;
+                        newrow["PT"] = ptax;
+                    }
+                    else if (totalearnings >= 20001)
+                    {
+                        profitionaltax = 200;
+                        ptax = profitionaltax;
+                        newrow["PT"] = ptax;
                     }
                     //else if (branchid == 42)
                     //{
