@@ -134,10 +134,12 @@
                     </td>
                     <td>
                         <asp:DropDownList ID="ddlmonth" runat="server">
-                            <asp:ListItem Value="1" Selected="True" Text="Month">Month</asp:ListItem>
-                            <asp:ListItem Value="2"  Text="lastMonth">lastMonth</asp:ListItem>
+                            <asp:ListItem Value="1" Selected="True" Text="Month">Last Month</asp:ListItem>
                             <asp:ListItem Value="3" Text="Last 3 Months">Last 3 Months</asp:ListItem>
-                            <asp:ListItem Value="10" Text="Last 6 Months">Last 6 Months</asp:ListItem>
+                            <asp:ListItem Value="6" Text="Last 6 Months">Last 6 Months</asp:ListItem>
+                           <%-- <asp:ListItem Value="2"  Text="lastMonth">lastMonth</asp:ListItem>
+                            <asp:ListItem Value="3" Text="Last 3 Months">Last 3 Months</asp:ListItem>
+                            <asp:ListItem Value="10" Text="Last 6 Months">Last 6 Months</asp:ListItem>--%>
                         </asp:DropDownList>
                         <%--<select name="month" id="selct_month" onchange="" class="form-control" size="1">
                             <option value="1">Month</option>
@@ -415,6 +417,9 @@
                                                 </td>
                                                 <td valign="middle" align="left" style="border-bottom: 1px solid Black;">
                                                     <asp:TextBox ID="txtmonthesi" runat="server" Font-Bold="true"></asp:TextBox>
+                                                </td>
+                                                 <td valign="middle" align="left" style="border-bottom: 1px solid Black;">
+                                                    <asp:TextBox ID="txtVariable" runat="server" Font-Bold="true"></asp:TextBox>
                                                 </td>
                                             </tr>
                                             <tr>

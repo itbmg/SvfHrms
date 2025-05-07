@@ -136,6 +136,7 @@ public partial class bulkmailsend : System.Web.UI.Page
                             double otvalue = 0;
                             double loan = 0;
                             double sal = 0;
+                            double basicsalary = 0;
                             double grossbasic = 0;
                             double erbasic = 0;
                             double providentfound = 0;
@@ -152,6 +153,7 @@ public partial class bulkmailsend : System.Web.UI.Page
                             double grossconveyanceallavance = 0;
                             double washing = 0;
                             double grosswashingallowance = 0;
+                            double grossvariableallowance = 0;
                             double grosshra = 0;
                             double hre = 0;
                             double totalernings = 0;
@@ -457,7 +459,7 @@ public partial class bulkmailsend : System.Web.UI.Page
                                     }
 
                                     //double NrOfDays = Convert.ToDouble(t);
-                                    string daysinmonth = NrOfDays.ToString();
+                                    double daysinmonth = NrOfDays;
                                     List<DateTime> dates = new List<DateTime>();
                                     int countsundays = 0;
                                     countsundays = Convert.ToInt32(dr["clorwo"].ToString());
@@ -471,7 +473,7 @@ public partial class bulkmailsend : System.Web.UI.Page
                                     double dayspaid = effectiveworkingdays - noofdays;
                                     double effectiveworkdays = dayspaid + countsundays;
                                     string effectivedays = effectiveworkdays.ToString();
-                                    string lop = days.ToString();
+                                    double lop = days;
                                     double lossofpay = Convert.ToDouble(lop);
                                     string salary = dr["salaryperyear"].ToString();
                                     double grosssal = Convert.ToDouble(dr["salaryperyear"].ToString());
@@ -482,6 +484,7 @@ public partial class bulkmailsend : System.Web.UI.Page
                                     // getsaldetails.attandancedays = monthsalary.ToString();
                                     double otval = Convert.ToDouble(20000);
                                     double paydays = totaldays - days;
+                                    double totalearnings;
                                     if (monthsalary < otval)
                                     {
                                         otdays = dr["otdays"].ToString();
@@ -492,533 +495,135 @@ public partial class bulkmailsend : System.Web.UI.Page
                                     }
                                     if (salarymode == "0")
                                     {
-                                        if (lop == "0")
+                                        msal = Convert.ToDouble(monthsal);
+                                        //msal = 18000; 
+                                        double permonth = msal;
+                                        double perdaysal = msal / NrOfDays;
+
+                                        double lossofamount = lossofpay * perdaysal;
+                                        double totalsal = msal - lossofamount;
+                                        otvalue = Convert.ToDouble(otdays) * perdaysal;
+                                        sal = 40;
+                                        basicsalary = (msal * sal) / 100;
+                                        erbasic = Math.Round(totalsal * sal) / 100;
+                                        providentfound = 0;
+                                        esi = 0;
+
+                                        if (pfeligible == "Yes")
                                         {
-                                            msal = Convert.ToDouble(monthsal);
-                                            double perdayamount = msal / NrOfDays;
-                                            double lossofamount = lossofpay * perdayamount;
-                                            double totalsal = msal - lossofamount;
-                                            otvalue = Convert.ToDouble(otdays) * perdayamount;
-                                            sal = 50;
-                                            grossbasic = (msal * sal) / 100;
-                                            erbasic = Math.Round(totalsal * sal) / 100;
-                                            providentfound = 0;
-                                            esi = 0;
-                                            if (pfeligible == "No")
+                                            providentfound = (basicsalary * 12) / 100;
+                                            if (providentfound > 1800)
                                             {
-                                                providentfound = 0;
+                                                providentfound = 1800;
                                             }
-                                            else
-                                            {
-                                                double pf = 6;
-                                                providentfound = Math.Round(totalsal * pf) / 100;
-                                                if (providentfound > 1800)
-                                                {
-                                                    providentfound = 1800;
-                                                }
-                                                //double pf = 12;
-                                                //providentfound = Math.Round(erbasic * pf) / 100;
-                                            }
-                                            if (esieligible == "No")
-                                            {
-                                                esi = 0;
-                                            }
-                                            else
-                                            {
-
-                                                if (mainbranch == "42")
-                                                {
-                                                    if (bid == "1043" || bid == "1055" || bid == "1049" || bid == "1048" || bid == "1047")
-                                                    {
-                                                        if (esieligible == "Yes")
-                                                        {
-
-                                                            if (bid == "1043" || bid == "1055")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        // double esiamount = perdaysal * 5;
-                                                                        //double esiamount = totalearnings / 10;
-                                                                        esi = (msal * 1.75) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    //double esiamount = rate * 5;
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1.75) / 100;
-                                                                    esi = Math.Round(esi, 0);
-                                                                }
-                                                                //newrow["ESI"] = esi;
-                                                            }
-                                                            if (bid == "1049" || bid == "1047")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        //double esiamount = perdaysal * 5;
-                                                                        //double esiamount = totalearnings / 10;
-                                                                        esi = (msal * 1.75) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    //double esiamount = rate * 5;
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1.75) / 100;
-                                                                    esi = Math.Round(esi, 0);
-                                                                }
-                                                            }
-                                                            if (bid == "1048")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        // double esiamount = perdaysal * 5;
-                                                                        //double esiamount = totalearnings / 10;
-                                                                        esi = (msal * 1.75) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1.75) / 100;
-                                                                    esi = Math.Round(esi, 0);
-                                                                }
-                                                                //newrow["ESI"] = esi;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            esi = 0;
-                                                            //newrow["ESI"] = esi;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-
-                                                        if (esieligible == "Yes")
-                                                        {
-                                                            if (bid == "1044")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        // double esiamount = perdaysal * 4;
-                                                                        // double esiamount = totalearnings / 10;
-                                                                        esi = (msal * 1) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    // double esiamount = rate * 4;
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1) / 100;
-                                                                    esi = Math.Round(esi, 0);
-
-                                                                }
-                                                                //this month only Calucate 10days(Nxtmonth asuseually monthly deduction)
-                                                                // esi = (totalearnings * 1) / 100;
-
-                                                                //newrow["ESI"] = esi;
-                                                            }
-                                                            if (bid == "43" || bid == "1046")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        //double esiamount = perdaysal * 12;
-                                                                        esi = (msal * 1) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1) / 100;
-                                                                    esi = Math.Round(esi, 0);
-                                                                }
-                                                                //this month only Calucate 10days(Nxtmonth asuseually monthly deduction)
-                                                                // esi = (totalearnings * 1) / 100;
-
-                                                                //newrow["ESI"] = esi;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            esi = 0;
-                                                            //newrow["ESI"] = esi;
-                                                        }
-
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    double esiper = 1.75;
-                                                    esi = Math.Round(totalsal * esiper) / 100;
-                                                }
-                                            }
-                                            canten = Convert.ToDouble(canteendeduction);
-                                            incometax = 0;
-                                            medical = 1250;
-                                            medicalallavance = 1250;
-                                            grossmedicalallavance = 1250;
-
-                                            conveyanceallavance = 1600;
-                                            conveyance = 1600;
-                                            grossconveyanceallavance = conveyance;
-
-                                            washing = 1000;
-                                            washingallowance = 1000;
-                                            grosswashingallowance = washing;
-
-                                            double tot = 0;
-                                            tot = Math.Round(medical + conveyance + washing + erbasic);
-                                            double ghtotal = Math.Round(grossbasic + grossconveyanceallavance + grosswashingallowance + grossmedicalallavance);
-                                            grosshra = Math.Round(msal - ghtotal);
-                                            hre = 0;
-                                            hre = Math.Round(totalsal - tot);
-                                            if (hre > 0)
-                                            {
-                                            }
-                                            else
-                                            {
-                                                hre = 0;
-                                            }
-                                            // professionaltax = 0;
-                                            if (statename == "AndraPrdesh")
-                                            {
-                                                if (msal > 1000 && msal <= 15000)
-                                                {
-                                                    professionaltax = 0;
-                                                }
-                                                else if (msal >= 15001 && msal <= 20000)
-                                                {
-                                                    professionaltax = 150;
-                                                }
-                                                else if (msal >= 20001)
-                                                {
-                                                    professionaltax = 200;
-                                                }
-                                            }
-                                            if (statename == "Tamilnadu")
-                                            {
-                                                if (msal < 7000)
-                                                {
-                                                    professionaltax = 0;
-                                                }
-                                                else if (msal >= 7001 && msal <= 10000)
-                                                {
-                                                    professionaltax = 115;
-                                                }
-                                                else if (msal >= 10001 && msal <= 11000)
-                                                {
-                                                    professionaltax = 171;
-                                                }
-                                                else if (msal >= 11001 && msal <= 12000)
-                                                {
-                                                    professionaltax = 171;
-                                                }
-                                                else if (msal >= 12001)
-                                                {
-                                                    professionaltax = 208;
-                                                }
-                                            }
-                                            if (statename == "karnataka")
-                                            {
-                                                if (msal <= 15000 && msal <= 15001)
-                                                {
-                                                    professionaltax = 0;
-                                                }
-                                                else if (msal >= 15001)
-                                                {
-                                                    professionaltax = 200;
-                                                }
-                                            }
-                                            pt = professionaltax;
-                                            totalernings = tot + hre;
-                                            grosstotalernings = Math.Round(ghtotal + grosshra);
-                                            totaldeduction = Math.Round(professionaltax + providentfound + esi + canten + salaryadvance + incometax + loan + medicalcilam + otherdeduction + tdsdeduction);
-                                            netsal = Math.Round(totalernings - totaldeduction);
+                                            providentfound = Math.Round(providentfound, 0);
                                         }
                                         else
                                         {
-                                            msal = Convert.ToDouble(monthsal);
-                                            double perdayamount = msal / NrOfDays;
-                                            double lossofamount = lossofpay * perdayamount;
-                                            double totalsal = Math.Round(msal - lossofamount);
-                                            otvalue = Convert.ToDouble(otdays) * perdayamount;
-                                            sal = 50;
-                                            grossbasic = (msal * sal) / 100;
-                                            erbasic = (totalsal * sal) / 100;
                                             providentfound = 0;
-                                            esi = 0;
-                                            if (pfeligible == "No")
-                                            {
-                                                providentfound = 0;
-                                            }
-                                            else
-                                            {
-                                                double pf = 6;
-                                                providentfound = Math.Round(totalsal * pf) / 100;
-                                                if (providentfound > 1800)
-                                                {
-                                                    providentfound = 1800;
-                                                }
-                                                //double pf = 12;
-                                                //providentfound = Math.Round(erbasic * pf) / 100;
-                                            }
-                                            if (esieligible == "No")
-                                            {
-                                                esi = 0;
-                                            }
-                                            else
-                                            {
-                                                if (mainbranch == "42")
-                                                {
-                                                    if (bid == "1043" || bid == "1055" || bid == "1049" || bid == "1048" || bid == "1047")
-                                                    {
-                                                        if (esieligible == "Yes")
-                                                        {
-
-                                                            if (bid == "1043" || bid == "1055")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        // double esiamount = perdaysal * 5;
-                                                                        //double esiamount = totalearnings / 10;
-                                                                        esi = (msal * 1.75) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    //double esiamount = rate * 5;
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1.75) / 100;
-                                                                    esi = Math.Round(esi, 0);
-                                                                }
-                                                                //newrow["ESI"] = esi;
-                                                            }
-                                                            if (bid == "1049" || bid == "1047")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        //double esiamount = perdaysal * 5;
-                                                                        //double esiamount = totalearnings / 10;
-                                                                        esi = (msal * 1.75) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    //double esiamount = rate * 5;
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1.75) / 100;
-                                                                    esi = Math.Round(esi, 0);
-                                                                }
-                                                            }
-                                                            if (bid == "1048")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        // double esiamount = perdaysal * 5;
-                                                                        //double esiamount = totalearnings / 10;
-                                                                        esi = (msal * 1.75) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1.75) / 100;
-                                                                    esi = Math.Round(esi, 0);
-                                                                }
-                                                                //newrow["ESI"] = esi;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            esi = 0;
-                                                            //newrow["ESI"] = esi;
-                                                        }
-                                                    }
-                                                    else
-                                                    {
-
-                                                        if (esieligible == "Yes")
-                                                        {
-                                                            if (bid == "1044")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        // double esiamount = perdaysal * 4;
-                                                                        // double esiamount = totalearnings / 10;
-                                                                        esi = (msal * 1) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    // double esiamount = rate * 4;
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1) / 100;
-                                                                    esi = Math.Round(esi, 0);
-
-                                                                }
-                                                                //this month only Calucate 10days(Nxtmonth asuseually monthly deduction)
-                                                                // esi = (totalearnings * 1) / 100;
-
-                                                                //newrow["ESI"] = esi;
-                                                            }
-                                                            if (bid == "43" || bid == "1046")
-                                                            {
-                                                                if (emptype == "Permanent" || emptype == "Staff")
-                                                                {
-                                                                    if (msal < 21001)
-                                                                    {
-                                                                        //double esiamount = perdaysal * 12;
-                                                                        esi = (msal * 1) / 100;
-                                                                        esi = Math.Round(esi, 0);
-                                                                    }
-                                                                }
-                                                                else
-                                                                {
-                                                                    double esiamount = perdayamount * paydays;
-                                                                    esi = (esiamount * 1) / 100;
-                                                                    esi = Math.Round(esi, 0);
-                                                                }
-                                                                //this month only Calucate 10days(Nxtmonth asuseually monthly deduction)
-                                                                // esi = (totalearnings * 1) / 100;
-
-                                                                //newrow["ESI"] = esi;
-                                                            }
-                                                        }
-                                                        else
-                                                        {
-                                                            esi = 0;
-                                                            //newrow["ESI"] = esi;
-                                                        }
-
-                                                    }
-                                                }
-                                                else
-                                                {
-                                                    double esiper = 1.75;
-                                                    esi = Math.Round(totalsal * esiper) / 100;
-                                                }
-                                            }
-                                            canten = Convert.ToDouble(canteendeduction);
-                                            incometax = 0;
-
-                                            medical = 1250;
-                                            double perdaymedical = 1250 / NrOfDays;
-                                            double lossofmedical = lossofpay * perdaymedical;
-                                            medicalallavance = Math.Round(medical - lossofmedical);
-                                            grossmedicalallavance = 1250;
-
-                                            conveyance = 1600;
-                                            double perdayconveyance = 1600 / NrOfDays;
-                                            double lossofconveyance = lossofpay * perdayconveyance;
-                                            conveyanceallavance = Math.Round(conveyance - lossofconveyance);
-                                            grossconveyanceallavance = 1600;
-
-                                            washing = 1000;
-                                            double perdaywashing = 1000 / NrOfDays;
-                                            double lossofwashing = lossofpay * perdaywashing;
-                                            washingallowance = Math.Round(washing - lossofwashing);
-                                            grosswashingallowance = 1000;
-
-
-                                            double tot = 0;
-                                            tot = medicalallavance + conveyanceallavance + washingallowance + erbasic;
-                                            double ghtotal = grossbasic + grossconveyanceallavance + grosswashingallowance + grossmedicalallavance;
-                                            grosshra = Math.Round(msal - ghtotal);
-                                            hre = 0;
-                                            hre = totalsal - tot;
-                                            if (hre > 0)
-                                            {
-                                            }
-                                            else
-                                            {
-                                                hre = 0;
-                                            }
-                                            professionaltax = 0;
-                                            if (statename == "AndraPrdesh")
-                                            {
-                                                if (msal > 1000 && msal <= 15000)
-                                                {
-                                                    professionaltax = 0;
-                                                }
-                                                else if (msal >= 15001 && msal <= 20000)
-                                                {
-                                                    professionaltax = 150;
-                                                }
-                                                else if (msal >= 20001)
-                                                {
-                                                    professionaltax = 200;
-                                                }
-                                            }
-                                            if (statename == "Tamilnadu")
-                                            {
-                                                if (msal < 7000)
-                                                {
-                                                    professionaltax = 0;
-                                                }
-                                                else if (msal >= 7001 && msal <= 10000)
-                                                {
-                                                    professionaltax = 115;
-                                                }
-                                                else if (msal >= 10001 && msal <= 11000)
-                                                {
-                                                    professionaltax = 171;
-                                                }
-                                                else if (msal >= 11001 && msal <= 12000)
-                                                {
-                                                    professionaltax = 171;
-                                                }
-                                                else if (msal >= 12001)
-                                                {
-                                                    professionaltax = 208;
-                                                }
-                                            }
-                                            if (statename == "karnataka")
-                                            {
-                                                if (msal <= 15000 && msal <= 15001)
-                                                {
-                                                    professionaltax = 0;
-                                                }
-                                                else if (msal >= 15001)
-                                                {
-                                                    professionaltax = 200;
-                                                }
-                                            }
-                                            double perdaprofitionaltax = professionaltax / NrOfDays;
-                                            losofprofitionaltax = lossofpay * perdaprofitionaltax;
-                                            pt = Math.Round(professionaltax - losofprofitionaltax);
-                                            totalernings = Math.Round(tot + hre);
-                                            grosstotalernings = ghtotal + grosshra;
-                                            totaldeduction = Math.Round(professionaltax + providentfound + esi + canten + incometax + salaryadvance + loan + medicalcilam + otherdeduction + tdsdeduction);
-                                            netsal = Math.Round(totalernings - totaldeduction);
                                         }
+                                        canten = Convert.ToDouble(canteendeduction);
+                                        incometax = 0;
+
+                                        medical = 1250;
+                                        double perdaymedical = medical / daysinmonth;
+                                        double loseofmedical = lop * perdaymedical;
+
+                                        conveyance = 1600;
+                                        double perdayconveyance = conveyance / daysinmonth;
+                                        double loseofconviyance = lop * perdayconveyance;
+
+                                        washing = 1000;
+                                        double perdaywashing = washingallowance / daysinmonth;
+                                        double loseofwashing = lop * perdaywashing;
+                                        double totalpdays = permonth / daysinmonth;
+                                        double loseamount = lop * totalpdays;
+                                        double basicsal = Math.Round(basicsalary - loseamount);
+                                        double conve = Math.Round(conveyance - loseofconviyance);
+                                        double medi = Math.Round(medical - loseofmedical);
+                                        double wash = Math.Round(washingallowance - loseofwashing);
+                                        double basicpermonth = basicsalary / daysinmonth;
+                                        double PerMonthAfter = perdaysal * effectiveworkdays;
+                                        double bs = basicpermonth * effectiveworkdays;
+                                        double thra = 40;
+                                        double hra = (basicsalary * thra) / 100;
+                                        double tt = bs + conve + medical + washing + hra;
+                                        double otherallawance = Math.Round(PerMonthAfter - tt);
+                                        if (otherallawance > 0)
+                                        {
+                                            grossconveyanceallavance = conve;
+                                            grossmedicalallavance = medical;
+                                            grosswashingallowance = washing;
+                                            grossvariableallowance = Math.Round(otherallawance);
+
+                                        }
+                                        else
+                                        {
+                                            if (conve > 50)
+                                            {
+                                                grossconveyanceallavance = conve - 30;
+                                            }
+                                            if (medical > 50)
+                                            {
+                                                grossmedicalallavance = medical - 30;
+                                            }
+                                            if (washing > 50)
+                                            {
+                                                grosswashingallowance = washing - 30;
+                                            }
+                                            if (conve > 50 && medical > 50 && washing > 50)
+                                            {
+                                                grossvariableallowance = 90;
+                                            }
+                                        }
+                                        totalearnings = Math.Round(tt + otherallawance);
+                                        double ptax = 0;
+                                        if (totalearnings > 1000 && totalearnings <= 15000)
+                                        {
+                                            professionaltax = 0;
+                                            ptax = professionaltax;
+                                        }
+                                        else if (totalearnings >= 15001 && totalearnings <= 20000)
+                                        {
+                                            professionaltax = 150;
+                                            ptax = professionaltax;
+                                        }
+                                        else if (totalearnings >= 20001)
+                                        {
+                                            professionaltax = 200;
+                                            ptax = professionaltax;
+                                        }
+
+                                        double tot = 0;
+                                        //tot = Math.Round(medical + conveyance + washing + erbasic + );
+                                        double ghtotal = Math.Round(basicsalary + grossconveyanceallavance + grosswashingallowance + grossmedicalallavance + grossvariableallowance);
+
+                                        grosshra = hra;
+                                        hre = 0;
+                                        //double thra = 40;
+                                        //hre = (erbasic * thra) / 100;
+                                        if (hre > 0)
+                                        {
+                                        }
+                                        else
+                                        {
+                                            hre = 0;
+                                        }
+                                        // professionaltax = 0;
+                                        if (permonth <= 21000)
+                                        {
+                                            esi = (totalearnings * 0.75) / 100;
+                                            esi = Math.Round(esi, 0);
+                                        }
+                                        else
+                                        {
+                                            esi = 0;
+                                        }
+                                        pt = professionaltax;
+                                        grosstotalernings = Math.Round(ghtotal + grosshra);
+                                        totaldeduction = Math.Round(professionaltax + providentfound + esi + canten + salaryadvance + incometax + loan + mobilededuction + medicalcilam + otherdeduction + tdsdeduction);
+                                        netsal = Math.Round(totalearnings - totaldeduction);
+
                                     }
                                     else
                                     {
@@ -1036,9 +641,10 @@ public partial class bulkmailsend : System.Web.UI.Page
                                         double totalotval = sal + otvalue;
                                         double cantendeductin = 0;
                                     }
-                                    txtemail.Text = emalid;
+
                                     txtempcode.Text = employeid;
                                     txtempname.Text = empname;
+                                    txtemail.Text = emalid;
                                     joindate = joidate;
                                     desigiation = desigination;
                                     depatment = department;
@@ -1052,9 +658,9 @@ public partial class bulkmailsend : System.Web.UI.Page
                                     txtmonth.Text = MonthName;
                                     txtnoofdays.Text = NrOfDays.ToString();
                                     txtdayspaid.Text = effectivedays.ToString();
-                                    txtlop.Text = lop;
+                                    txtlop.Text = lop.ToString();
                                     txtpan.Text = pannumbr;
-                                    txtactbasic.Text = grossbasic.ToString();
+                                    txtactbasic.Text = basicsalary.ToString();
                                     txtmonthbasic.Text = erbasic.ToString();
                                     txtacthra.Text = grosshra.ToString();
                                     txtmonthhra.Text = hre.ToString();
@@ -1062,21 +668,25 @@ public partial class bulkmailsend : System.Web.UI.Page
                                     txtmonthconveyance.Text = conveyanceallavance.ToString(); ;
                                     txtactmedicalallowance.Text = grossmedicalallavance.ToString();
                                     txtmonthmedicalallowance.Text = medicalallavance.ToString();
+
                                     txtmonthcanteendeduction.Text = canteendeduction.ToString();
                                     txtactwashingallowance.Text = grosswashingallowance.ToString();
+                                    txtVariable.Text = grossvariableallowance.ToString();
                                     txtmonthwashingallowance.Text = washingallowance.ToString();
                                     txtmonthpf.Text = providentfound.ToString();
                                     txtmonthpt.Text = professionaltax.ToString();
                                     txtmonthesi.Text = esi.ToString();
+
                                     txtmonthincometax.Text = salaryadvance.ToString();
                                     txtActTotalEarnings.Text = grosstotalernings.ToString();
                                     txtMonthTotalEarnings.Text = totalernings.ToString();
                                     txtMonthTotalDeductions.Text = totaldeduction.ToString();
                                     txtNetPayAmount.Text = netsal.ToString();
+
                                     txtloan.Text = loan.ToString();
-                                    txtMobile.Text = mobilededuction.ToString();
-                                    txt_Otherdeduction.Text = otherdeduction.ToString();
                                     txt_Mediclaim.Text = medicalcilam.ToString();
+                                    txt_Otherdeduction.Text = otherdeduction.ToString();
+                                    txtMobile.Text = mobilededuction.ToString();
                                     txt_TdsDeduction.Text = tdsdeduction.ToString();
 
                                 }
@@ -1226,15 +836,15 @@ public partial class bulkmailsend : System.Web.UI.Page
                                     {
                                         DateTime dtfrom = fromdate.AddMonths(-i);
                                         string frmdate = dtfrom.ToString("MM/dd/yyyy");
-                                       // string cdate = dtfrom.ToString("MMM/dd/yyyy");
+                                        // string cdate = dtfrom.ToString("MMM/dd/yyyy");
                                         string[] str = frmdate.Split('/');
-                                        
-                                       
+
+
                                         int lastmonth = Convert.ToInt32(dtroutes.Rows[0]["fromdate"].ToString());
                                         int years = Convert.ToInt32(str[2]);
                                         int months = Convert.ToInt32(str[0]);
                                         dtfromdate = new DateTime(years, months, lastmonth);
-                                        
+
                                         amonth = str[0];
                                         ayear = str[2];
                                         DateTime dtto = fromdate.AddMonths(-i);
@@ -1306,12 +916,7 @@ public partial class bulkmailsend : System.Web.UI.Page
                                     double paybledays = Convert.ToDouble(dr["payabledays"].ToString());
                                     txtlop.Text = (daysinmonth - paybledays).ToString();
                                     double salary = Convert.ToDouble(dr["salary"].ToString());
-                                    grossbasic = (salary * 50) / 100;
-                                    grossconveyanceallavance = 1600;
-                                    grossmedicalallavance = 1250;
-                                    grosswashingallowance = 1000;
                                     double tot = grossconveyanceallavance + grossmedicalallavance + grosswashingallowance + grossbasic;
-                                    grosshra = salary - tot;
                                     txtactbasic.Text = grossbasic.ToString();
                                     txtmonthbasic.Text = dr["basic"].ToString();
                                     txtacthra.Text = grosshra.ToString();
@@ -1437,6 +1042,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         string ActmedicalConveyance = txtactmedicalallowance.Text;
         string MonthmedicalConveyance = txtmonthmedicalallowance.Text;
         string canteendeduction = txtmonthcanteendeduction.Text;
+        string variableAllowance = txtVariable.Text;
         string ActwashingConveyance = txtactwashingallowance.Text;
         string MonthwashingConveyance = txtmonthwashingallowance.Text;
         string MonthPF = txtmonthpf.Text;
@@ -1448,14 +1054,18 @@ public partial class bulkmailsend : System.Web.UI.Page
         string MonthTotalDeductions = txtMonthTotalDeductions.Text;
         string NetPay = txtNetPayAmount.Text;
         string loan = txtloan.Text;
-        string mobile = txtMobile.Text;
         string Mediclaim = txt_Mediclaim.Text;
         string Otherdeduction = txt_Otherdeduction.Text;
         string TDsdeduction = txt_TdsDeduction.Text;
-        string title = titlename;
+        string mobile = txtMobile.Text;
         string strdate = joindate;
-        DateTime dtjoin = Convert.ToDateTime(strdate);
-        string newstrdate = dtjoin.ToString("dd/MMM/yyyy");
+        string newstrdate = "";
+        if (strdate != "")
+        {
+            DateTime dtjoin = Convert.ToDateTime(strdate);
+            newstrdate = dtjoin.ToString("dd/MMM/yyyy");
+        }
+
         string jdate = newstrdate;
         string desg = desigiation;
         string dep = depatment;
@@ -1468,7 +1078,6 @@ public partial class bulkmailsend : System.Web.UI.Page
         string payyear = payyearsal;
 
         DateTime dt = DateTime.Now;
-
         string year = payyear;
         //string paymonth = ForMonth "'++'";
         string paymonth = "" + ForMonth + "-" + year + "";
@@ -1481,7 +1090,6 @@ public partial class bulkmailsend : System.Web.UI.Page
 
         string PaySlipPath = FilePath.Substring(0, FilePath.Length - 11) + "" + empcm + "PaySlip.pdf";
         reader1.Close();
-
         Document doc = new Document(PageSize.A4);
         PdfWriter writer = PdfWriter.GetInstance(doc, new FileStream(Server.MapPath(PaySlipPath), FileMode.Create));
         writer.Open();
@@ -1855,7 +1463,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase("Actual", BoldFont));
+        cell = new PdfPCell(new Phrase("", BoldFont));
         cell.FixedHeight = 10.0f;
         cell.Colspan = 1;
         cell.HorizontalAlignment = Element.ALIGN_LEFT;
@@ -1874,7 +1482,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.Border = 0;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase(MonthBasic, NormalFont));
+        cell = new PdfPCell(new Phrase("", NormalFont));
         cell.FixedHeight = 10.0f;
         cell.HorizontalAlignment = Element.ALIGN_RIGHT;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -1902,7 +1510,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase(MonthHRA, NormalFont));
+        cell = new PdfPCell(new Phrase("", NormalFont));
         cell.FixedHeight = 10.0f;
         cell.HorizontalAlignment = Element.ALIGN_RIGHT;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -1929,7 +1537,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase(MonthConveyance, NormalFont));
+        cell = new PdfPCell(new Phrase("", NormalFont));
         cell.FixedHeight = 10.0f;
         cell.HorizontalAlignment = Element.ALIGN_RIGHT;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -1956,7 +1564,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase(MonthmedicalConveyance, NormalFont));
+        cell = new PdfPCell(new Phrase("", NormalFont));
         cell.FixedHeight = 10.0f;
         cell.HorizontalAlignment = Element.ALIGN_RIGHT;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -1983,7 +1591,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase(MonthwashingConveyance, NormalFont));
+        cell = new PdfPCell(new Phrase("", NormalFont));
         cell.FixedHeight = 10.0f;
         cell.HorizontalAlignment = Element.ALIGN_RIGHT;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -1999,13 +1607,13 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase(""));
+        cell = new PdfPCell(new Phrase("Variable Allowance", NormalFont));
         cell.HorizontalAlignment = Element.ALIGN_LEFT;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         cell.Border = Rectangle.NO_BORDER;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase(""));
+        cell = new PdfPCell(new Phrase(variableAllowance, NormalFont));
         cell.FixedHeight = 10.0f;
         cell.HorizontalAlignment = Element.ALIGN_LEFT;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
@@ -2051,7 +1659,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.Border = Rectangle.NO_BORDER;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase("Other Loan", NormalFont));
+        cell = new PdfPCell(new Phrase("Other loan", NormalFont));
         cell.HorizontalAlignment = Element.ALIGN_LEFT;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
@@ -2155,7 +1763,6 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
 
-
         cell = new PdfPCell(new Phrase("Total", NormalFont));
         cell.FixedHeight = 10.0f;
         cell.HorizontalAlignment = Element.ALIGN_LEFT;
@@ -2191,28 +1798,13 @@ public partial class bulkmailsend : System.Web.UI.Page
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
 
-        cell = new PdfPCell(new Phrase("NOTE: This is computer generated payslip Does Not Require  Any signature...", NormalFont));
+
+        cell = new PdfPCell(new Phrase("NOTE: This is computer generated payslip Does Not Require  Any signature..", NormalFont));
         cell.FixedHeight = 15.0f;
         cell.Colspan = 5;
         cell.HorizontalAlignment = Element.ALIGN_CENTER;
         cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         table.AddCell(cell);
-        doc.Add(table);
-
-
-        //cell = new PdfPCell(new Phrase(""));
-        //cell.FixedHeight = 75.0f;
-        //cell.Colspan = 6;
-        //cell.Border = Rectangle.NO_BORDER;
-        //table.AddCell(cell);
-
-        //cell = new PdfPCell(new Phrase("NOTE: This is computer generated payslip Does Not Recovery  Any signature..", NormalFont));
-        //cell.FixedHeight = 15.0f;
-        //cell.Colspan = 5;
-        //cell.HorizontalAlignment = Element.ALIGN_LEFT;
-        //cell.VerticalAlignment = Element.ALIGN_MIDDLE;
-        //table.AddCell(cell);
-        //doc.Add(table);
 
 
         //cell = new PdfPCell(new Phrase("Phone: +91 90870 22244, Email; hr@vyshnavi.in, www.vyshnavidairy.com", NormalFont));
@@ -2222,7 +1814,7 @@ public partial class bulkmailsend : System.Web.UI.Page
         //cell.HorizontalAlignment = Element.ALIGN_CENTER;
         //cell.VerticalAlignment = Element.ALIGN_MIDDLE;
         //table.AddCell(cell);
-
+        doc.Add(table);
 
         BaseFont bf = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
         Font font = new Font(bf, 11, Font.NORMAL);
@@ -2239,6 +1831,7 @@ public partial class bulkmailsend : System.Web.UI.Page
             // use something like this to flush the current page to the browser:
             writer.Flush();
             //Response.Flush();
+
         }
         doc.Close();
         writer.Close();
@@ -2251,22 +1844,31 @@ public partial class bulkmailsend : System.Web.UI.Page
         response.ClearHeaders();
         response.BufferOutput = true;
         response.AddHeader("Content-Disposition", "attachment;filename=\"" + FileName + "\"");
+
         data = req.DownloadData(Server.MapPath(PaySlipPath));
         response.BinaryWrite(data);
 
         //Thread.Sleep(1000);
         //Response.Flush();
-        //string msgto = txtemail.Text;
+        //change by naseema
+        //string msgTo = "naveen15444@gmail.com";
+        //string msgSubject = "PaySlip";
+        //string msgBody = "PaySlipPath";
+        //SendMail(msgTo, msgSubject, PaySlipPath);
+
         string msgTo = email;
         string msgSubject = "PaySlip";
         string msgcontent = EmpName;
         string msgcontent1 = paymonth;
         string msgBody = PaySlipPath;
         SendMail(msgTo, msgSubject, msgBody, msgcontent, msgcontent1);
-        // File.Delete(FilePath);
+        //SendMail();
         //System.IO.File.Delete(Server.MapPath(PaySlipPath));
         //response.End();[;'
     }
+
+
+
 
     protected void SendMail(string msgTo, string msgSubject, string msgBody, string msgcontent, string msgcontent1)
     {
@@ -2282,17 +1884,18 @@ public partial class bulkmailsend : System.Web.UI.Page
             string content3 = "Note:This is an auto-generated mail. Please do not reply";
             //string content = "Dear SK. Naseema Begam, We are sending your payslip for the month Jun 2016 as an attachment with this mail.Note: This is an auto-generated mail. Please do not reply";
             string result = "Payslip";
-            string senderID = "no-reply@vyshnavi.in";// use sender's email id here..
-            const string senderPassword = "Vyshnavi@123"; // sender password here...
+            string senderID = "norepalypayslips@gmail.com";// use sender's email id here..
+            const string senderPassword = "xbrm xgch hikx emll"; // sender password here...
             SmtpClient smtp = new SmtpClient
             {
-                Host = "czismtp.logix.in", // smtp server address here...
+                Host = "smtp.gmail.com", // smtp server address here...
                 Port = 587,
                 //security type=tsl;
-                EnableSsl = true,
-                DeliveryMethod = SmtpDeliveryMethod.Network,
+                // DeliveryMethod = SmtpDeliveryMethod.Network,
                 Credentials = new System.Net.NetworkCredential(senderID, senderPassword),
-                Timeout = 30000,
+                EnableSsl = true,
+                Timeout = 100000,
+                //UseDefaultCredentials =false
             };
             // MailMessage message = new MailMessage(senderID, toAddress, subject, "<html><body><img src=" + msgBody + " /><br></body></html>");
             MailMessage message = new MailMessage(senderID, toAddress, subject, "<html><body><p>" + content1 + "</p><p>" + content2 + "</p><p>" + content3 + "</p><iframe src=" + msgBody + "></iframe></body></html>");

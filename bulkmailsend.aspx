@@ -411,6 +411,9 @@
                                                 <td valign="middle" align="left" style="border-bottom: 1px solid Black;">
                                                     <asp:TextBox ID="txtmonthesi" runat="server" Font-Bold="true"></asp:TextBox>
                                                 </td>
+                                                <td valign="middle" align="left" style="border-bottom: 1px solid Black;">
+                                                    <asp:TextBox ID="txtVariable" runat="server" Font-Bold="true"></asp:TextBox>
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td valign="middle" align="left" style="border-style: none solid solid none; border-width: 1px;

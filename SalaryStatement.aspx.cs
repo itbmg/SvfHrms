@@ -360,25 +360,6 @@ public partial class SalaryStatement : System.Web.UI.Page
                                 double paydays = 0;
                                 double lop = 0;
                                 double.TryParse(dra["lop"].ToString(), out lop);
-                                //if (lop > 0)
-                                //{
-                                //    if (permonth >= 20000)
-                                //    {
-                                //        foreach (DataRow drleave in dtleavemonitor.Select("empid='" + dr["empid"].ToString() + "'"))
-                                //        {
-                                //            double existleavecount = 0;
-                                //            double.TryParse(drleave["count"].ToString(), out existleavecount);
-                                //            if (existleavecount > lop)
-                                //            {
-                                //                lop = 0;
-                                //            }
-                                //            else
-                                //            {
-                                //                lop = lop - existleavecount;
-                                //            }
-                                //        }
-                                //    }
-                                //}
                                 paydays = numberofworkingdays - lop;
                                 newrow["Attendance Days"] = paydays.ToString();
                                 double holidays = 0;
@@ -418,16 +399,6 @@ public partial class SalaryStatement : System.Web.UI.Page
                         double perdaysal = permonth / daysinmonth;
                         double basic = 40;
                         double basicsalary = (permonth * basic) / 100;
-                        //if (permonth > 15000)
-                        //{
-                        //    basicsalary = (permonth * 50) / 100;
-                        //    basic = 50;
-                        //}
-                        //else
-                        //{
-                        //    basicsalary = (permonth * 35) / 100;
-                        //    basic = 35;
-                        //}
                         double basicpermonth = basicsalary / daysinmonth;
                         double PerMonthAfter = perdaysal * totalpresentdays;
                         double bs = basicpermonth * totalpresentdays;
@@ -437,9 +408,6 @@ public partial class SalaryStatement : System.Web.UI.Page
                         double conve = Math.Round(convenyance - loseofconviyance);
                         double medical = Math.Round(medicalerning - loseofmedical);
                         double washing = Math.Round(washingallowance - loseofwashing);
-
-                        //double hrall = (bs * 40) / 100;
-                        //ot
                         double thra = 40;
                         double hra = (basicsalary * thra) / 100;
                         double tt = bs + conve + medical + washing + hra;
@@ -473,25 +441,6 @@ public partial class SalaryStatement : System.Web.UI.Page
                         }
                         totalearnings = Math.Round(tt+ otherallawance);
                         double ptax = 0;
-                        //if (branchid == 6)
-                        //{
-                        //    if (totalearnings >= 15000)
-                        //    {
-                        //        ptax = profitionaltax;
-                        //        newrow["PT"] = profitionaltax;
-                        //    }
-                        //    else
-                        //    {
-                        //        ptax = 0;
-                        //        profitionaltax = ptax;
-                        //        newrow["PT"] = ptax;
-                        //    }
-                        //}
-                        //else
-                        //{
-                        //    newrow["PT"] = profitionaltax;
-                        //}
-
                         if (totalearnings > 1000 && totalearnings <= 15000)
                         {
                             profitionaltax = 0;
@@ -538,19 +487,15 @@ public partial class SalaryStatement : System.Web.UI.Page
                         string esieligible = dr["esieligible"].ToString();
                         if (permonth <= 21000)
                         {
-                            //if (esieligible == "Yes")
-                            //{
                             esi = (totalearnings * 0.75) / 100;
                             esi = Math.Round(esi, 0);
                             newrow["ESI"] = esi;
-                            //}
                         }
                         else
                         {
                             esi = 0;
                             newrow["ESI"] = esi;
                         }
-
                         
                         if (dtsa.Rows.Count > 0)
                         {
