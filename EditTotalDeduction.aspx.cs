@@ -399,7 +399,7 @@ public partial class EditTotalDeduction : System.Web.UI.Page
                                 double loan = 0;
                                 double.TryParse(dr["OTHER LOAN"].ToString(), out loan);
                                 string presentmonth = "" ;
-                                if (month < 9)
+                                if (month <= 9)
                                 {
                                     presentmonth = "0" + month;
                                 }

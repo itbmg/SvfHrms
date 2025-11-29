@@ -477,7 +477,8 @@ public partial class PayslipGeneration : System.Web.UI.Page
                         double totalsal = msal - lossofamount;
                         otvalue = Convert.ToDouble(otdays) * perdaysal;
                         sal = 40;
-                        basicsalary = (msal * sal) / 100;
+                        double basicsalarynew = (msal * sal) / 100;
+                        basicsalary =Math.Ceiling((totalsal * sal) / 100);
                         erbasic = Math.Round(totalsal * sal) / 100;
                         providentfound = 0;
                         esi = 0;
@@ -507,26 +508,26 @@ public partial class PayslipGeneration : System.Web.UI.Page
                         double loseofconviyance = lop * perdayconveyance;
 
                         washing = 1000;
-                        double perdaywashing = washingallowance / daysinmonth;
+                        double perdaywashing = washing / daysinmonth;
                         double loseofwashing = lop * perdaywashing;
                         double totalpdays = permonth / daysinmonth;
                         double loseamount = lop * totalpdays;
                         double basicsal = Math.Round(basicsalary - loseamount);
                         double conve = Math.Round(conveyance - loseofconviyance);
                         double medi = Math.Round(medical - loseofmedical);
-                        double wash = Math.Round(washingallowance - loseofwashing);
+                        double wash = Math.Round(washing - loseofwashing);
                         double basicpermonth = basicsalary / daysinmonth;
                         double PerMonthAfter = perdaysal * effectiveworkdays;
                         double bs = basicpermonth * effectiveworkdays;
                         double thra = 40;
-                        double hra = (basicsalary * thra) / 100;
-                        double tt = bs + conve + medical + washing + hra;
+                        double hra = (basicsalarynew * thra) / 100;
+                        double tt = basicsalary + conve + medi + wash + hra;
                         double otherallawance = Math.Round(PerMonthAfter - tt);
                         if (otherallawance > 0)
                         {
                             grossconveyanceallavance = conve;
-                            grossmedicalallavance = medical;
-                            grosswashingallowance = washing;
+                            grossmedicalallavance = medi;
+                            grosswashingallowance = wash;
                             grossvariableallowance = Math.Round(otherallawance);
 
                         }
@@ -538,11 +539,11 @@ public partial class PayslipGeneration : System.Web.UI.Page
                             }
                             if (medical > 50)
                             {
-                                grossmedicalallavance = medical - 30;
+                                grossmedicalallavance = medi - 30;
                             }
                             if (washing > 50)
                             {
-                                grosswashingallowance = washing - 30;
+                                grosswashingallowance = wash - 30;
                             }
                             if (conve > 50 && medical > 50 && washing > 50)
                             {
@@ -958,7 +959,7 @@ public partial class PayslipGeneration : System.Web.UI.Page
                     txtMonthTotalDeductions.Text = dr["totaldeduction"].ToString();
                     txtNetPayAmount.Text = dr["netpay"].ToString();
                 }
-                PaySlipPDFGeneration();
+                //PaySlipPDFGeneration();
                 //SendMail();
             }
             //}
